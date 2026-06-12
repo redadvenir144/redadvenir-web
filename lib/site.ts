@@ -19,6 +19,7 @@ export type NavItem = { label: string; href: string };
 export const NAV: NavItem[] = [
   { label: "Programación", href: "/programacion" },
   { label: "Señal", href: "/senal" },
+  { label: "Mapa", href: "/mapa" },
   { label: "Estudios Bíblicos", href: "/estudios-biblicos" },
   { label: "Quiénes Somos", href: "/quienes-somos" },
   { label: "Contacto", href: "/contacto" },
