@@ -75,8 +75,13 @@ async function fileReadAll(): Promise<Record<Collection, Row[]>> {
       beliefs: seedFor("beliefs"),
       faqs: seedFor("faqs"),
     };
-    await fs.mkdir(DATA_DIR, { recursive: true });
-    await fs.writeFile(DB_FILE, JSON.stringify(data, null, 2), "utf8");
+    try {
+      await fs.mkdir(DATA_DIR, { recursive: true });
+      await fs.writeFile(DB_FILE, JSON.stringify(data, null, 2), "utf8");
+    } catch {
+      // Sistema de archivos de solo lectura (serverless sin Redis configurado):
+      // usar el contenido de ejemplo en memoria para no romper el sitio.
+    }
     return data;
   }
 }
