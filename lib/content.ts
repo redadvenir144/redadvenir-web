@@ -9,6 +9,8 @@ import type {
   Program,
   ScheduleSlot,
   StudyPdf,
+  GalleryImage,
+  AboutConfig,
 } from "./types";
 
 export async function getPosts(): Promise<Post[]> {
@@ -38,4 +40,14 @@ export async function getBeliefs(): Promise<Belief[]> {
 
 export async function getFaqs(): Promise<Faq[]> {
   return list<Faq>("faqs");
+}
+
+export async function getGallery(): Promise<GalleryImage[]> {
+  const images = await list<GalleryImage>("gallery");
+  return [...images].sort((a, b) => (a.order ?? 999) - (b.order ?? 999));
+}
+
+export async function getAboutConfig(): Promise<AboutConfig | null> {
+  const items = await list<AboutConfig>("about");
+  return items[0] ?? null;
 }

@@ -18,6 +18,8 @@ import {
   SEED_PROGRAMS,
   SEED_SCHEDULE,
   SEED_STUDIES,
+  SEED_GALLERY,
+  SEED_ABOUT,
 } from "./seed";
 
 export type Collection =
@@ -26,7 +28,9 @@ export type Collection =
   | "schedule"
   | "studies"
   | "beliefs"
-  | "faqs";
+  | "faqs"
+  | "gallery"
+  | "about";
 
 type Row = Record<string, unknown> & { _id: string };
 
@@ -51,6 +55,8 @@ const SEEDS: Record<Collection, Row[]> = {
   studies: SEED_STUDIES as unknown as Row[],
   beliefs: SEED_BELIEFS as unknown as Row[],
   faqs: SEED_FAQS as unknown as Row[],
+  gallery: SEED_GALLERY as unknown as Row[],
+  about: SEED_ABOUT as unknown as Row[],
 };
 
 function seedFor(col: Collection): Row[] {
@@ -74,6 +80,8 @@ async function fileReadAll(): Promise<Record<Collection, Row[]>> {
       studies: seedFor("studies"),
       beliefs: seedFor("beliefs"),
       faqs: seedFor("faqs"),
+      gallery: seedFor("gallery"),
+      about: seedFor("about"),
     };
     try {
       await fs.mkdir(DATA_DIR, { recursive: true });

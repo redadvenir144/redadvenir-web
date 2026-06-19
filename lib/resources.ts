@@ -156,6 +156,51 @@ export const RESOURCES: Resource[] = [
       },
     ],
   },
+  {
+    key: "gallery",
+    label: "Galería — Quiénes Somos",
+    singular: "Imagen",
+    icon: "images",
+    listColumns: ["caption"],
+    fields: [
+      { name: "image", label: "Imagen", type: "image", required: true },
+      { name: "caption", label: "Descripción (opcional)", type: "text" },
+      {
+        name: "order",
+        label: "Orden",
+        type: "number",
+        placeholder: "1",
+        help: "Número para ordenar las imágenes. Menor número aparece primero.",
+      },
+    ],
+  },
+  {
+    key: "about",
+    label: "Quiénes Somos — Fotos",
+    singular: "Configuración",
+    icon: "person-badge",
+    listColumns: [],
+    fields: [
+      {
+        name: "founderPhoto",
+        label: "Foto del Fundador",
+        type: "image",
+        help: "Foto que aparece en la tarjeta del fundador (Pastor David Gates).",
+      },
+      {
+        name: "hqPhoto",
+        label: "Foto de la Sede Principal",
+        type: "image",
+        help: "Foto que aparece en la tarjeta de sede principal (Santa Cruz).",
+      },
+      {
+        name: "foundedPhoto",
+        label: "Foto Año de Fundación",
+        type: "image",
+        help: "Foto que aparece en la tarjeta del año de fundación.",
+      },
+    ],
+  },
 ];
 
 export function getResource(key: string): Resource | undefined {
