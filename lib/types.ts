@@ -42,6 +42,21 @@ export type Belief = {
   number: number;
   title: string;
   summary: string;
+  verses?: string[];
+};
+
+export type GalleryImage = {
+  _id: string;
+  image: string;
+  caption?: string;
+  order?: number;
+};
+
+export type AboutConfig = {
+  _id: string;
+  founderPhoto?: string;
+  hqPhoto?: string;
+  foundedPhoto?: string;
 };
 
 export type Faq = {
