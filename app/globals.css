@@ -26,7 +26,6 @@
 }
 
 html {
-  scroll-behavior: smooth;
   /* Base de 17px (en vez de 16) para una lectura más cómoda. */
   font-size: 106.25%;
 }
