@@ -1,0 +1,33 @@
+name: Deploy a producción
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy por SSH
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          script: |
+            set -e
+            cd ~/redadvenir
+
+            echo "→ Actualizando código..."
+            git pull origin main
+
+            echo "→ Instalando dependencias..."
+            npm ci --omit=dev
+
+            echo "→ Compilando..."
+            npm run build
+
+            echo "→ Reiniciando servicio..."
+            pm2 restart redadvenir
+
+            echo "✓ Deploy completado"
