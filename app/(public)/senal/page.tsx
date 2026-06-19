@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 
 import SectionHeader from "@/components/SectionHeader";
+import ChannelsMap from "@/components/map/ChannelsMap";
 import {
   SATELLITES,
   OPEN_TV_CHANNELS,
@@ -9,11 +10,12 @@ import {
   APPS,
   GMI_SIGNALS,
 } from "@/lib/signal";
+import { GMI_CHANNELS, GMI_LINKS } from "@/lib/gmiChannels";
 
 export const metadata: Metadata = {
   title: "Señal",
   description:
-    "Dónde ver Red ADvenir: satélite, TV abierta, cable, streaming y apps.",
+    "Dónde ver Red ADvenir: satélite, TV abierta, cable, streaming, apps y red GMI mundial.",
 };
 
 function Card({
@@ -120,6 +122,65 @@ export default function SenalPage() {
             ))}
           </ul>
         </Card>
+      </div>
+
+      {/* Mapa y canales GMI */}
+      <div id="mapa" className="mt-16">
+        <h2 className="mb-2 text-2xl font-bold text-brand">
+          Red GMI — Canales en el mundo
+        </h2>
+        <p className="mb-6 max-w-2xl text-slate-600">
+          Red ADvenir forma parte de Gospel Ministries International (GMI), una red de
+          canales cristianos que alcanza distintos países e idiomas.
+        </p>
+
+        <div className="mb-4 rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-800">
+          <i className="bi bi-info-circle" /> Ubicaciones de referencia — verificar y
+          completar con el equipo de GMI antes de publicar.
+        </div>
+
+        <ChannelsMap />
+
+        <h3 className="mb-6 mt-12 text-xl font-bold text-brand">Canales de la red</h3>
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {GMI_CHANNELS.map((c) => (
+            <div
+              key={c.name}
+              className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm"
+            >
+              <h4 className="font-semibold text-slate-800">{c.name}</h4>
+              <p className="mt-1 flex items-center gap-1.5 text-sm text-slate-600">
+                <i className="bi bi-geo-alt text-accent-600" /> {c.region}
+              </p>
+              <p className="text-sm text-slate-500">{c.language}</p>
+              {c.url && (
+                <a
+                  href={c.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="mt-2 inline-flex items-center gap-1 text-sm font-medium text-brand-500 hover:underline"
+                >
+                  Visitar sitio <i className="bi bi-box-arrow-up-right text-xs" />
+                </a>
+              )}
+            </div>
+          ))}
+        </div>
+
+        <h3 className="mb-4 mt-12 text-xl font-bold text-brand">Más de la red GMI</h3>
+        <div className="flex flex-wrap gap-3">
+          {GMI_LINKS.map((l) => (
+            <a
+              key={l.url}
+              href={l.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-brand hover:border-brand hover:bg-slate-50"
+            >
+              <i className="bi bi-broadcast" /> {l.name}
+            </a>
+          ))}
+        </div>
       </div>
     </div>
   );

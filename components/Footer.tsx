@@ -54,7 +54,7 @@ export default function Footer() {
               </li>
             ))}
             <li>
-              <Link href="/mapa" className="inline-flex items-center gap-1.5 hover:text-accent">
+              <Link href="/senal#mapa" className="inline-flex items-center gap-1.5 hover:text-accent">
                 <i className="bi bi-geo-alt text-xs" /> Ver mapa de canales
               </Link>
             </li>
