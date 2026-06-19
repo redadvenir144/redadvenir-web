@@ -4,7 +4,7 @@ module.exports = {
       name: "redadvenir",
       script: "node_modules/.bin/next",
       args: "start",
-      cwd: "/var/www/redadvenir",
+      cwd: "/home/redadvenir-temp/redadvenir",
       instances: 1,
       autorestart: true,
       watch: false,
