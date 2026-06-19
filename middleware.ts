@@ -4,7 +4,7 @@ import type { NextRequest } from "next/server";
 import { SESSION_COOKIE, verifySessionToken } from "@/lib/auth";
 
 // Protege /admin y /api/admin. Excepción: la página y el endpoint de login.
-export async function proxy(req: NextRequest) {
+export async function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
 
   const isLoginPage = pathname === "/admin/login";
