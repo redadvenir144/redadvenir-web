@@ -6,7 +6,6 @@ import { usePathname } from "next/navigation";
 import { useState } from "react";
 
 import { NAV, SITE } from "@/lib/site";
-import SocialBar from "./SocialBar";
 
 export default function Navbar() {
   const pathname = usePathname();
@@ -17,7 +16,7 @@ export default function Navbar() {
 
   return (
     <header className="sticky top-0 z-40 border-b-2 border-accent/80 bg-brand text-white shadow-lg shadow-black/20">
-      <div className="section flex items-center justify-between gap-4 py-3">
+      <div className="section grid grid-cols-[auto_1fr_auto] items-center gap-4 py-3 lg:grid-cols-[auto_1fr]">
         <Link href="/" className="flex items-center gap-3" onClick={() => setOpen(false)}>
           <Image
             src="/images/logoredadvenir.svg" unoptimized
@@ -31,7 +30,7 @@ export default function Navbar() {
         </Link>
 
         {/* Navegación escritorio */}
-        <nav className="hidden lg:flex items-center gap-1">
+        <nav className="hidden lg:flex items-center justify-center gap-1">
           {NAV.map((item) => {
             const donar = item.href === "/donar";
             return (
@@ -43,8 +42,8 @@ export default function Navbar() {
                   donar
                     ? "bg-accent text-brand hover:bg-accent-600"
                     : isActive(item.href)
-                      ? "bg-white/15 text-white"
-                      : "text-white/85 hover:bg-white/10 hover:text-white",
+                      ? "text-accent"
+                      : "text-white/85 hover:text-accent",
                 ].join(" ")}
               >
                 {item.label}
@@ -52,10 +51,6 @@ export default function Navbar() {
             );
           })}
         </nav>
-
-        <div className="hidden lg:block">
-          <SocialBar size="text-lg" />
-        </div>
 
         {/* Botón móvil */}
         <button
@@ -86,7 +81,6 @@ export default function Navbar() {
                 {item.label}
               </Link>
             ))}
-            <SocialBar className="px-3 py-3" size="text-xl" />
           </div>
         </nav>
       )}

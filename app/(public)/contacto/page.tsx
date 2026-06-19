@@ -12,9 +12,9 @@ export const metadata: Metadata = {
 
 const CHANNELS = [
   { label: "Correo", icon: "envelope", href: `mailto:${CONTACT.email}`, value: CONTACT.email },
-  { label: "WhatsApp", icon: "whatsapp", href: CONTACT.whatsapp, value: "Chatear" },
-  { label: "Telegram", icon: "telegram", href: CONTACT.telegram, value: "Abrir Telegram" },
-  { label: "Facebook", icon: "facebook", href: CONTACT.facebook, value: "Mensaje" },
+  { label: "WhatsApp", icon: "whatsapp", href: CONTACT.whatsapp, value: "+591 64088800" },
+  { label: "Telegram", icon: "telegram", href: CONTACT.telegram, value: "@redadvenir" },
+  { label: "Facebook", icon: "facebook", href: CONTACT.facebook, value: "Mensaje directo" },
 ];
 
 export default function ContactoPage() {
@@ -27,13 +27,12 @@ export default function ContactoPage() {
       />
 
       <div className="grid gap-10 lg:grid-cols-2">
-        <div>
+        {/* Columna izquierda: formulario + otros canales */}
+        <div className="space-y-6">
           <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
             <ContactForm />
           </div>
-        </div>
 
-        <div className="space-y-6">
           <div>
             <h2 className="mb-3 text-lg font-semibold text-brand">Otros canales</h2>
             <div className="grid grid-cols-2 gap-3">
@@ -54,33 +53,34 @@ export default function ContactoPage() {
               ))}
             </div>
           </div>
+        </div>
 
-          <div>
-            <h2 className="mb-3 text-lg font-semibold text-brand">Nuestras oficinas</h2>
-            <ul className="space-y-3">
-              {OFFICES.map((o) => (
-                <li
-                  key={o.city}
-                  className={`rounded-lg border p-4 ${
-                    o.isHQ
-                      ? "border-accent bg-accent/5"
-                      : "border-slate-200 bg-white"
-                  }`}
-                >
-                  <p className="flex items-center gap-2 font-medium text-slate-800">
-                    <i className="bi bi-geo-alt-fill text-accent-600" /> {o.city}
-                    {o.isHQ && (
-                      <span className="rounded-full bg-accent px-2 py-0.5 text-xs font-semibold text-brand">
-                        Sede principal
-                      </span>
-                    )}
-                  </p>
-                  <p className="mt-1 text-sm text-slate-600">{o.address}</p>
-                  {o.phone && <p className="text-sm text-slate-600">{o.phone}</p>}
-                </li>
-              ))}
-            </ul>
-          </div>
+        {/* Columna derecha: oficinas */}
+        <div>
+          <h2 className="mb-3 text-lg font-semibold text-brand">Nuestras oficinas</h2>
+          <ul className="space-y-3">
+            {OFFICES.map((o) => (
+              <li
+                key={o.city}
+                className={`rounded-lg border p-4 ${
+                  o.isHQ
+                    ? "border-accent bg-accent/5"
+                    : "border-slate-200 bg-white"
+                }`}
+              >
+                <p className="flex items-center gap-2 font-medium text-slate-800">
+                  <i className="bi bi-geo-alt-fill text-accent-600" /> {o.city}
+                  {o.isHQ && (
+                    <span className="rounded-full bg-accent px-2 py-0.5 text-xs font-semibold text-brand">
+                      Sede principal
+                    </span>
+                  )}
+                </p>
+                <p className="mt-1 text-sm text-slate-600">{o.address}</p>
+                {o.phone && <p className="text-sm text-slate-600">{o.phone}</p>}
+              </li>
+            ))}
+          </ul>
         </div>
       </div>
     </div>

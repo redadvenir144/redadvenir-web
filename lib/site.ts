@@ -19,7 +19,6 @@ export type NavItem = { label: string; href: string };
 export const NAV: NavItem[] = [
   { label: "Programación", href: "/programacion" },
   { label: "Señal", href: "/senal" },
-  { label: "Mapa", href: "/mapa" },
   { label: "Estudios Bíblicos", href: "/estudios-biblicos" },
   { label: "Quiénes Somos", href: "/quienes-somos" },
   { label: "Contacto", href: "/contacto" },
@@ -30,20 +29,23 @@ export type Social = { name: string; href: string; icon: string };
 
 // icon = nombre de ícono de la librería bootstrap-icons (usado vía clase "bi bi-...")
 export const SOCIALS: Social[] = [
-  { name: "Facebook", href: "https://www.facebook.com/redadvenirtv", icon: "facebook" },
-  { name: "YouTube", href: "https://www.youtube.com/@redadvenir", icon: "youtube" },
-  { name: "Instagram", href: "https://www.instagram.com/redadvenir", icon: "instagram" },
-  { name: "WhatsApp", href: "https://wa.me/59100000000", icon: "whatsapp" },
+  { name: "Facebook", href: "https://www.facebook.com/redadvenirtv/", icon: "facebook" },
+  { name: "YouTube", href: "https://www.youtube.com/@ADvenir", icon: "youtube" },
+  { name: "Instagram", href: "https://www.instagram.com/advenir.tv/", icon: "instagram" },
+  { name: "WhatsApp", href: "https://wa.me/59164088800", icon: "whatsapp" },
   { name: "Telegram", href: "https://t.me/redadvenir", icon: "telegram" },
+  { name: "TikTok", href: "https://www.tiktok.com/@redadvenir", icon: "tiktok" },
+  { name: "Rumble", href: "https://rumble.com/user/redadvenir", icon: "play-btn-fill" },
+  { name: "X", href: "https://x.com/RedADvenirLive", icon: "twitter-x" },
 ];
 
 export const CONTACT = {
-  email: "contacto@redadvenir.org",
-  whatsapp: "https://wa.me/59100000000",
+  email: "info@redadvenir.org",
+  whatsapp: "https://wa.me/59164088800",
   telegram: "https://t.me/redadvenir",
-  facebook: "https://www.facebook.com/redadvenirtv",
+  facebook: "https://www.facebook.com/redadvenirtv/",
   // Página pública de Facebook a embeber en Inicio.
-  facebookPageUrl: "https://www.facebook.com/redadvenirtv",
+  facebookPageUrl: "https://www.facebook.com/redadvenirtv/",
 };
 
 export type Office = {

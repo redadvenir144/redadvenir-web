@@ -54,15 +54,29 @@ export default function ContactForm() {
           />
         </div>
       </div>
-      <div>
-        <label htmlFor="subject" className="mb-1 block text-sm font-medium text-slate-700">
-          Asunto
-        </label>
-        <input
-          id="subject"
-          name="subject"
-          className="w-full rounded-md border border-slate-300 px-3 py-2 text-sm outline-none focus:border-brand"
-        />
+      <div className="grid gap-4 sm:grid-cols-2">
+        <div>
+          <label htmlFor="phone" className="mb-1 block text-sm font-medium text-slate-700">
+            Teléfono
+          </label>
+          <input
+            id="phone"
+            name="phone"
+            type="tel"
+            placeholder="+59144255530"
+            className="w-full rounded-md border border-slate-300 px-3 py-2 text-sm outline-none focus:border-brand placeholder:text-slate-400"
+          />
+        </div>
+        <div>
+          <label htmlFor="subject" className="mb-1 block text-sm font-medium text-slate-700">
+            Asunto
+          </label>
+          <input
+            id="subject"
+            name="subject"
+            className="w-full rounded-md border border-slate-300 px-3 py-2 text-sm outline-none focus:border-brand"
+          />
+        </div>
       </div>
       <div>
         <label htmlFor="message" className="mb-1 block text-sm font-medium text-slate-700">
