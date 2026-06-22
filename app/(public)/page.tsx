@@ -8,7 +8,7 @@ import { getPosts } from "@/lib/content";
 import { SITE } from "@/lib/site";
 import { SMART_TV_APPS } from "@/lib/streams";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 60;
 
 export default async function HomePage() {
   const posts = await getPosts();

@@ -11,7 +11,7 @@ export const metadata: Metadata = {
     "Guías de estudio de la Biblia descargables en PDF y guías en video.",
 };
 
-export const dynamic = "force-dynamic";
+export const revalidate = 60;
 
 export default async function EstudiosPage() {
   const [studies, programs] = await Promise.all([getStudies(), getPrograms()]);

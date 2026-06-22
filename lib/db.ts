@@ -106,6 +106,24 @@ async function fileWriteAll(data: Record<Collection, Row[]>): Promise<void> {
 
 const key = (col: Collection) => `ra:${col}`;
 
+// Caché en memoria para el backend de archivo local (TTL: 60 segundos).
+const memCache = new Map<Collection, { rows: Row[]; expires: number }>();
+const CACHE_TTL = 60_000;
+
+function cacheGet(col: Collection): Row[] | null {
+  const entry = memCache.get(col);
+  if (entry && Date.now() < entry.expires) return entry.rows;
+  return null;
+}
+
+function cacheSet(col: Collection, rows: Row[]): void {
+  memCache.set(col, { rows, expires: Date.now() + CACHE_TTL });
+}
+
+function cacheInvalidate(col: Collection): void {
+  memCache.delete(col);
+}
+
 async function readCol(col: Collection): Promise<Row[]> {
   if (redis) {
     const data = await redis.get<Row[]>(key(col));
@@ -116,11 +134,16 @@ async function readCol(col: Collection): Promise<Row[]> {
     }
     return data;
   }
+  const cached = cacheGet(col);
+  if (cached) return cached;
   const db = await fileReadAll();
-  return db[col] ?? [];
+  const rows = db[col] ?? [];
+  cacheSet(col, rows);
+  return rows;
 }
 
 async function writeCol(col: Collection, rows: Row[]): Promise<void> {
+  cacheInvalidate(col);
   if (redis) {
     await redis.set(key(col), rows);
     return;

@@ -10,7 +10,7 @@ export const metadata: Metadata = {
   description: "Programas principales y grilla de programación de Red ADvenir.",
 };
 
-export const dynamic = "force-dynamic";
+export const revalidate = 60;
 
 export default async function ProgramacionPage() {
   const [programs, schedule] = await Promise.all([getPrograms(), getSchedule()]);

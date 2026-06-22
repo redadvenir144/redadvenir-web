@@ -12,7 +12,7 @@ export const metadata: Metadata = {
     "Historia de Red ADvenir, sus fundadores y las creencias adventistas.",
 };
 
-export const dynamic = "force-dynamic";
+export const revalidate = 60;
 
 export default async function QuienesSomosPage() {
   const [beliefs, gallery, aboutConfig] = await Promise.all([

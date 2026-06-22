@@ -4,7 +4,7 @@ import "./globals.css";
 
 import { SITE } from "@/lib/site";
 
-const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
+const inter = Inter({ subsets: ["latin"], variable: "--font-sans", display: "swap" });
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE.url),
@@ -37,9 +37,23 @@ export default function RootLayout({
     <html lang="es" data-scroll-behavior="smooth">
       <head>
         <link
+          rel="preconnect"
+          href="https://cdn.jsdelivr.net"
+          crossOrigin="anonymous"
+        />
+        <link
           rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+          media="print"
+          // @ts-expect-error onload not typed
+          onLoad="this.media='all'"
         />
+        <noscript>
+          <link
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+          />
+        </noscript>
       </head>
       <body className={`${inter.variable} antialiased`}>{children}</body>
     </html>

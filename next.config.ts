@@ -1,13 +1,38 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  compress: true,
+  poweredByHeader: false,
+  productionBrowserSourceMaps: false,
+
   images: {
     remotePatterns: [
-      // Vercel Blob (si se usa en producción cloud)
       { protocol: "https", hostname: "*.public.blob.vercel-storage.com" },
     ],
-    // En Ubuntu, las imágenes se guardan en public/uploads/ (ruta local)
-    // y Next.js las optimiza automáticamente sin configuración adicional.
+    formats: ["image/avif", "image/webp"],
+  },
+
+  async headers() {
+    return [
+      {
+        source: "/_next/static/:path*",
+        headers: [
+          { key: "Cache-Control", value: "public, max-age=31536000, immutable" },
+        ],
+      },
+      {
+        source: "/:path(images|fonts|uploads)/:file*",
+        headers: [
+          { key: "Cache-Control", value: "public, max-age=604800, stale-while-revalidate=86400" },
+        ],
+      },
+      {
+        source: "/api/public/:path*",
+        headers: [
+          { key: "Cache-Control", value: "public, s-maxage=60, stale-while-revalidate=300" },
+        ],
+      },
+    ];
   },
 };
 

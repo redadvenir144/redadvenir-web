@@ -33,6 +33,7 @@ export default function FacebookFeed() {
           style={{ border: "none" }}
           scrolling="no"
           allow="encrypted-media"
+          loading="lazy"
         />
       </div>
     </div>
