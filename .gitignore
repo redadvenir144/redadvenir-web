@@ -45,3 +45,5 @@ next-env.d.ts
 /data
 /public/uploads/*
 !/public/uploads/.gitkeep
+*.Zone.Identifier
+:Zone.Identifier
