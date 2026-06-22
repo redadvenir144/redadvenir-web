@@ -16,18 +16,25 @@ jobs:
           key: ${{ secrets.SSH_KEY }}
           script: |
             set -e
+
+            # Cargar nvm para tener node/npm/pm2 en sesión no interactiva
+            export NVM_DIR="$HOME/.nvm"
+            [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+
             cd ~/redadvenir
 
-            echo "→ Actualizando código..."
-            git pull origin main
+            echo "→ Actualizando código (forzado)..."
+            git fetch origin main
+            git reset --hard origin/main
 
             echo "→ Instalando dependencias..."
-            npm ci --omit=dev
+            npm ci
 
             echo "→ Compilando..."
             npm run build
 
             echo "→ Reiniciando servicio..."
-            pm2 restart redadvenir
+            pm2 restart redadvenir || PORT=3000 pm2 start npm --name redadvenir -- start
+            pm2 save
 
             echo "✓ Deploy completado"
