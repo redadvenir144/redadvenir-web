@@ -72,7 +72,7 @@ export default function Chatbot({ faqs }: { faqs: Faq[] }) {
           "fixed bottom-5 right-5 z-50 flex items-center justify-center overflow-hidden rounded-full shadow-lg transition-transform hover:scale-105",
           open
             ? "h-14 w-14 bg-brand text-white"
-            : "h-20 w-20 bg-accent text-brand",
+            : "h-16 w-16 bg-accent text-brand",
         ].join(" ")}
       >
         {open ? (
@@ -83,7 +83,7 @@ export default function Chatbot({ faqs }: { faqs: Faq[] }) {
             alt="Asistente Red ADvenir"
             width={80}
             height={80}
-            className="h-full w-full object-cover"
+            className="h-full w-full scale-125 object-cover"
           />
         )}
       </button>
