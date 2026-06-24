@@ -11,6 +11,12 @@ export default function LiveTVPlayer() {
   const [current, setCurrent] = useState(DEFAULT_TV_STREAM.src);
   const [error, setError] = useState(false);
 
+  // Overlay de audio muteado.
+  // muteHintVisible controla la opacidad (fade-out); dismissed lo desmonta
+  // de forma definitiva una vez que el usuario activó el sonido por primera vez.
+  const [muteHintVisible, setMuteHintVisible] = useState(true);
+  const [dismissed, setDismissed] = useState(false);
+
   useEffect(() => {
     const video = videoRef.current;
     if (!video) return;
@@ -40,6 +46,29 @@ export default function LiveTVPlayer() {
     return () => clearTimeout(id);
   }, [current]);
 
+  // Oculta el aviso si el usuario activa el sonido por cualquier medio
+  // (clic en el overlay, control de volumen del navegador, etc.).
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+    const onVolumeChange = () => {
+      if (!video.muted && video.volume > 0) {
+        setMuteHintVisible(false);
+        window.setTimeout(() => setDismissed(true), 300);
+      }
+    };
+    video.addEventListener("volumechange", onVolumeChange);
+    return () => video.removeEventListener("volumechange", onVolumeChange);
+  }, []);
+
+  const enableSound = () => {
+    const video = videoRef.current;
+    if (!video) return;
+    video.muted = false;
+    if (video.volume === 0) video.volume = 1;
+    // El listener de 'volumechange' se encarga del fade-out y desmontado.
+  };
+
   const selectQuality = (src: string) => {
     setError(false);
     setCurrent(src);
@@ -47,15 +76,35 @@ export default function LiveTVPlayer() {
 
   return (
     <div className="overflow-hidden rounded-xl bg-black shadow-lg ring-1 ring-black/5">
-      <div className="aspect-video">
+      <div className="relative aspect-video">
         <video
           ref={videoRef}
           className="h-full w-full"
+          poster="/player-poster.svg"
           controls
           playsInline
           autoPlay
           muted
         />
+
+        {/* Aviso de audio muteado (esquina superior derecha) */}
+        {!dismissed && (
+          <button
+            type="button"
+            onClick={enableSound}
+            aria-label="Activar el sonido"
+            className={[
+              "absolute right-3 top-3 z-10 inline-flex items-center gap-2 rounded-full px-4 py-2",
+              "text-sm font-medium text-white shadow-lg backdrop-blur-md",
+              "transition-opacity duration-300",
+              muteHintVisible ? "opacity-100" : "pointer-events-none opacity-0",
+            ].join(" ")}
+            style={{ backgroundColor: "rgba(11, 37, 69, 0.85)" }}
+          >
+            <i className="bi bi-volume-up-fill animate-pulse text-lg" aria-hidden="true" />
+            Activa el sonido
+          </button>
+        )}
       </div>
 
       <div className="flex items-center justify-between gap-3 bg-brand px-4 py-2.5">
@@ -71,23 +120,27 @@ export default function LiveTVPlayer() {
         ) : (
           <div className="inline-flex items-center gap-1.5">
             <i className="bi bi-gear text-xs text-white/50" aria-hidden="true" />
-            {/* Selector de calidad minimalista (los streams son endpoints separados, no ABR). */}
+            {/* Selector de calidad: cada nivel es un manifiesto HLS independiente
+                (no ABR), por eso se cambia la fuente. Solo un botón activo a la vez. */}
             <div className="flex overflow-hidden rounded-full bg-white/10 p-0.5">
-              {TV_STREAMS.map((q) => (
-                <button
-                  key={q.src}
-                  onClick={() => selectQuality(q.src)}
-                  aria-pressed={current === q.src}
-                  className={[
-                    "rounded-full px-3 py-1 text-xs font-medium transition-colors",
-                    current === q.src
-                      ? "bg-white text-brand"
-                      : "text-white/80 hover:text-white",
-                  ].join(" ")}
-                >
-                  {q.label}
-                </button>
-              ))}
+              {TV_STREAMS.map((q) => {
+                const isActive = current === q.src;
+                return (
+                  <button
+                    key={q.src}
+                    onClick={() => selectQuality(q.src)}
+                    aria-pressed={isActive}
+                    className={[
+                      "rounded-full px-3 py-1 text-xs font-medium transition-colors",
+                      isActive
+                        ? "bg-white text-brand"
+                        : "text-white/80 hover:text-white",
+                    ].join(" ")}
+                  >
+                    {q.label}
+                  </button>
+                );
+              })}
             </div>
           </div>
         )}

@@ -3,6 +3,7 @@ import Link from "next/link";
 import LiveTVPlayer from "@/components/LiveTVPlayer";
 import RadioPlayer from "@/components/RadioPlayer";
 import FacebookFeed from "@/components/FacebookFeed";
+import NowPlaying from "@/components/NowPlaying";
 import BlogCard from "@/components/BlogCard";
 import { getPosts } from "@/lib/content";
 import { SITE } from "@/lib/site";
@@ -60,7 +61,9 @@ export default async function HomePage() {
           </div>
 
           <div className="lg:col-span-4">
-            <FacebookFeed />
+            {/* Antes: <FacebookFeed /> — movido a sección secundaria más abajo.
+                Se deja comentado por si se decide revertir. */}
+            <NowPlaying />
           </div>
         </div>
       </section>
@@ -69,6 +72,32 @@ export default async function HomePage() {
       <section className="border-b border-slate-200 bg-slate-50">
         <div className="section py-10">
           <RadioPlayer />
+        </div>
+      </section>
+
+      {/* Síguenos en Facebook (sección secundaria) */}
+      <section className="section py-14">
+        <div className="mb-8 text-center">
+          <p className="text-sm font-semibold uppercase tracking-wide text-accent-600">
+            Comunidad
+          </p>
+          <h2 className="text-2xl font-bold text-brand sm:text-3xl">
+            Síguenos en Facebook
+          </h2>
+        </div>
+
+        <div className="mx-auto max-w-[800px]">
+          <FacebookFeed />
+          <div className="mt-6 text-center">
+            <a
+              href="https://www.facebook.com/redadvenirtv/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 rounded-full bg-brand px-5 py-2.5 text-sm font-medium text-white transition-colors hover:bg-brand-700"
+            >
+              <i className="bi bi-facebook" /> Ver más en Facebook →
+            </a>
+          </div>
         </div>
       </section>
 
