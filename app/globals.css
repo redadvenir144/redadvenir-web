@@ -103,7 +103,7 @@ select:focus-visible {
   background:
     radial-gradient(
       ellipse 800px 600px at 20% 20%,
-      rgba(11, 37, 69, 0.4),
+      rgba(91, 155, 213, 0.1),
       transparent 60%
     ),
     var(--brand);
