@@ -31,14 +31,14 @@ export default async function HomePage() {
 
         <div className="section relative grid gap-8 py-10 lg:grid-cols-12">
           <div className="lg:col-span-8">
-            <div className="mb-4">
+            <div className="mb-6">
               <span className="inline-flex items-center gap-2 rounded-full bg-white/10 px-3 py-1 text-xs font-semibold uppercase tracking-widest text-white/90">
                 <span className="live-dot h-2 w-2 rounded-full bg-live" /> Ahora en vivo
               </span>
-              <h1 className="mt-3 text-3xl font-bold tracking-tight sm:text-4xl">
+              <h1 className="mt-6 text-3xl font-bold leading-tight tracking-tight sm:text-4xl">
                 Televisión cristiana, las 24 horas
               </h1>
-              <p className="mt-2 max-w-xl text-white/70">
+              <p className="mt-6 max-w-xl text-base font-normal text-white/70 sm:text-lg">
                 {SITE.longName} — esperanza y fe a través de los medios.
               </p>
             </div>
