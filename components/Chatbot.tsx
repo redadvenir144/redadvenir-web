@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import Image from "next/image";
 
 import { CONTACT } from "@/lib/site";
 import type { Faq } from "@/lib/types";
@@ -67,16 +68,32 @@ export default function Chatbot({ faqs }: { faqs: Faq[] }) {
       <button
         onClick={() => setOpen((v) => !v)}
         aria-label={open ? "Cerrar chat" : "Abrir chat de ayuda"}
-        className="fixed bottom-5 right-5 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-accent text-brand shadow-lg transition-transform hover:scale-105"
+        className="fixed bottom-5 right-5 z-50 flex h-14 w-14 items-center justify-center overflow-hidden rounded-full bg-accent text-brand shadow-lg transition-transform hover:scale-105"
       >
-        <i className={`bi bi-${open ? "x-lg" : "chat-dots-fill"} text-2xl`} />
+        {open ? (
+          <i className="bi bi-x-lg text-2xl" />
+        ) : (
+          <Image
+            src="/images/icono-chatbot.png"
+            alt="Asistente Red ADvenir"
+            width={56}
+            height={56}
+            className="h-full w-full object-cover"
+          />
+        )}
       </button>
 
       {/* Panel */}
       {open && (
         <div className="fixed bottom-24 right-5 z-50 flex h-[32rem] w-[22rem] max-w-[calc(100vw-2.5rem)] flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-2xl">
           <div className="flex items-center gap-2 bg-brand px-4 py-3 text-white">
-            <i className="bi bi-robot text-xl" />
+            <Image
+              src="/images/icono-chatbot.png"
+              alt=""
+              width={32}
+              height={32}
+              className="h-8 w-8 rounded-full object-cover"
+            />
             <div>
               <p className="text-sm font-semibold leading-none">Asistente Red ADvenir</p>
               <p className="text-xs text-white/70">Preguntas frecuentes</p>
