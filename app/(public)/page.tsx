@@ -18,7 +18,7 @@ export default async function HomePage() {
   return (
     <>
       {/* Hero: TV en vivo + Facebook */}
-      <section id="en-vivo" className="relative overflow-hidden bg-brand text-white">
+      <section id="en-vivo" className="hero-bg relative overflow-hidden bg-brand text-white">
         {/* fondo decorativo */}
         <div
           className="pointer-events-none absolute inset-0 bg-gradient-to-br from-brand via-brand-700 to-brand opacity-95"
@@ -29,7 +29,7 @@ export default async function HomePage() {
           aria-hidden="true"
         />
 
-        <div className="section relative grid gap-8 py-10 lg:grid-cols-12">
+        <div className="section relative z-10 grid gap-8 py-10 lg:grid-cols-12">
           <div className="lg:col-span-8">
             <div className="mb-6">
               <span className="inline-flex items-center gap-2 rounded-full bg-white/10 px-3 py-1 text-xs font-semibold uppercase tracking-widest text-white/90">

@@ -96,3 +96,33 @@ textarea:focus-visible,
 select:focus-visible {
   outline: none;
 }
+
+/* === Atmósfera del hero (solo el hero, no global) === */
+/* Radial glow azul de marca desde superior izquierda, sobre el color base. */
+.hero-bg {
+  background:
+    radial-gradient(
+      ellipse 800px 600px at 20% 20%,
+      rgba(11, 37, 69, 0.4),
+      transparent 60%
+    ),
+    var(--brand);
+}
+
+/* Capa de grano SVG noise muy sutil. */
+.hero-bg::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0.035;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9'/></filter><rect width='200' height='200' filter='url(%23n)'/></svg>");
+}
+
+@media (max-width: 640px) {
+  .hero-bg::before {
+    opacity: 0.025;
+  }
+}
