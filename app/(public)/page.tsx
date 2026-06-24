@@ -4,6 +4,7 @@ import LiveTVPlayer from "@/components/LiveTVPlayer";
 import RadioPlayer from "@/components/RadioPlayer";
 import FacebookFeed from "@/components/FacebookFeed";
 // import NowPlaying from "@/components/NowPlaying"; // TODO: evaluar uso futuro del panel "Ahora en pantalla".
+import SmartTVSection from "@/components/SmartTVSection";
 import BlogCard from "@/components/BlogCard";
 import { getPosts } from "@/lib/content";
 import { SITE } from "@/lib/site";
@@ -17,7 +18,7 @@ export default async function HomePage() {
   return (
     <>
       {/* Hero: TV en vivo + Facebook */}
-      <section className="relative overflow-hidden bg-brand text-white">
+      <section id="en-vivo" className="relative overflow-hidden bg-brand text-white">
         {/* fondo decorativo */}
         <div
           className="pointer-events-none absolute inset-0 bg-gradient-to-br from-brand via-brand-700 to-brand opacity-95"
@@ -72,6 +73,9 @@ export default async function HomePage() {
           <RadioPlayer />
         </div>
       </section>
+
+      {/* Smart TV y apps */}
+      <SmartTVSection />
 
       {/* Blog / noticias */}
       <section className="section py-14">
