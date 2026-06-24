@@ -68,3 +68,31 @@ body {
   height: 100%;
   animation: eq 0.8s ease-in-out infinite;
 }
+
+/* === Focus ring: solo en navegación por teclado === */
+/* Sin outline en focus por mouse */
+*:focus {
+  outline: none;
+}
+
+/* Outline visible solo en navegación por teclado */
+*:focus-visible {
+  outline: 2px solid var(--brand);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* Refuerzo explícito para elementos interactivos (consistencia entre navegadores) */
+button:focus-visible,
+a:focus-visible,
+[role="button"]:focus-visible {
+  outline: 2px solid var(--brand);
+  outline-offset: 3px;
+}
+
+/* Inputs ya tienen focus de marca (border + ring) → sin doble outline */
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+  outline: none;
+}
