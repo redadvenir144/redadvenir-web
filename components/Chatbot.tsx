@@ -68,7 +68,12 @@ export default function Chatbot({ faqs }: { faqs: Faq[] }) {
       <button
         onClick={() => setOpen((v) => !v)}
         aria-label={open ? "Cerrar chat" : "Abrir chat de ayuda"}
-        className="fixed bottom-5 right-5 z-50 flex h-14 w-14 items-center justify-center overflow-hidden rounded-full bg-accent text-brand shadow-lg transition-transform hover:scale-105"
+        className={[
+          "fixed bottom-5 right-5 z-50 flex items-center justify-center overflow-hidden rounded-full shadow-lg transition-transform hover:scale-105",
+          open
+            ? "h-14 w-14 bg-brand text-white"
+            : "h-20 w-20 bg-accent text-brand",
+        ].join(" ")}
       >
         {open ? (
           <i className="bi bi-x-lg text-2xl" />
@@ -76,8 +81,8 @@ export default function Chatbot({ faqs }: { faqs: Faq[] }) {
           <Image
             src="/images/icono-chatbot.png"
             alt="Asistente Red ADvenir"
-            width={56}
-            height={56}
+            width={80}
+            height={80}
             className="h-full w-full object-cover"
           />
         )}
@@ -85,7 +90,7 @@ export default function Chatbot({ faqs }: { faqs: Faq[] }) {
 
       {/* Panel */}
       {open && (
-        <div className="fixed bottom-24 right-5 z-50 flex h-[32rem] w-[22rem] max-w-[calc(100vw-2.5rem)] flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-2xl">
+        <div className="fixed bottom-24 right-5 z-40 flex h-[32rem] w-[22rem] max-w-[calc(100vw-2.5rem)] flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-2xl">
           <div className="flex items-center gap-2 bg-brand px-4 py-3 text-white">
             <Image
               src="/images/icono-chatbot.png"
