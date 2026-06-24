@@ -1,12 +1,7 @@
 import Image from "next/image";
 
 import { CATEGORY_LABEL, type Post } from "@/lib/types";
-
-const CATEGORY_COLOR: Record<Post["category"], string> = {
-  noticia: "bg-brand-500/10 text-brand-500",
-  profetica: "bg-accent/15 text-accent-600",
-  teologica: "bg-emerald-600/10 text-emerald-700",
-};
+import { getCategoryStyle } from "@/lib/category-styles";
 
 function formatDate(iso: string) {
   try {
@@ -21,6 +16,8 @@ function formatDate(iso: string) {
 }
 
 export default function BlogCard({ post }: { post: Post }) {
+  const style = getCategoryStyle(post.category);
+
   return (
     <article className="group flex flex-col overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm transition-shadow hover:shadow-md">
       <div className="relative aspect-[16/9] overflow-hidden bg-slate-100">
@@ -40,7 +37,7 @@ export default function BlogCard({ post }: { post: Post }) {
       </div>
       <div className="flex flex-1 flex-col p-5">
         <span
-          className={`mb-2 inline-block w-fit rounded-full px-2.5 py-0.5 text-xs font-medium ${CATEGORY_COLOR[post.category]}`}
+          className={`mb-2 inline-flex w-fit items-center rounded-full border px-2.5 py-0.5 text-xs font-medium ${style.bg} ${style.text} ${style.border}`}
         >
           {CATEGORY_LABEL[post.category]}
         </span>
