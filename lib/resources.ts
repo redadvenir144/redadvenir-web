@@ -158,7 +158,7 @@ export const RESOURCES: Resource[] = [
   },
   {
     key: "gallery",
-    label: "Galería — Quiénes Somos",
+    label: "Galería de Nuestra Historia",
     singular: "Imagen",
     icon: "images",
     listColumns: ["caption"],
@@ -176,7 +176,7 @@ export const RESOURCES: Resource[] = [
   },
   {
     key: "about",
-    label: "Quiénes Somos — Fotos",
+    label: "Fotos de Tarjetas (Fundador/Sede)",
     singular: "Configuración",
     icon: "person-badge",
     listColumns: [],
