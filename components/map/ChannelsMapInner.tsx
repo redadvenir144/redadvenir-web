@@ -6,69 +6,53 @@ import "leaflet/dist/leaflet.css";
 
 import { GMI_CHANNELS } from "@/lib/gmiChannels";
 
-// Pin con pulso animado. Variante destacada (--hq) para la sede de Red ADvenir.
-function makeIcon(hq: boolean) {
-  const size = hq ? 20 : 14;
-  return L.divIcon({
-    className: "",
-    html: `<div class="map-pin${hq ? " map-pin--hq" : ""}">
-      <span class="map-pin__pulse"></span>
-      <span class="map-pin__dot"></span>
-    </div>`,
-    iconSize: [size, size],
-    iconAnchor: [size / 2, size / 2],
-    popupAnchor: [0, -size / 2],
-  });
-}
-
-const pinIcon = makeIcon(false);
-const hqIcon = makeIcon(true);
+// Marcador personalizado (pin con color de marca) para evitar los íconos rotos
+// por defecto de Leaflet en bundlers.
+const pinIcon = L.divIcon({
+  className: "",
+  html: `<span style="
+    display:block;width:18px;height:18px;border-radius:50% 50% 50% 0;
+    background:#f59e0b;border:2px solid #fff;transform:rotate(-45deg);
+    box-shadow:0 2px 6px rgba(0,0,0,.4);"></span>`,
+  iconSize: [18, 18],
+  iconAnchor: [9, 18],
+  popupAnchor: [0, -16],
+});
 
 export default function ChannelsMapInner() {
   return (
     <MapContainer
-      center={[6, -55]}
+      center={[0, -45]}
       zoom={3}
-      minZoom={2}
-      maxZoom={10}
       scrollWheelZoom={false}
-      worldCopyJump
-      className="h-[60vh] min-h-[420px] w-full"
+      className="h-[60vh] min-h-[420px] w-full rounded-xl"
     >
       <TileLayer
-        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>'
-        url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
+        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
-      {GMI_CHANNELS.map((c) => {
-        const isHq = c.url === "https://redadvenir.org";
-        return (
-          <Marker
-            key={c.name}
-            position={[c.lat, c.lng]}
-            icon={isHq ? hqIcon : pinIcon}
-            zIndexOffset={isHq ? 1000 : 0}
-          >
-            <Popup>
-              <div className="space-y-1">
-                <p className="font-semibold text-white">{c.name}</p>
-                <p className="text-xs text-white/70">
-                  <i className="bi bi-geo-alt" /> {c.region} · {c.language}
-                </p>
-                {c.url && (
-                  <a
-                    href={c.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-xs font-medium text-sky-300 hover:underline"
-                  >
-                    Visitar sitio →
-                  </a>
-                )}
-              </div>
-            </Popup>
-          </Marker>
-        );
-      })}
+      {GMI_CHANNELS.map((c) => (
+        <Marker key={c.name} position={[c.lat, c.lng]} icon={pinIcon}>
+          <Popup>
+            <div className="space-y-1">
+              <p className="font-semibold text-brand">{c.name}</p>
+              <p className="text-xs text-slate-600">
+                <i className="bi bi-geo-alt" /> {c.region} · {c.language}
+              </p>
+              {c.url && (
+                <a
+                  href={c.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-xs font-medium text-brand-500 hover:underline"
+                >
+                  Visitar sitio →
+                </a>
+              )}
+            </div>
+          </Popup>
+        </Marker>
+      ))}
     </MapContainer>
   );
 }

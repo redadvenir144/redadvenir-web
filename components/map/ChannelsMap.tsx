@@ -6,7 +6,7 @@ import dynamic from "next/dynamic";
 const ChannelsMapInner = dynamic(() => import("./ChannelsMapInner"), {
   ssr: false,
   loading: () => (
-    <div className="flex h-[60vh] min-h-[420px] w-full items-center justify-center bg-brand text-white/50">
+    <div className="flex h-[60vh] min-h-[420px] w-full items-center justify-center rounded-xl bg-slate-100 text-slate-400">
       <i className="bi bi-globe-americas mr-2 animate-pulse text-2xl" /> Cargando mapa…
     </div>
   ),
