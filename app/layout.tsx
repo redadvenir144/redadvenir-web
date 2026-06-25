@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 
 import { SITE } from "@/lib/site";
+import ChunkErrorReloader from "@/components/ChunkErrorReloader";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-sans", display: "swap" });
 
@@ -46,7 +47,10 @@ export default function RootLayout({
           href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
         />
       </head>
-      <body className={`${inter.variable} antialiased`}>{children}</body>
+      <body className={`${inter.variable} antialiased`}>
+        <ChunkErrorReloader />
+        {children}
+      </body>
     </html>
   );
 }
