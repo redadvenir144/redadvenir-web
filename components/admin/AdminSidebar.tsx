@@ -56,7 +56,7 @@ export default function AdminSidebar() {
   const header = (
     <div className="flex items-center justify-between border-b border-slate-200 p-4">
       <Link href="/admin" className="flex items-center gap-2">
-        <Image src="/images/logo-advenir-color.png" alt="Red ADvenir" width={1000} height={525} className="h-10 w-auto" />
+        <Image src="/images/logoazul.png" alt="Red ADvenir" width={1000} height={525} className="h-10 w-auto" />
       </Link>
     </div>
   );
@@ -83,7 +83,7 @@ export default function AdminSidebar() {
     <>
       {/* Topbar móvil */}
       <div className="flex items-center justify-between border-b border-slate-200 bg-white p-3 lg:hidden">
-        <Image src="/images/logo-advenir-color.png" alt="Red ADvenir" width={1000} height={525} className="h-9 w-auto" />
+        <Image src="/images/logoazul.png" alt="Red ADvenir" width={1000} height={525} className="h-9 w-auto" />
         <button onClick={() => setOpen(true)} aria-label="Abrir menú" className="text-2xl text-brand">
           <i className="bi bi-list" />
         </button>
