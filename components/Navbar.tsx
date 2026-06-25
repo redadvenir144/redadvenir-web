@@ -19,10 +19,10 @@ export default function Navbar() {
       <div className="section grid grid-cols-[auto_1fr_auto] items-center gap-4 py-3 lg:grid-cols-[auto_1fr]">
         <Link href="/" className="flex items-center gap-3" onClick={() => setOpen(false)}>
           <Image
-            src="/images/logoredadvenir.svg" unoptimized
+            src="/images/logo-advenir.png"
             alt={SITE.longName}
-            width={210}
-            height={70}
+            width={1000}
+            height={525}
             className="h-14 w-auto sm:h-16"
             priority
           />

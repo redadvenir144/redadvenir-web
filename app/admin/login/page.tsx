@@ -46,7 +46,7 @@ function LoginForm() {
       >
         <div className="mb-6 flex flex-col items-center text-center">
           <div className="rounded-xl bg-brand px-5 py-3">
-            <Image src="/images/logoredadvenir.svg" unoptimized alt="Red ADvenir" width={210} height={70} className="h-14 w-auto" />
+            <Image src="/images/logo-advenir.png" alt="Red ADvenir" width={1000} height={525} className="h-14 w-auto" />
           </div>
           <h1 className="mt-4 text-lg font-bold text-brand">Panel de administración</h1>
           <p className="text-sm text-slate-500">Ingresa para publicar contenido</p>

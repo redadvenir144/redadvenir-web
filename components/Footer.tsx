@@ -11,10 +11,10 @@ export default function Footer() {
       <div className="section grid gap-8 py-12 md:grid-cols-2 lg:grid-cols-4">
         <div>
           <Image
-            src="/images/logoredadvenir.svg" unoptimized
+            src="/images/logo-advenir.png"
             alt={SITE.longName}
-            width={240}
-            height={80}
+            width={1000}
+            height={525}
             className="h-14 w-auto"
           />
           <p className="mt-4 text-sm leading-relaxed">{SITE.description}</p>
