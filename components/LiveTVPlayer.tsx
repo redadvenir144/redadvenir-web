@@ -3,13 +3,18 @@
 import { useEffect, useRef, useState } from "react";
 import Hls from "hls.js";
 
-import { TV_STREAMS, DEFAULT_TV_STREAM } from "@/lib/streams";
+import { TV_STREAMS, DEFAULT_TV_STREAM, AUTO_UPGRADE_STREAM } from "@/lib/streams";
 
 export default function LiveTVPlayer() {
   const videoRef = useRef<HTMLVideoElement>(null);
   const hlsRef = useRef<Hls | null>(null);
   const [current, setCurrent] = useState(DEFAULT_TV_STREAM.src);
   const [error, setError] = useState(false);
+  const [loading, setLoading] = useState(true);
+
+  // Si el usuario eligió calidad manualmente, no auto-subimos.
+  const userPickedRef = useRef(false);
+  const autoUpgradedRef = useRef(false);
 
   // Overlay de audio muteado.
   // muteHintVisible controla la opacidad (fade-out); dismissed lo desmonta
@@ -20,6 +25,7 @@ export default function LiveTVPlayer() {
   useEffect(() => {
     const video = videoRef.current;
     if (!video) return;
+    setLoading(true);
 
     // Safari/iOS reproduce HLS de forma nativa.
     if (video.canPlayType("application/vnd.apple.mpegurl")) {
@@ -28,7 +34,13 @@ export default function LiveTVPlayer() {
     }
 
     if (Hls.isSupported()) {
-      const hls = new Hls({ enableWorker: true, lowLatencyMode: true });
+      // Streams HLS estándar (no LL-HLS): arrancar cerca del borde en vivo
+      // para que el primer cuadro aparezca rápido.
+      const hls = new Hls({
+        enableWorker: true,
+        liveSyncDurationCount: 2,
+        startFragPrefetch: true,
+      });
       hlsRef.current = hls;
       hls.loadSource(current);
       hls.attachMedia(video);
@@ -44,6 +56,44 @@ export default function LiveTVPlayer() {
     // Navegador sin soporte de HLS: marcar error fuera del cuerpo síncrono.
     const id = setTimeout(() => setError(true), 0);
     return () => clearTimeout(id);
+  }, [current]);
+
+  // Indicador de carga: oculto cuando reproduce, visible mientras bufferea.
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+    const onPlaying = () => setLoading(false);
+    const onWaiting = () => setLoading(true);
+    video.addEventListener("playing", onPlaying);
+    video.addEventListener("waiting", onWaiting);
+    return () => {
+      video.removeEventListener("playing", onPlaying);
+      video.removeEventListener("waiting", onWaiting);
+    };
+  }, []);
+
+  // Auto-subida de calidad: tras arrancar en Media, a los ~7s salta a Alta
+  // (una sola vez, salvo que el usuario ya haya elegido calidad).
+  useEffect(() => {
+    if (autoUpgradedRef.current || userPickedRef.current) return;
+    if (current !== DEFAULT_TV_STREAM.src) return;
+    const video = videoRef.current;
+    if (!video) return;
+    let timer: number | undefined;
+    const onPlaying = () => {
+      if (timer != null) return;
+      timer = window.setTimeout(() => {
+        if (!userPickedRef.current && !autoUpgradedRef.current) {
+          autoUpgradedRef.current = true;
+          setCurrent(AUTO_UPGRADE_STREAM.src);
+        }
+      }, 7000);
+    };
+    video.addEventListener("playing", onPlaying);
+    return () => {
+      video.removeEventListener("playing", onPlaying);
+      if (timer != null) window.clearTimeout(timer);
+    };
   }, [current]);
 
   // Oculta el aviso si el usuario activa el sonido por cualquier medio
@@ -70,6 +120,7 @@ export default function LiveTVPlayer() {
   };
 
   const selectQuality = (src: string) => {
+    userPickedRef.current = true;
     setError(false);
     setCurrent(src);
   };
@@ -86,6 +137,14 @@ export default function LiveTVPlayer() {
           autoPlay
           muted
         />
+
+        {/* Indicador de carga */}
+        {loading && !error && (
+          <div className="pointer-events-none absolute inset-0 z-20 flex flex-col items-center justify-center gap-3 bg-black/40 backdrop-blur-sm">
+            <div className="h-10 w-10 animate-spin rounded-full border-2 border-white/30 border-t-white" />
+            <span className="text-sm font-medium text-white/80">Cargando señal…</span>
+          </div>
+        )}
 
         {/* Aviso de audio muteado (esquina superior derecha) */}
         {!dismissed && (
