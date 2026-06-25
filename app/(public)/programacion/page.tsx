@@ -3,7 +3,9 @@ import type { Metadata } from "next";
 import SectionHeader from "@/components/SectionHeader";
 import YouTubePlaylist from "@/components/YouTubePlaylist";
 import ProgramGrid from "@/components/ProgramGrid";
+import ChannelVideos from "@/components/ChannelVideos";
 import { getPrograms, getSchedule } from "@/lib/content";
+import { getChannelVideos } from "@/lib/youtube";
 
 export const metadata: Metadata = {
   title: "Programación",
@@ -13,7 +15,11 @@ export const metadata: Metadata = {
 export const revalidate = 60;
 
 export default async function ProgramacionPage() {
-  const [programs, schedule] = await Promise.all([getPrograms(), getSchedule()]);
+  const [programs, schedule, channelVideos] = await Promise.all([
+    getPrograms(),
+    getSchedule(),
+    getChannelVideos(6),
+  ]);
 
   return (
     <div className="section py-12">
@@ -28,6 +34,15 @@ export default async function ProgramacionPage() {
           <YouTubePlaylist key={p._id} program={p} />
         ))}
       </div>
+
+      {channelVideos.length > 0 && (
+        <>
+          <h2 className="mb-6 mt-16 flex items-center gap-2 text-2xl font-bold text-brand">
+            <i className="bi bi-youtube text-live" /> Últimos videos del canal
+          </h2>
+          <ChannelVideos videos={channelVideos} />
+        </>
+      )}
 
       <h2 className="mb-6 mt-16 text-2xl font-bold text-brand">
         Grilla de programación

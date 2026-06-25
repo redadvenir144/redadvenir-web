@@ -34,8 +34,22 @@ function buildEmbedUrl(raw: string | undefined): string | null {
   return `https://www.youtube.com/embed/${value}`;
 }
 
+// URL para abrir el video/lista directamente en YouTube (respaldo si un
+// bloqueador del navegador rompe el reproductor embebido).
+function buildWatchUrl(raw: string | undefined): string | null {
+  if (!raw) return null;
+  const value = raw.trim();
+  if (/x{4,}/i.test(value)) return null;
+  if (value.includes("youtube.com") || value.includes("youtu.be")) return value;
+  if (/^(PL|UU|FL|OL|RD|LL)[\w-]+$/.test(value)) {
+    return `https://www.youtube.com/playlist?list=${value}`;
+  }
+  return `https://www.youtube.com/watch?v=${value}`;
+}
+
 export default function YouTubePlaylist({ program }: { program: Program }) {
   const src = buildEmbedUrl(program.youtubePlaylistId);
+  const watchUrl = buildWatchUrl(program.youtubePlaylistId);
 
   return (
     <article className="overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm">
@@ -63,6 +77,16 @@ export default function YouTubePlaylist({ program }: { program: Program }) {
         <h3 className="font-semibold text-slate-800">{program.title}</h3>
         {program.description && (
           <p className="mt-1 text-sm text-slate-600">{program.description}</p>
+        )}
+        {watchUrl && (
+          <a
+            href={watchUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mt-3 inline-flex items-center gap-1.5 text-sm font-medium text-brand-500 hover:underline"
+          >
+            <i className="bi bi-youtube text-live" /> Ver en YouTube
+          </a>
         )}
       </div>
     </article>
