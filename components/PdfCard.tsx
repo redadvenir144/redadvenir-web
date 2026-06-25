@@ -23,10 +23,12 @@ export default function PdfCard({ study }: { study: StudyPdf }) {
       </div>
 
       <div className="flex flex-1 flex-col p-5">
-        <h3 className="font-semibold text-slate-800">{study.title}</h3>
-        {study.description && (
-          <p className="mt-1 flex-1 text-sm text-slate-600">{study.description}</p>
-        )}
+        <h3 className="line-clamp-2 min-h-[3rem] font-semibold text-slate-800">
+          {study.title}
+        </h3>
+        <p className="mt-1 line-clamp-2 min-h-[2.5rem] text-sm text-slate-600">
+          {study.description}
+        </p>
         <a
           href={study.pdfUrl}
           target="_blank"
