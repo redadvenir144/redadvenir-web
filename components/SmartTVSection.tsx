@@ -75,7 +75,7 @@ function PlatformCard({ p }: { p: Platform }) {
 
 export default function SmartTVSection() {
   return (
-    <section className="bg-brand text-white">
+    <section className="border-t border-white/10 bg-brand text-white">
       <div className="section py-16">
         <div className="mb-8 max-w-2xl">
           <p className="text-xs font-bold uppercase tracking-[0.22em] text-sky-300">

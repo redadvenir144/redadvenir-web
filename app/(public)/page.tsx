@@ -74,9 +74,9 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* Radio en vivo (franja propia) */}
-      <section className="border-b border-slate-200 bg-slate-50">
-        <div className="section py-10">
+      {/* Radio en vivo (franja propia, tema oscuro de marca) */}
+      <section className="border-t border-white/10 bg-brand text-white">
+        <div className="section py-14">
           <RadioPlayer />
         </div>
       </section>
