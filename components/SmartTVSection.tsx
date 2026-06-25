@@ -17,12 +17,12 @@ function ctaLabel(p: Platform): string {
 function PlatformMedia({ p }: { p: Platform }) {
   if (p.image) {
     return (
-      <div className="relative h-12 w-full">
+      <div className="relative h-20 w-full">
         <Image
           src={p.image}
           alt={p.name}
           fill
-          sizes="200px"
+          sizes="280px"
           className="object-contain object-left"
         />
       </div>
