@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import Hls from "hls.js";
 
-import { TV_STREAMS, DEFAULT_TV_STREAM, AUTO_UPGRADE_STREAM } from "@/lib/streams";
+import { TV_STREAMS, DEFAULT_TV_STREAM } from "@/lib/streams";
 
 export default function LiveTVPlayer() {
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -11,10 +11,6 @@ export default function LiveTVPlayer() {
   const [current, setCurrent] = useState(DEFAULT_TV_STREAM.src);
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(true);
-
-  // Si el usuario eligió calidad manualmente, no auto-subimos.
-  const userPickedRef = useRef(false);
-  const autoUpgradedRef = useRef(false);
 
   // Overlay de audio muteado.
   // muteHintVisible controla la opacidad (fade-out); dismissed lo desmonta
@@ -72,30 +68,6 @@ export default function LiveTVPlayer() {
     };
   }, []);
 
-  // Auto-subida de calidad: tras arrancar en Media, a los ~7s salta a Alta
-  // (una sola vez, salvo que el usuario ya haya elegido calidad).
-  useEffect(() => {
-    if (autoUpgradedRef.current || userPickedRef.current) return;
-    if (current !== DEFAULT_TV_STREAM.src) return;
-    const video = videoRef.current;
-    if (!video) return;
-    let timer: number | undefined;
-    const onPlaying = () => {
-      if (timer != null) return;
-      timer = window.setTimeout(() => {
-        if (!userPickedRef.current && !autoUpgradedRef.current) {
-          autoUpgradedRef.current = true;
-          setCurrent(AUTO_UPGRADE_STREAM.src);
-        }
-      }, 7000);
-    };
-    video.addEventListener("playing", onPlaying);
-    return () => {
-      video.removeEventListener("playing", onPlaying);
-      if (timer != null) window.clearTimeout(timer);
-    };
-  }, [current]);
-
   // Oculta el aviso si el usuario activa el sonido por cualquier medio
   // (clic en el overlay, control de volumen del navegador, etc.).
   useEffect(() => {
@@ -120,7 +92,6 @@ export default function LiveTVPlayer() {
   };
 
   const selectQuality = (src: string) => {
-    userPickedRef.current = true;
     setError(false);
     setCurrent(src);
   };

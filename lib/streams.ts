@@ -13,10 +13,8 @@ export const TV_STREAMS: TvQuality[] = [
 ];
 
 // Calidad por defecto al cargar el reproductor: Media (arranque rápido).
-// El player auto-sube a Alta a los ~7s si el usuario no eligió calidad.
+// El usuario sube a Alta/HD con los botones del reproductor.
 export const DEFAULT_TV_STREAM = TV_STREAMS[0];
-// Calidad a la que se auto-sube tras el arranque rápido.
-export const AUTO_UPGRADE_STREAM = TV_STREAMS[1];
 
 export type RadioStation = {
   name: string;
