@@ -23,7 +23,7 @@ export const metadata: Metadata = {
     type: "website",
     locale: "es_BO",
   },
-  icons: { icon: "/favicon.ico", apple: "/images/logoredadvenir.svg" },
+  // Iconos por convención de archivos: app/favicon.ico, app/icon.png, app/apple-icon.png
 };
 
 export const viewport: Viewport = {
