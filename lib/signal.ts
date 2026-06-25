@@ -40,9 +40,3 @@ export const CABLE_PROVIDERS = [{ name: "TigoStar", channel: "Canal 23" }];
 export const STREAMING_URLS = TV_STREAMS;
 
 export const APPS = SMART_TV_APPS;
-
-// Señales de GMI en el resto del mundo (referencial: completar con el equipo).
-export const GMI_SIGNALS = [
-  { region: "Norteamérica", detail: "Roku y Amazon Fire TV — Red Advenir / GMI" },
-  { region: "Sudamérica", detail: "Cobertura satelital y cable" },
-];

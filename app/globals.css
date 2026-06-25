@@ -126,3 +126,23 @@ select:focus-visible {
     opacity: 0.025;
   }
 }
+
+/* === Animación de entrada (reveal) para tarjetas === */
+@keyframes reveal-up {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.reveal-up {
+  animation: reveal-up 0.5s ease-out both;
+}
+@media (prefers-reduced-motion: reduce) {
+  .reveal-up {
+    animation: none;
+  }
+}
