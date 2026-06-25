@@ -12,9 +12,9 @@ export const TV_STREAMS: TvQuality[] = [
   { label: "HD", src: "https://streamer1.streamhost.org/salive/GMIredadvenirHD/playlist.m3u8" },
 ];
 
-// Calidad por defecto al cargar el reproductor: Media (arranque rápido).
-// El usuario sube a Alta/HD con los botones del reproductor.
-export const DEFAULT_TV_STREAM = TV_STREAMS[0];
+// Calidad por defecto al cargar el reproductor: Alta.
+// El usuario puede cambiar a Media/HD con los botones del reproductor.
+export const DEFAULT_TV_STREAM = TV_STREAMS[1];
 
 export type RadioStation = {
   name: string;
