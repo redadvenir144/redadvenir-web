@@ -66,8 +66,10 @@ export default function SenalPage() {
         <Card icon="tv" title="TV abierta">
           <ul className="space-y-2">
             {OPEN_TV_CHANNELS.map((c) => (
-              <li key={c.channel} className="flex gap-3 text-sm">
-                <span className="w-20 shrink-0 font-semibold text-brand">{c.channel}</span>
+              <li key={`${c.channel}-${c.cities}`} className="flex gap-3 text-sm">
+                <span className="w-24 shrink-0 font-semibold text-brand">
+                  Canal {c.channel}
+                </span>
                 <span className="text-slate-600">{c.cities}</span>
               </li>
             ))}
