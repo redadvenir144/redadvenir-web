@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 
 import { update, remove } from "@/lib/db";
 import { getResource, coercePayload } from "@/lib/resources";
+import { revalidateContent } from "@/lib/revalidate";
 
 export async function PUT(
   req: Request,
@@ -21,6 +22,7 @@ export async function PUT(
   const data = coercePayload(def, body);
   const updated = await update(def.key, id, data);
   if (!updated) return NextResponse.json({ error: "No encontrado" }, { status: 404 });
+  revalidateContent();
   return NextResponse.json(updated);
 }
 
@@ -34,5 +36,6 @@ export async function DELETE(
 
   const ok = await remove(def.key, id);
   if (!ok) return NextResponse.json({ error: "No encontrado" }, { status: 404 });
+  revalidateContent();
   return NextResponse.json({ ok: true });
 }

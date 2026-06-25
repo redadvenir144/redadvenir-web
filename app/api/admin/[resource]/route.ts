@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 
 import { list, create } from "@/lib/db";
 import { getResource, coercePayload } from "@/lib/resources";
+import { revalidateContent } from "@/lib/revalidate";
 
 export async function GET(
   _req: Request,
@@ -30,5 +31,6 @@ export async function POST(
 
   const data = coercePayload(def, body);
   const created = await create(def.key, data);
+  revalidateContent();
   return NextResponse.json(created, { status: 201 });
 }
