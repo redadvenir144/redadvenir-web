@@ -1,51 +1,5 @@
 import type { Program } from "@/lib/types";
-
-// Acepta un ID de lista (PL…), un ID de video, o una URL de YouTube pegada.
-// Devuelve la URL de embed o null si el dato es inválido/placeholder.
-function buildEmbedUrl(raw: string | undefined): string | null {
-  if (!raw) return null;
-  let value = raw.trim();
-
-  // IDs de ejemplo del contenido de demostración.
-  if (/x{4,}/i.test(value)) return null;
-
-  // Si pegaron una URL completa, extraer list= o v=.
-  if (value.includes("youtube.com") || value.includes("youtu.be")) {
-    try {
-      const url = new URL(value);
-      const list = url.searchParams.get("list");
-      const v = url.searchParams.get("v");
-      const short = url.hostname.includes("youtu.be")
-        ? url.pathname.slice(1)
-        : null;
-      value = list || v || short || "";
-    } catch {
-      return null;
-    }
-  }
-
-  if (!value) return null;
-
-  // Listas de reproducción (PL, UU, FL, OL, RD…).
-  if (/^(PL|UU|FL|OL|RD|LL)[\w-]+$/.test(value)) {
-    return `https://www.youtube.com/embed/videoseries?list=${value}`;
-  }
-  // De lo contrario, lo tratamos como ID de video.
-  return `https://www.youtube.com/embed/${value}`;
-}
-
-// URL para abrir el video/lista directamente en YouTube (respaldo si un
-// bloqueador del navegador rompe el reproductor embebido).
-function buildWatchUrl(raw: string | undefined): string | null {
-  if (!raw) return null;
-  const value = raw.trim();
-  if (/x{4,}/i.test(value)) return null;
-  if (value.includes("youtube.com") || value.includes("youtu.be")) return value;
-  if (/^(PL|UU|FL|OL|RD|LL)[\w-]+$/.test(value)) {
-    return `https://www.youtube.com/playlist?list=${value}`;
-  }
-  return `https://www.youtube.com/watch?v=${value}`;
-}
+import { buildEmbedUrl, buildWatchUrl } from "@/lib/youtubeEmbed";
 
 export default function YouTubePlaylist({ program }: { program: Program }) {
   const src = buildEmbedUrl(program.youtubePlaylistId);

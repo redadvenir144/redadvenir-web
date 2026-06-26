@@ -6,6 +6,7 @@ import ProgramGrid from "@/components/ProgramGrid";
 import ChannelVideos from "@/components/ChannelVideos";
 import { getPrograms, getSchedule } from "@/lib/content";
 import { getChannelVideos } from "@/lib/youtube";
+import { hasPlayableVideo } from "@/lib/youtubeEmbed";
 
 export const metadata: Metadata = {
   title: "Programación",
@@ -21,6 +22,11 @@ export default async function ProgramacionPage() {
     getChannelVideos(6),
   ]);
 
+  // Solo programas con video configurado (se saltean los placeholders).
+  const playablePrograms = programs.filter((p) =>
+    hasPlayableVideo(p.youtubePlaylistId),
+  );
+
   return (
     <div className="section py-12">
       <SectionHeader
@@ -29,11 +35,13 @@ export default async function ProgramacionPage() {
         subtitle="Mira los principales programas de Red ADvenir y consulta la grilla semanal."
       />
 
-      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-        {programs.map((p) => (
-          <YouTubePlaylist key={p._id} program={p} />
-        ))}
-      </div>
+      {playablePrograms.length > 0 && (
+        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          {playablePrograms.map((p) => (
+            <YouTubePlaylist key={p._id} program={p} />
+          ))}
+        </div>
+      )}
 
       {channelVideos.length > 0 && (
         <>

@@ -4,6 +4,7 @@ import SectionHeader from "@/components/SectionHeader";
 import PdfCard from "@/components/PdfCard";
 import YouTubePlaylist from "@/components/YouTubePlaylist";
 import { getStudies, getPrograms } from "@/lib/content";
+import { hasPlayableVideo } from "@/lib/youtubeEmbed";
 
 export const metadata: Metadata = {
   title: "Estudios Bíblicos",
@@ -15,8 +16,11 @@ export const revalidate = 60;
 
 export default async function EstudiosPage() {
   const [studies, programs] = await Promise.all([getStudies(), getPrograms()]);
-  // Reutilizamos los programas como guías en video (playlists de YouTube).
-  const videoGuides = programs.slice(0, 3);
+  // Reutilizamos los programas con video válido como guías en video
+  // (se saltean los placeholders de ejemplo sin configurar).
+  const videoGuides = programs
+    .filter((p) => hasPlayableVideo(p.youtubePlaylistId))
+    .slice(0, 3);
 
   return (
     <div className="section py-12">
@@ -35,14 +39,18 @@ export default async function EstudiosPage() {
         ))}
       </div>
 
-      <h2 className="mb-6 mt-16 flex items-center gap-2 text-xl font-bold text-brand">
-        <i className="bi bi-youtube text-live" /> Guías en video
-      </h2>
-      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-        {videoGuides.map((p) => (
-          <YouTubePlaylist key={p._id} program={p} />
-        ))}
-      </div>
+      {videoGuides.length > 0 && (
+        <>
+          <h2 className="mb-6 mt-16 flex items-center gap-2 text-xl font-bold text-brand">
+            <i className="bi bi-youtube text-live" /> Guías en video
+          </h2>
+          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+            {videoGuides.map((p) => (
+              <YouTubePlaylist key={p._id} program={p} />
+            ))}
+          </div>
+        </>
+      )}
     </div>
   );
 }
