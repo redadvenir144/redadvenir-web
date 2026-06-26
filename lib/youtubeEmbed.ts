@@ -51,3 +51,25 @@ export function buildWatchUrl(raw: string | undefined): string | null {
 export function hasPlayableVideo(raw: string | undefined): boolean {
   return buildEmbedUrl(raw) !== null;
 }
+
+// ID de video para la miniatura. Prefiere v= (sirve incluso para listas que
+// se pegaron como watch?v=...&list=...). Devuelve null si no hay video único.
+export function getThumbnailId(raw: string | undefined): string | null {
+  if (!raw) return null;
+  const value = raw.trim();
+  if (/x{4,}/i.test(value)) return null;
+  if (value.includes("youtube.com") || value.includes("youtu.be")) {
+    try {
+      const url = new URL(value);
+      const v = url.searchParams.get("v");
+      if (v) return v;
+      if (url.hostname.includes("youtu.be")) return url.pathname.slice(1) || null;
+      return null;
+    } catch {
+      return null;
+    }
+  }
+  // Valor suelto: si no es ID de lista, lo tratamos como ID de video.
+  if (/^(PL|UU|FL|OL|RD|LL)[\w-]+$/.test(value)) return null;
+  return value;
+}
