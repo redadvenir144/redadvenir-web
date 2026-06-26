@@ -1,47 +1,27 @@
-"use client";
-
-import { useState } from "react";
-
 import type { Program } from "@/lib/types";
-import {
-  buildEmbedUrl,
-  buildWatchUrl,
-  getThumbnailId,
-} from "@/lib/youtubeEmbed";
+import { buildWatchUrl, getThumbnailId, hasPlayableVideo } from "@/lib/youtubeEmbed";
 
 export default function YouTubePlaylist({ program }: { program: Program }) {
-  const [activated, setActivated] = useState(false);
-
-  const src = buildEmbedUrl(program.youtubePlaylistId);
   const watchUrl = buildWatchUrl(program.youtubePlaylistId);
+  const playable = hasPlayableVideo(program.youtubePlaylistId);
   const thumbId = getThumbnailId(program.youtubePlaylistId);
-  // Miniatura directa de YouTube (carga aunque el reproductor embebido falle).
+  // Miniatura directa de YouTube (carga aunque el sitio tenga problemas de cert).
   const thumb = thumbId
     ? `https://i.ytimg.com/vi/${thumbId}/hqdefault.jpg`
     : null;
 
-  const embedSrc = src
-    ? `${src}${src.includes("?") ? "&" : "?"}autoplay=1`
-    : null;
-
   return (
-    <article className="overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm">
+    <article className="overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm transition-shadow hover:shadow-md">
       <div className="relative aspect-video bg-slate-900">
-        {activated && embedSrc ? (
-          <iframe
-            title={program.title}
-            src={embedSrc}
-            className="h-full w-full"
-            loading="lazy"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowFullScreen
-          />
-        ) : src ? (
-          <button
-            type="button"
-            onClick={() => setActivated(true)}
-            aria-label={`Reproducir ${program.title}`}
-            className="group absolute inset-0 h-full w-full"
+        {playable && watchUrl ? (
+          // Abre el video directamente en YouTube (evita el Error 153 del
+          // reproductor embebido mientras el sitio no tenga un cert válido).
+          <a
+            href={watchUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label={`Ver ${program.title} en YouTube`}
+            className="group absolute inset-0 block"
           >
             {thumb ? (
               // eslint-disable-next-line @next/next/no-img-element
@@ -59,7 +39,7 @@ export default function YouTubePlaylist({ program }: { program: Program }) {
             <span className="absolute inset-0 flex items-center justify-center bg-black/30 transition-colors group-hover:bg-black/45">
               <i className="bi bi-play-circle-fill text-6xl text-white drop-shadow-lg" />
             </span>
-          </button>
+          </a>
         ) : (
           <div className="flex h-full flex-col items-center justify-center gap-2 px-4 text-center text-slate-400">
             <i className="bi bi-youtube text-4xl text-live/70" />
