@@ -60,7 +60,14 @@ export async function getChannelVideos(max = 6): Promise<YouTubeVideo[]> {
       return {
         id: it.snippet.resourceId.videoId,
         title: it.snippet.title,
-        thumbnail: t?.medium?.url || t?.high?.url || t?.default?.url || "",
+        // Mejor calidad disponible: maxres (1280×720) → standard → high → medium.
+        thumbnail:
+          t?.maxres?.url ||
+          t?.standard?.url ||
+          t?.high?.url ||
+          t?.medium?.url ||
+          t?.default?.url ||
+          "",
         publishedAt: it.snippet.publishedAt,
       };
     });
