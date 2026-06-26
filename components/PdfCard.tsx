@@ -33,7 +33,7 @@ export default function PdfCard({ study }: { study: StudyPdf }) {
           href={study.pdfUrl}
           target="_blank"
           rel="noopener noreferrer"
-          download
+          download={`${study.title}.pdf`}
           className="mt-4 inline-flex w-fit items-center gap-2 rounded-md bg-brand px-4 py-2 text-sm font-medium text-white hover:bg-brand-700"
         >
           <i className="bi bi-download" /> Descargar PDF
