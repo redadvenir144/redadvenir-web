@@ -22,6 +22,7 @@ export type RadioStation = {
   image?: string;
   appUrl?: string;
   anchor?: string; // id para enlaces del menú (ej: /radio#advenir)
+  website?: string; // sitio web propio de la emisora
 };
 
 export const RADIO_STATIONS: RadioStation[] = [
@@ -32,6 +33,7 @@ export const RADIO_STATIONS: RadioStation[] = [
     appUrl:
       "https://play.google.com/store/apps/details?id=com.xoxdnlxox.reladven",
     anchor: "advenir",
+    website: "https://radioadvenir.org/",
   },
   {
     name: "Radio Altiplano AM",

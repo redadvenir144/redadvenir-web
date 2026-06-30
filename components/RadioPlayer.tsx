@@ -188,16 +188,28 @@ export default function RadioPlayer() {
                   </div>
                 )}
 
-                {st.appUrl && (
-                  <a
-                    href={st.appUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="mt-3 inline-flex w-fit items-center gap-1.5 text-xs font-medium text-sky-300 hover:text-white"
-                  >
-                    <i className="bi bi-google-play" /> Descargar la app
-                  </a>
-                )}
+                <div className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-1.5">
+                  {st.website && (
+                    <a
+                      href={st.website}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex w-fit items-center gap-1.5 text-xs font-medium text-sky-300 hover:text-white"
+                    >
+                      <i className="bi bi-globe" /> Ir a la página web de la Radio
+                    </a>
+                  )}
+                  {st.appUrl && (
+                    <a
+                      href={st.appUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex w-fit items-center gap-1.5 text-xs font-medium text-sky-300 hover:text-white"
+                    >
+                      <i className="bi bi-google-play" /> Descargar la app
+                    </a>
+                  )}
+                </div>
               </div>
             </div>
           );

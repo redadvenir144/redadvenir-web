@@ -11,19 +11,24 @@ export const metadata: Metadata = {
 
 const PROJECTS = [
   {
-    icon: "broadcast",
-    title: "Nuevas frecuencias",
-    text: "Ampliar la cobertura de la señal radial a más ciudades y comunidades.",
+    icon: "globe-americas",
+    title: "Expansión internacional",
+    text: "Llevar la señal de la radio a nuevos países y regiones, comenzando por Latinoamérica y alcanzando al mundo de habla hispana.",
   },
   {
-    icon: "mic",
-    title: "Producción de programas",
-    text: "Contenido cristiano original: predicaciones, música, salud y familia.",
+    icon: "broadcast-pin",
+    title: "Nuevas frecuencias y repetidoras",
+    text: "Instalar emisoras y repetidoras en más ciudades para que la señal llegue a comunidades que hoy no tienen acceso.",
   },
   {
-    icon: "phone",
-    title: "Apps móviles",
-    text: "Escuchar las emisoras desde el celular, donde estés.",
+    icon: "wifi",
+    title: "Radio por internet y satélite",
+    text: "Transmisión global por streaming y satélite, para escuchar desde cualquier lugar del planeta, 24/7.",
+  },
+  {
+    icon: "translate",
+    title: "Programación en varios idiomas",
+    text: "Producir contenido en distintos idiomas para alcanzar a más pueblos con el mensaje de esperanza.",
   },
 ];
 
@@ -57,14 +62,15 @@ export default function RadioPage() {
             Proyectos de Radio
           </p>
           <h2 className="mt-1 text-2xl font-bold text-brand sm:text-3xl">
-            Llevamos la esperanza más lejos
+            Expansión de la radio a nivel global
           </h2>
           <p className="mt-2 max-w-2xl text-slate-600">
-            Estamos creciendo para que el mensaje del evangelio llegue a más
-            personas a través de la radio. Estos son algunos de nuestros frentes.
+            Soñamos con que el mensaje de esperanza llegue a cada rincón del
+            planeta. Estos son los proyectos con los que estamos expandiendo la
+            radio a nivel global.
           </p>
 
-          <div className="mt-8 grid gap-6 md:grid-cols-3">
+          <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
             {PROJECTS.map((p) => (
               <div
                 key={p.title}
