@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 
 import SectionHeader from "@/components/SectionHeader";
 import ChannelsMap from "@/components/map/ChannelsMap";
@@ -162,6 +163,17 @@ export default function SenalPage() {
               className="reveal-up group rounded-2xl border border-slate-200 bg-white p-5 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-brand hover:shadow-md"
               style={{ animationDelay: `${i * 60}ms` }}
             >
+              {c.logo && (
+                <div className="relative mb-3 h-10 w-full">
+                  <Image
+                    src={c.logo}
+                    alt={c.name}
+                    fill
+                    sizes="220px"
+                    className="object-contain object-left"
+                  />
+                </div>
+              )}
               <h4 className="font-semibold text-slate-800 group-hover:text-brand">
                 {c.name}
               </h4>

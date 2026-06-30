@@ -11,6 +11,7 @@ export type GmiChannel = {
   lat: number;
   lng: number;
   url?: string;
+  logo?: string; // ruta del logo (ej: /images/channels/redeadvir.png)
 };
 
 export const GMI_CHANNELS: GmiChannel[] = [
@@ -37,11 +38,12 @@ export const GMI_CHANNELS: GmiChannel[] = [
     lng: -47.8828,
   },
   {
-    name: "Terceiro Anjo",
+    name: "Rede Advir Televisão",
     region: "Brasil",
     language: "Português",
     lat: -23.5505,
     lng: -46.6333,
+    url: "https://www.redeadvir.net.br/",
   },
   {
     name: "CFN — Caribbean Family Network",
