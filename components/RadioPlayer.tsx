@@ -89,8 +89,9 @@ export default function RadioPlayer() {
           return (
             <div
               key={st.src}
+              id={st.anchor}
               className={[
-                "flex gap-5 rounded-2xl border p-5 transition-colors",
+                "flex scroll-mt-24 gap-5 rounded-2xl border p-5 transition-colors",
                 active
                   ? "border-accent/40 bg-gradient-to-br from-white/10 to-white/5"
                   : "border-white/10 bg-white/5 hover:border-white/20",

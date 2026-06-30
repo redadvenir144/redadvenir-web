@@ -21,22 +21,25 @@ export type RadioStation = {
   src: string;
   image?: string;
   appUrl?: string;
+  anchor?: string; // id para enlaces del menú (ej: /radio#advenir)
 };
 
 export const RADIO_STATIONS: RadioStation[] = [
   {
-    name: "Radio ADvenir",
+    name: "Radio ADvenir FM 88.9",
     src: "https://ec1.yesstreaming.net:2195/stream",
     image: "/images/radio-advenir.jpg",
     appUrl:
       "https://play.google.com/store/apps/details?id=com.xoxdnlxox.reladven",
+    anchor: "advenir",
   },
   {
-    name: "Radio Altiplano",
+    name: "Radio Altiplano AM",
     src: "https://stream.eleden.com:8660/altiplano.aac",
     image: "/images/radio-altiplano.jpg",
     appUrl:
       "https://play.google.com/store/apps/details?id=radioadvenir2.appvgv",
+    anchor: "altiplano",
   },
 ];
 

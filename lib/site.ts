@@ -14,11 +14,20 @@ export const SITE = {
   verse: '"Porque aún un poco y El que ha de venir vendrá, y no tardará" — Hebreos 10:37 RV95',
 };
 
-export type NavItem = { label: string; href: string };
+export type NavItem = { label: string; href: string; children?: NavItem[] };
 
 export const NAV: NavItem[] = [
   { label: "Programación", href: "/programacion" },
   { label: "Señal", href: "/senal" },
+  {
+    label: "Radio",
+    href: "/radio",
+    children: [
+      { label: "Radio ADvenir FM 88.9", href: "/radio#advenir" },
+      { label: "Radio Altiplano AM", href: "/radio#altiplano" },
+      { label: "Proyectos de Radio", href: "/radio#proyectos" },
+    ],
+  },
   { label: "Estudios Bíblicos", href: "/estudios-biblicos" },
   { label: "Quiénes Somos", href: "/quienes-somos" },
   { label: "Contacto", href: "/contacto" },
