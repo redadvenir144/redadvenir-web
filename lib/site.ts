@@ -24,7 +24,7 @@ export const NAV: NavItem[] = [
     href: "/radio",
     children: [
       { label: "Radio ADvenir FM 88.9", href: "/radio#advenir" },
-      { label: "Radio Altiplano AM", href: "/radio#altiplano" },
+      { label: "Radio Altiplano Advenir 820 AM", href: "/radio#altiplano" },
       { label: "Proyectos de Radio", href: "/radio#proyectos" },
     ],
   },

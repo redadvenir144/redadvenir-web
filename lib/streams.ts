@@ -36,7 +36,7 @@ export const RADIO_STATIONS: RadioStation[] = [
     website: "https://radioadvenir.org/",
   },
   {
-    name: "Radio Altiplano AM",
+    name: "Radio Altiplano Advenir 820 AM",
     src: "https://stream.eleden.com:8660/altiplano.aac",
     image: "/images/radio-altiplano.jpg",
     appUrl:
