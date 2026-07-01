@@ -20,6 +20,11 @@ export async function getPosts(): Promise<Post[]> {
   );
 }
 
+export async function getPostBySlug(slug: string): Promise<Post | null> {
+  const posts = await list<Post>("posts");
+  return posts.find((p) => p.slug === slug) ?? null;
+}
+
 export async function getPrograms(): Promise<Program[]> {
   return list<Program>("programs");
 }

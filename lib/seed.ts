@@ -24,6 +24,13 @@ export const SEED_POSTS: Post[] = [
     coverImage: "/images/news/profecia.jpg",
     publishedAt: "2026-06-05",
     author: "Equipo Red ADvenir",
+    body: `Vivimos en un tiempo en el que muchos se preguntan hacia dónde va el mundo. Guerras, crisis económicas, desastres naturales y una creciente incertidumbre llevan a millones a buscar respuestas. La Biblia, siglos atrás, ya anticipaba estos días y nos invita a mirarlos con esperanza y no con temor.
+
+Los libros de Daniel y Apocalipsis forman una unidad profética que revela el plan de Dios para la historia humana. En Daniel 2, a través del sueño de una gran estatua, Dios muestra el ascenso y la caída de los grandes imperios, culminando en el establecimiento de su reino eterno: "El Dios del cielo levantará un reino que no será jamás destruido" (Daniel 2:44).
+
+Estas profecías no fueron dadas para alimentar la especulación, sino para fortalecer nuestra confianza. Cada una que se ha cumplido con exactitud es una garantía de que las que aún faltan también se cumplirán. La segunda venida de Cristo no es una idea lejana, sino la culminación segura de todo lo que Dios ha prometido.
+
+Como iglesia, estamos llamados a velar y a anunciar esta esperanza. No conocemos el día ni la hora, pero sí sabemos que "el que ha de venir vendrá, y no tardará" (Hebreos 10:37). Que estas señales, lejos de asustarnos, nos animen a estar preparados y a compartir el mensaje con quienes aún no lo conocen.`,
   },
   {
     _id: "p2",
@@ -35,6 +42,13 @@ export const SEED_POSTS: Post[] = [
     coverImage: "/images/news/santuario.jpg",
     publishedAt: "2026-05-28",
     author: "Pr. Juan Pérez",
+    body: `El santuario es una de las enseñanzas más ricas y profundas de las Escrituras. Lejos de ser un tema reservado para eruditos, revela de manera sencilla y hermosa cómo Dios ha resuelto el problema del pecado y cómo Cristo obra hoy a nuestro favor.
+
+En el Antiguo Testamento, el santuario terrenal —con su patio, el Lugar Santo y el Lugar Santísimo— era "figura y sombra de las cosas celestiales" (Hebreos 8:5). Cada elemento, cada sacrificio y cada ceremonia apuntaban a Jesús: el Cordero que quita el pecado del mundo.
+
+Cuando Cristo murió en la cruz, el velo del templo se rasgó de arriba abajo, mostrando que el camino a la presencia de Dios había quedado abierto para todos. Desde entonces, Jesús ministra en el santuario celestial como nuestro Sumo Sacerdote, intercediendo por cada uno de nosotros.
+
+Comprender el santuario transforma nuestra vida devocional. Ya no vemos a un Dios distante, sino a un Salvador que conoce nuestras luchas y que "puede compadecerse de nuestras debilidades" (Hebreos 4:15). En Él tenemos perdón, intercesión y la certeza de que pronto vendrá a buscarnos.`,
   },
   {
     _id: "p3",
@@ -46,6 +60,13 @@ export const SEED_POSTS: Post[] = [
     coverImage: "/images/news/satelite.jpg",
     publishedAt: "2026-05-20",
     author: "Comunicaciones",
+    body: `Red ADvenir continúa creciendo. Gracias al esfuerzo de voluntarios y al apoyo de donantes de todo el mundo, la red amplió su cobertura satelital, permitiendo que miles de nuevos hogares en Sudamérica reciban programación cristiana las 24 horas del día.
+
+Esta expansión hace posible que familias que antes no tenían acceso a contenido de fe puedan ahora disfrutar de estudios bíblicos, programas de salud, música de adoración y espacios para toda la familia, todo con un mensaje de esperanza.
+
+"Cada nueva frecuencia representa vidas que pueden ser tocadas por el evangelio", señaló el equipo de comunicaciones. La meta es seguir alcanzando regiones donde la señal aún no llega, tanto por televisión abierta como por cable, satélite y streaming.
+
+Invitamos a nuestra audiencia a ser parte de esta misión: orando, compartiendo la señal con otros y apoyando los proyectos de expansión. Juntos seguimos llevando esperanza a más personas.`,
   },
   {
     _id: "p4",

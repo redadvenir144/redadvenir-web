@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 
 import { CATEGORY_LABEL, type Post } from "@/lib/types";
 import { getCategoryStyle } from "@/lib/category-styles";
@@ -19,7 +20,10 @@ export default function BlogCard({ post }: { post: Post }) {
   const style = getCategoryStyle(post.category);
 
   return (
-    <article className="group flex flex-col overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm transition-shadow hover:shadow-md">
+    <Link
+      href={`/blog/${post.slug}`}
+      className="group flex flex-col overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm transition-all hover:-translate-y-1 hover:shadow-md"
+    >
       <div className="relative aspect-[16/9] overflow-hidden bg-slate-100">
         {post.coverImage ? (
           <Image
@@ -49,7 +53,10 @@ export default function BlogCard({ post }: { post: Post }) {
           <span>{post.author}</span>
           <time dateTime={post.publishedAt}>{formatDate(post.publishedAt)}</time>
         </div>
+        <span className="mt-3 inline-flex items-center gap-1 text-sm font-medium text-brand-500">
+          Leer más <i className="bi bi-arrow-right transition-transform group-hover:translate-x-0.5" />
+        </span>
       </div>
-    </article>
+    </Link>
   );
 }

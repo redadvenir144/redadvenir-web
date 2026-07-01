@@ -85,7 +85,7 @@ export default async function HomePage() {
       <SmartTVSection />
 
       {/* Blog / noticias */}
-      <section className="section py-14">
+      <section id="blog" className="scroll-mt-24 section py-14">
         <div className="mb-8 flex items-end justify-between gap-4">
           <div>
             <p className="text-sm font-semibold uppercase tracking-wide text-accent-600">
