@@ -44,6 +44,7 @@ export const GMI_CHANNELS: GmiChannel[] = [
     lat: -23.5505,
     lng: -46.6333,
     url: "https://www.redeadvir.net.br/",
+    logo: "/images/channels/redeadvir.jpg",
   },
   {
     name: "CFN — Caribbean Family Network",
