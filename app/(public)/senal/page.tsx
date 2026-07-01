@@ -164,12 +164,12 @@ export default function SenalPage() {
               style={{ animationDelay: `${i * 60}ms` }}
             >
               {c.logo && (
-                <div className="relative mb-3 h-10 w-full">
+                <div className="relative mb-3 h-20 w-full">
                   <Image
                     src={c.logo}
                     alt={c.name}
                     fill
-                    sizes="220px"
+                    sizes="300px"
                     className="object-contain object-left"
                   />
                 </div>

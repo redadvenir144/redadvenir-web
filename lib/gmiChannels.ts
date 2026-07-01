@@ -77,6 +77,7 @@ export const GMI_CHANNELS: GmiChannel[] = [
     language: "Inglés",
     lat: 12.0564,
     lng: -61.7485,
+    url: "https://gospelministry.org/global-family-network/",
   },
   {
     name: "Momentos de Paz",
