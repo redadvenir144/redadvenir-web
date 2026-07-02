@@ -8,20 +8,12 @@ import { TV_STREAMS, DEFAULT_TV_STREAM } from "@/lib/streams";
 export default function LiveTVPlayer() {
   const videoRef = useRef<HTMLVideoElement>(null);
   const hlsRef = useRef<Hls | null>(null);
-  // null = aún no se decidió la calidad inicial (evita cargar dos veces).
-  const [current, setCurrent] = useState<string | null>(null);
+  // Arranca en "Alta" (480p): es la calidad más estable. El HD (720p) de
+  // streamhost es intermitente (a veces sirve los segmentos más lento que el
+  // tiempo real y se queda cargando), por eso queda solo como opción manual.
+  const [current, setCurrent] = useState(DEFAULT_TV_STREAM.src);
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(true);
-
-  // Sin ABR: cada calidad es un manifiesto independiente. Elegimos la calidad
-  // inicial UNA sola vez, en el cliente, para no cargar dos veces: en desktop
-  // (pantalla grande) arranca en HD (720p) —nítido en monitor—; en móvil se usa
-  // "Alta" (480p), que se ve bien en pantalla chica y consume menos datos.
-  useEffect(() => {
-    const wide = typeof window !== "undefined" && window.innerWidth >= 1024;
-    const hd = TV_STREAMS.find((q) => q.label === "HD");
-    setCurrent(wide && hd ? hd.src : DEFAULT_TV_STREAM.src);
-  }, []);
 
   // Overlay de audio muteado.
   // muteHintVisible controla la opacidad (fade-out); dismissed lo desmonta
@@ -31,7 +23,7 @@ export default function LiveTVPlayer() {
 
   useEffect(() => {
     const video = videoRef.current;
-    if (!video || !current) return;
+    if (!video) return;
     setLoading(true);
 
     // Safari/iOS reproduce HLS de forma nativa.
