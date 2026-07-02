@@ -21,21 +21,6 @@ export const GMI_CHANNELS: GmiChannel[] = [
     language: "Español",
     lat: -17.7833,
     lng: -63.1821,
-    url: "https://redadvenir.org",
-  },
-  {
-    name: "ASTN — Advenir Spanish Television Network",
-    region: "Mundo hispano",
-    language: "Español",
-    lat: -0.1807,
-    lng: -78.4678,
-  },
-  {
-    name: "APTN — Advenir Portuguese Television Network",
-    region: "Mundo lusófono",
-    language: "Português",
-    lat: -15.7939,
-    lng: -47.8828,
   },
   {
     name: "Rede Advir Televisão",
@@ -45,13 +30,6 @@ export const GMI_CHANNELS: GmiChannel[] = [
     lng: -46.6333,
     url: "https://www.redeadvir.net.br/",
     logo: "/images/channels/redeadvir.jpg",
-  },
-  {
-    name: "CFN — Caribbean Family Network",
-    region: "El Caribe",
-    language: "Inglés / Francés",
-    lat: 13.1939,
-    lng: -59.5432,
   },
   {
     name: "TV Famille",
