@@ -12,6 +12,18 @@ export default function LiveTVPlayer() {
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(true);
 
+  // Sin ABR: cada calidad es un manifiesto independiente. Como el reproductor
+  // ocupa mucho más espacio en desktop, arrancamos en HD (720p) en pantallas
+  // grandes para que se vea nítido; en móvil se mantiene "Alta" (480p), que se
+  // ve bien en pantalla chica y consume menos datos. La corrección se hace en el
+  // montaje (antes de reproducir), por lo que el usuario solo ve el spinner.
+  useEffect(() => {
+    if (typeof window !== "undefined" && window.innerWidth >= 1024) {
+      const hd = TV_STREAMS.find((q) => q.label === "HD");
+      if (hd) setCurrent(hd.src);
+    }
+  }, []);
+
   // Overlay de audio muteado.
   // muteHintVisible controla la opacidad (fade-out); dismissed lo desmonta
   // de forma definitiva una vez que el usuario activó el sonido por primera vez.
