@@ -9,16 +9,13 @@ export type TvQuality = {
 export const TV_STREAMS: TvQuality[] = [
   { label: "Media", src: "https://streamer1.streamhost.org/salive/GMIredadvenirm/playlist.m3u8" },
   { label: "Alta", src: "https://streamer1.streamhost.org/salive/GMIredadvenirh/playlist.m3u8" },
-  // HD (GMIredadvenirHD, 1280x720, ~2.3 Mbps). El servidor solo publica ~3
-  // segmentos en vivo (~30s de ventana), así que en HD (segmentos más pesados)
-  // una red floja puede drenar el buffer y frenarse. Por eso NO es el default:
-  // queda como opción manual, igual que en el sitio anterior (redadvenir.org),
-  // y el player afloja su config de buffer para tolerarlo mejor.
-  { label: "HD", src: "https://streamer1.streamhost.org/salive/GMIredadvenirHD/playlist.m3u8" },
+  // HD (GMIredadvenirHD, 1280x720) quitado: el servidor entrega los segmentos
+  // más lento que el tiempo real de forma intermitente y el reproductor se
+  // queda cargando. Reactivar cuando el admin del servidor estabilice ese stream.
 ];
 
 // Calidad por defecto al cargar el reproductor: Alta.
-// El usuario puede subir a HD o bajar a Media con los botones del reproductor.
+// El usuario puede cambiar a Media con los botones del reproductor.
 export const DEFAULT_TV_STREAM = TV_STREAMS[1];
 
 export type RadioStation = {
