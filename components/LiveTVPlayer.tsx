@@ -8,20 +8,19 @@ import { TV_STREAMS, DEFAULT_TV_STREAM } from "@/lib/streams";
 export default function LiveTVPlayer() {
   const videoRef = useRef<HTMLVideoElement>(null);
   const hlsRef = useRef<Hls | null>(null);
-  const [current, setCurrent] = useState(DEFAULT_TV_STREAM.src);
+  // null = aún no se decidió la calidad inicial (evita cargar dos veces).
+  const [current, setCurrent] = useState<string | null>(null);
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(true);
 
-  // Sin ABR: cada calidad es un manifiesto independiente. Como el reproductor
-  // ocupa mucho más espacio en desktop, arrancamos en HD (720p) en pantallas
-  // grandes para que se vea nítido; en móvil se mantiene "Alta" (480p), que se
-  // ve bien en pantalla chica y consume menos datos. La corrección se hace en el
-  // montaje (antes de reproducir), por lo que el usuario solo ve el spinner.
+  // Sin ABR: cada calidad es un manifiesto independiente. Elegimos la calidad
+  // inicial UNA sola vez, en el cliente, para no cargar dos veces: en desktop
+  // (pantalla grande) arranca en HD (720p) —nítido en monitor—; en móvil se usa
+  // "Alta" (480p), que se ve bien en pantalla chica y consume menos datos.
   useEffect(() => {
-    if (typeof window !== "undefined" && window.innerWidth >= 1024) {
-      const hd = TV_STREAMS.find((q) => q.label === "HD");
-      if (hd) setCurrent(hd.src);
-    }
+    const wide = typeof window !== "undefined" && window.innerWidth >= 1024;
+    const hd = TV_STREAMS.find((q) => q.label === "HD");
+    setCurrent(wide && hd ? hd.src : DEFAULT_TV_STREAM.src);
   }, []);
 
   // Overlay de audio muteado.
@@ -32,7 +31,7 @@ export default function LiveTVPlayer() {
 
   useEffect(() => {
     const video = videoRef.current;
-    if (!video) return;
+    if (!video || !current) return;
     setLoading(true);
 
     // Safari/iOS reproduce HLS de forma nativa.
@@ -42,18 +41,29 @@ export default function LiveTVPlayer() {
     }
 
     if (Hls.isSupported()) {
-      // Streams HLS estándar (no LL-HLS): arrancar cerca del borde en vivo
-      // para que el primer cuadro aparezca rápido.
+      // Streams HLS estándar (no LL-HLS). liveSyncDurationCount 3 deja un poco
+      // más de colchón que el mínimo para evitar congelamientos ante baches de
+      // red (el precio es ~unos segundos más de latencia respecto al vivo).
       const hls = new Hls({
         enableWorker: true,
-        liveSyncDurationCount: 2,
+        liveSyncDurationCount: 3,
+        liveMaxLatencyDurationCount: 10,
+        maxBufferLength: 30,
         startFragPrefetch: true,
       });
       hlsRef.current = hls;
       hls.loadSource(current);
       hls.attachMedia(video);
       hls.on(Hls.Events.ERROR, (_e, data) => {
-        if (data.fatal) setError(true);
+        if (!data.fatal) return;
+        // Recuperar en vez de rendirse: reintentar red / recuperar media.
+        if (data.type === Hls.ErrorTypes.NETWORK_ERROR) {
+          hls.startLoad();
+        } else if (data.type === Hls.ErrorTypes.MEDIA_ERROR) {
+          hls.recoverMediaError();
+        } else {
+          setError(true);
+        }
       });
       return () => {
         hls.destroy();
