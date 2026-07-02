@@ -33,14 +33,20 @@ export default function LiveTVPlayer() {
     }
 
     if (Hls.isSupported()) {
-      // Streams HLS estándar (no LL-HLS). liveSyncDurationCount 3 deja un poco
-      // más de colchón que el mínimo para evitar congelamientos ante baches de
-      // red (el precio es ~unos segundos más de latencia respecto al vivo).
+      // Streams HLS estándar (no LL-HLS). El servidor solo publica ~3 segmentos
+      // en vivo (~30s de ventana), así que afinamos hacia ESTABILIDAD, no baja
+      // latencia (importa sobre todo en HD, cuyos segmentos pesan más):
+      //  - liveSyncDurationCount 4: reproducir lo más atrás posible dentro de la
+      //    ventana => máximo colchón antes de drenar el buffer.
+      //  - maxBufferLength 60: acumular todo lo que la ventana permita.
+      //  - maxLiveSyncPlaybackRate 1.5: si nos atrasamos, acelerar suave para
+      //    reengancharnos en vez de saltar/recargar (que es lo que se siente
+      //    como "se quedó cargando"). Por eso NO fijamos liveMaxLatencyDuration.
       const hls = new Hls({
         enableWorker: true,
-        liveSyncDurationCount: 3,
-        liveMaxLatencyDurationCount: 10,
-        maxBufferLength: 30,
+        liveSyncDurationCount: 4,
+        maxBufferLength: 60,
+        maxLiveSyncPlaybackRate: 1.5,
         startFragPrefetch: true,
       });
       hlsRef.current = hls;
