@@ -8,9 +8,6 @@ import { TV_STREAMS, DEFAULT_TV_STREAM } from "@/lib/streams";
 export default function LiveTVPlayer() {
   const videoRef = useRef<HTMLVideoElement>(null);
   const hlsRef = useRef<Hls | null>(null);
-  // Arranca en "Alta" (480p): es la calidad más estable. El HD (720p) de
-  // streamhost es intermitente (a veces sirve los segmentos más lento que el
-  // tiempo real y se queda cargando), por eso queda solo como opción manual.
   const [current, setCurrent] = useState(DEFAULT_TV_STREAM.src);
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -33,29 +30,18 @@ export default function LiveTVPlayer() {
     }
 
     if (Hls.isSupported()) {
-      // Streams HLS estándar (no LL-HLS). liveSyncDurationCount 3 deja un poco
-      // más de colchón que el mínimo para evitar congelamientos ante baches de
-      // red (el precio es ~unos segundos más de latencia respecto al vivo).
+      // Streams HLS estándar (no LL-HLS): arrancar cerca del borde en vivo
+      // para que el primer cuadro aparezca rápido.
       const hls = new Hls({
         enableWorker: true,
-        liveSyncDurationCount: 3,
-        liveMaxLatencyDurationCount: 10,
-        maxBufferLength: 30,
+        liveSyncDurationCount: 2,
         startFragPrefetch: true,
       });
       hlsRef.current = hls;
       hls.loadSource(current);
       hls.attachMedia(video);
       hls.on(Hls.Events.ERROR, (_e, data) => {
-        if (!data.fatal) return;
-        // Recuperar en vez de rendirse: reintentar red / recuperar media.
-        if (data.type === Hls.ErrorTypes.NETWORK_ERROR) {
-          hls.startLoad();
-        } else if (data.type === Hls.ErrorTypes.MEDIA_ERROR) {
-          hls.recoverMediaError();
-        } else {
-          setError(true);
-        }
+        if (data.fatal) setError(true);
       });
       return () => {
         hls.destroy();
