@@ -1,13 +1,21 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import Hls from "hls.js";
+import videojs from "video.js";
+import type Player from "video.js/dist/types/player";
+import "video.js/dist/video-js.css";
 
 import { TV_STREAMS, DEFAULT_TV_STREAM } from "@/lib/streams";
 
+// Reproductor de la señal en vivo con Video.js + VHS (videojs-http-streaming),
+// el mismo motor que usa el sitio anterior (redadvenir.org) y que reproduce
+// estos manifiestos HLS de forma estable. VHS viene incluido en Video.js 8.
 export default function LiveTVPlayer() {
-  const videoRef = useRef<HTMLVideoElement>(null);
-  const hlsRef = useRef<Hls | null>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const playerRef = useRef<Player | null>(null);
+  // La fuente inicial la carga el efecto de init; este ref evita que el efecto
+  // de cambio de calidad vuelva a cargarla en el montaje (doble carga).
+  const skipInitialSrc = useRef(true);
   const [current, setCurrent] = useState(DEFAULT_TV_STREAM.src);
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -18,76 +26,71 @@ export default function LiveTVPlayer() {
   const [muteHintVisible, setMuteHintVisible] = useState(true);
   const [dismissed, setDismissed] = useState(false);
 
+  // Inicializa el player una sola vez (y lo destruye al desmontar).
   useEffect(() => {
-    const video = videoRef.current;
-    if (!video) return;
-    setLoading(true);
+    if (!playerRef.current) {
+      // Video.js recomienda crear el elemento a mano e insertarlo en un
+      // contenedor propio para no chocar con el renderizado de React.
+      const videoEl = document.createElement("video-js");
+      videoEl.classList.add("vjs-big-play-centered");
+      containerRef.current?.appendChild(videoEl);
 
-    // Safari/iOS reproduce HLS de forma nativa.
-    if (video.canPlayType("application/vnd.apple.mpegurl")) {
-      video.src = current;
-      return;
+      const player = (playerRef.current = videojs(videoEl, {
+        controls: true,
+        autoplay: true,
+        muted: true,
+        playsinline: true,
+        preload: "auto",
+        fill: true, // ocupa el contenedor aspect-video
+        poster: "/player-poster.svg",
+        sources: [{ src: current, type: "application/x-mpegURL" }],
+      }));
+
+      player.on("playing", () => setLoading(false));
+      player.on("waiting", () => setLoading(true));
+      player.on("error", () => setError(true));
+      // Oculta el aviso si el usuario activa el sonido por cualquier medio.
+      player.on("volumechange", () => {
+        if (!player.muted() && (player.volume() ?? 0) > 0) {
+          setMuteHintVisible(false);
+          window.setTimeout(() => setDismissed(true), 300);
+        }
+      });
     }
 
-    if (Hls.isSupported()) {
-      // Streams HLS estándar (no LL-HLS): arrancar cerca del borde en vivo
-      // para que el primer cuadro aparezca rápido.
-      const hls = new Hls({
-        enableWorker: true,
-        liveSyncDurationCount: 2,
-        startFragPrefetch: true,
-      });
-      hlsRef.current = hls;
-      hls.loadSource(current);
-      hls.attachMedia(video);
-      hls.on(Hls.Events.ERROR, (_e, data) => {
-        if (data.fatal) setError(true);
-      });
-      return () => {
-        hls.destroy();
-        hlsRef.current = null;
-      };
-    }
-
-    // Navegador sin soporte de HLS: marcar error fuera del cuerpo síncrono.
-    const id = setTimeout(() => setError(true), 0);
-    return () => clearTimeout(id);
-  }, [current]);
-
-  // Indicador de carga: oculto cuando reproduce, visible mientras bufferea.
-  useEffect(() => {
-    const video = videoRef.current;
-    if (!video) return;
-    const onPlaying = () => setLoading(false);
-    const onWaiting = () => setLoading(true);
-    video.addEventListener("playing", onPlaying);
-    video.addEventListener("waiting", onWaiting);
     return () => {
-      video.removeEventListener("playing", onPlaying);
-      video.removeEventListener("waiting", onWaiting);
-    };
-  }, []);
-
-  // Oculta el aviso si el usuario activa el sonido por cualquier medio
-  // (clic en el overlay, control de volumen del navegador, etc.).
-  useEffect(() => {
-    const video = videoRef.current;
-    if (!video) return;
-    const onVolumeChange = () => {
-      if (!video.muted && video.volume > 0) {
-        setMuteHintVisible(false);
-        window.setTimeout(() => setDismissed(true), 300);
+      const player = playerRef.current;
+      if (player && !player.isDisposed()) {
+        player.dispose();
+        playerRef.current = null;
       }
     };
-    video.addEventListener("volumechange", onVolumeChange);
-    return () => video.removeEventListener("volumechange", onVolumeChange);
+    // Solo al montar: la fuente inicial se toma de `current` una vez; los
+    // cambios de calidad los maneja el efecto de abajo.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  // Cambio de calidad: cada nivel es un manifiesto HLS independiente (no ABR),
+  // así que se recarga la fuente. Se evita recargar si ya es la fuente actual
+  // (incluye el montaje inicial, donde init ya cargó `current`).
+  useEffect(() => {
+    if (skipInitialSrc.current) {
+      skipInitialSrc.current = false;
+      return;
+    }
+    const player = playerRef.current;
+    if (!player) return;
+    setError(false);
+    setLoading(true);
+    player.src({ src: current, type: "application/x-mpegURL" });
+    player.play()?.catch(() => {});
+  }, [current]);
+
   const enableSound = () => {
-    const video = videoRef.current;
-    if (!video) return;
-    video.muted = false;
-    if (video.volume === 0) video.volume = 1;
+    const player = playerRef.current;
+    if (!player) return;
+    player.muted(false);
+    if (player.volume() === 0) player.volume(1);
     // El listener de 'volumechange' se encarga del fade-out y desmontado.
   };
 
@@ -98,16 +101,8 @@ export default function LiveTVPlayer() {
 
   return (
     <div className="overflow-hidden rounded-xl bg-black shadow-lg ring-1 ring-black/5">
-      <div className="relative aspect-video">
-        <video
-          ref={videoRef}
-          className="h-full w-full"
-          poster="/player-poster.svg"
-          controls
-          playsInline
-          autoPlay
-          muted
-        />
+      <div className="relative aspect-video" ref={containerRef} data-vjs-player>
+        {/* Video.js inyecta aquí el elemento <video-js> */}
 
         {/* Indicador de carga */}
         {loading && !error && (
