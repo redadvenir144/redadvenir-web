@@ -16,6 +16,11 @@ export default function LiveTVPlayer() {
   // La fuente inicial la carga el efecto de init; este ref evita que el efecto
   // de cambio de calidad vuelva a cargarla en el montaje (doble carga).
   const skipInitialSrc = useRef(true);
+  // Recuperación ante caídas de red del stream en vivo: el handler de error se
+  // registra una sola vez, así que lee la fuente actual desde un ref.
+  const currentSrcRef = useRef(DEFAULT_TV_STREAM.src);
+  const retryCountRef = useRef(0);
+  const retryTimerRef = useRef<number | null>(null);
   const [current, setCurrent] = useState(DEFAULT_TV_STREAM.src);
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -26,9 +31,21 @@ export default function LiveTVPlayer() {
   const [muteHintVisible, setMuteHintVisible] = useState(true);
   const [dismissed, setDismissed] = useState(false);
 
+  // Mantener el ref de la fuente sincronizado con la calidad seleccionada,
+  // para que el handler de error (registrado una sola vez) recargue la correcta.
+  useEffect(() => {
+    currentSrcRef.current = current;
+  }, [current]);
+
   // Inicializa el player una sola vez (y lo destruye al desmontar).
   useEffect(() => {
     if (!playerRef.current) {
+      // El stream en vivo se cae/reintenta seguido; VHS lo reporta con logs de
+      // error ruidosos (incl. un TypeError interno de 'duration' cuando el
+      // chunklist no llega). Nuestro propio manejo de error + reintento cubre el
+      // estado visible, así que silenciamos ese ruido de la consola.
+      videojs.log.level("off");
+
       // Video.js recomienda crear el elemento a mano e insertarlo en un
       // contenedor propio para no chocar con el renderizado de React.
       const videoEl = document.createElement("video-js");
@@ -46,9 +63,36 @@ export default function LiveTVPlayer() {
         sources: [{ src: current, type: "application/x-mpegURL" }],
       }));
 
-      player.on("playing", () => setLoading(false));
+      player.on("playing", () => {
+        setLoading(false);
+        setError(false);
+        retryCountRef.current = 0; // reproducción OK => reiniciar reintentos
+      });
       player.on("waiting", () => setLoading(true));
-      player.on("error", () => setError(true));
+
+      // Recuperación ante error: si es de red/medios (típico en vivo), reiniciar
+      // la fuente con backoff en vez de rendirse; tras varios intentos, mostrar
+      // el aviso de error. Esto además corta el bucle de reintentos internos de
+      // VHS que dispara el TypeError de 'duration'.
+      player.on("error", () => {
+        const err = player.error();
+        const recoverable = !err || err.code !== 1; // todo salvo abort del usuario
+        if (recoverable && retryCountRef.current < 5) {
+          retryCountRef.current += 1;
+          setError(false);
+          setLoading(true);
+          if (retryTimerRef.current) window.clearTimeout(retryTimerRef.current);
+          retryTimerRef.current = window.setTimeout(() => {
+            if (player.isDisposed()) return;
+            // Reasignar la fuente reinicia los loaders de VHS y limpia el error.
+            player.src({ src: currentSrcRef.current, type: "application/x-mpegURL" });
+            player.play()?.catch(() => {});
+          }, 3000);
+        } else {
+          setError(true);
+        }
+      });
+
       // Oculta el aviso si el usuario activa el sonido por cualquier medio.
       player.on("volumechange", () => {
         if (!player.muted() && (player.volume() ?? 0) > 0) {
@@ -59,6 +103,7 @@ export default function LiveTVPlayer() {
     }
 
     return () => {
+      if (retryTimerRef.current) window.clearTimeout(retryTimerRef.current);
       const player = playerRef.current;
       if (player && !player.isDisposed()) {
         player.dispose();
@@ -80,6 +125,8 @@ export default function LiveTVPlayer() {
     }
     const player = playerRef.current;
     if (!player) return;
+    if (retryTimerRef.current) window.clearTimeout(retryTimerRef.current);
+    retryCountRef.current = 0;
     setError(false);
     setLoading(true);
     player.src({ src: current, type: "application/x-mpegURL" });
