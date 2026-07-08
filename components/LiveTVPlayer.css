@@ -1,0 +1,75 @@
+/* Skin de marca para el reproductor de la señal en vivo (Video.js).
+   Se importa DESPUÉS de video-js.css para sobreescribir el tema por defecto.
+   Colores tomados de las variables de :root (globals.css). */
+
+/* Hereda la tipografía del sitio en vez de la de video.js. */
+.video-js {
+  font-family: inherit;
+}
+
+/* Botón de play central: círculo de marca, dorado + leve zoom al hover. */
+.video-js .vjs-big-play-button {
+  width: 84px;
+  height: 84px;
+  line-height: 84px;
+  margin: 0;
+  border: none;
+  border-radius: 9999px;
+  background-color: rgba(11, 37, 69, 0.82); /* --brand */
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.38);
+  transition: transform 0.16s ease, background-color 0.16s ease, color 0.16s ease;
+}
+.video-js .vjs-big-play-button .vjs-icon-placeholder::before {
+  font-size: 44px;
+}
+.video-js:hover .vjs-big-play-button,
+.video-js .vjs-big-play-button:focus {
+  background-color: var(--accent); /* dorado */
+  color: #0b2545;
+  transform: scale(1.07);
+  outline: none;
+}
+
+/* Barra de controles: navy translúcido en degradado con leve blur. */
+.video-js .vjs-control-bar {
+  height: 3.2em;
+  background: linear-gradient(
+    to top,
+    rgba(11, 37, 69, 0.94),
+    rgba(11, 37, 69, 0.5)
+  );
+  backdrop-filter: blur(4px);
+}
+
+/* Iconos/botones de control: blanco, dorado al hover/focus. */
+.video-js .vjs-control:hover,
+.video-js .vjs-control:focus {
+  color: var(--accent);
+  text-shadow: none;
+}
+
+/* Barras (progreso, volumen, buffer). Relleno dorado sobre pista tenue. */
+.video-js .vjs-slider {
+  background-color: rgba(255, 255, 255, 0.22);
+}
+.video-js .vjs-play-progress,
+.video-js .vjs-volume-level {
+  background-color: var(--accent);
+}
+.video-js .vjs-play-progress::before {
+  color: var(--accent);
+}
+.video-js .vjs-load-progress,
+.video-js .vjs-load-progress div {
+  background: rgba(255, 255, 255, 0.32);
+}
+
+/* Indicador de "LIVE" nativo: punto rojo de marca. */
+.video-js .vjs-live-control .vjs-live-display::before {
+  color: var(--live);
+}
+
+/* Spinner nativo oculto: usamos nuestro overlay propio "Cargando señal…". */
+.video-js .vjs-loading-spinner {
+  display: none;
+}

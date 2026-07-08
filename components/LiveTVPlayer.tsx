@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import videojs from "video.js";
 import type Player from "video.js/dist/types/player";
 import "video.js/dist/video-js.css";
+import "./LiveTVPlayer.css"; // skin de marca (después de video-js.css)
 
 import { TV_STREAMS, DEFAULT_TV_STREAM } from "@/lib/streams";
 
