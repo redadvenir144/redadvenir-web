@@ -16,7 +16,7 @@ export default function Navbar() {
 
   return (
     <header className="sticky top-0 z-40 border-b-2 border-accent/80 bg-brand text-white shadow-lg shadow-black/20">
-      <div className="section grid grid-cols-[auto_1fr_auto] items-center gap-4 py-3 lg:grid-cols-[auto_1fr]">
+      <div className="section grid grid-cols-[1fr_auto] items-center gap-4 py-3 lg:grid-cols-[auto_1fr]">
         <Link href="/" className="flex items-center gap-3" onClick={() => setOpen(false)}>
           <Image
             src="/images/logo-advenir.png"
@@ -74,9 +74,11 @@ export default function Navbar() {
 
         {/* Botón móvil */}
         <button
-          className="lg:hidden text-2xl"
-          aria-label="Abrir menú"
+          type="button"
+          className="inline-flex h-11 w-11 items-center justify-center justify-self-end rounded-lg text-2xl leading-none ring-1 ring-white/25 transition-colors hover:bg-white/10 active:bg-white/20 lg:hidden"
+          aria-label={open ? "Cerrar menú" : "Abrir menú"}
           aria-expanded={open}
+          aria-controls="menu-movil"
           onClick={() => setOpen((v) => !v)}
         >
           <i className={`bi bi-${open ? "x-lg" : "list"}`} />
@@ -85,7 +87,10 @@ export default function Navbar() {
 
       {/* Menú móvil */}
       {open && (
-        <nav className="lg:hidden border-t border-white/10 bg-brand-700">
+        <nav
+          id="menu-movil"
+          className="max-h-[calc(100vh-5rem)] overflow-y-auto border-t border-white/10 bg-brand-700 lg:hidden"
+        >
           <div className="section flex flex-col py-2">
             {NAV.map((item) => (
               <div key={item.href}>
