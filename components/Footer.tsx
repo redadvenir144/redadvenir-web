@@ -8,17 +8,17 @@ import SocialBar from "./SocialBar";
 export default function Footer() {
   return (
     <footer className="mt-16 bg-brand text-white/80">
-      <div className="section grid gap-8 py-12 md:grid-cols-2 lg:grid-cols-4">
+      <div className="section grid gap-8 py-12 text-center md:grid-cols-2 md:text-left lg:grid-cols-4">
         <div>
           <Image
             src="/images/logo-advenir.png"
             alt={SITE.longName}
             width={1000}
             height={525}
-            className="h-14 w-auto"
+            className="h-14 w-auto mx-auto md:mx-0"
           />
           <p className="mt-4 text-sm leading-relaxed">{SITE.description}</p>
-          <SocialBar className="mt-4" />
+          <SocialBar className="mt-4 justify-center md:justify-start" />
         </div>
 
         <div>
@@ -71,7 +71,7 @@ export default function Footer() {
               alt="Gospel Ministries International"
               width={200}
               height={55}
-              className="h-12 w-auto"
+              className="h-12 w-auto mx-auto md:mx-0"
             />
           </a>
           <p className="mt-4 text-sm italic">{SITE.verse}</p>
