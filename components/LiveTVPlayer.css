@@ -7,6 +7,17 @@
   font-family: inherit;
 }
 
+/* El video y el póster siempre llenan el marco 16:9. Evita cualquier barra
+   negra a los lados por un eventual desajuste de proporción contenedor/tech.
+   (No elimina barras que vengan "horneadas" en la propia señal 4:3.) */
+.video-js .vjs-tech {
+  object-fit: cover;
+}
+.video-js .vjs-poster,
+.video-js .vjs-poster img {
+  object-fit: cover;
+}
+
 /* Botón de play central: círculo de marca, dorado + leve zoom al hover. */
 .video-js .vjs-big-play-button {
   width: 84px;
