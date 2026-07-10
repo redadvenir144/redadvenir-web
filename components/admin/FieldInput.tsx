@@ -96,7 +96,7 @@ export default function FieldInput({
       {field.type === "image" && (
         <Uploader
           kind="image"
-          accept="image/*"
+          accept="image/jpeg,image/png,image/webp,image/gif"
           value={v as string}
           onChange={(url) => onChange(url)}
         />
