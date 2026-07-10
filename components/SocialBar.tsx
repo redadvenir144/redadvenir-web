@@ -17,7 +17,7 @@ export default function SocialBar({
           rel="noopener noreferrer"
           aria-label={s.name}
           title={s.name}
-          className={`${size} transition-transform hover:scale-110 hover:text-accent`}
+          className={`${size} p-1 transition-transform hover:scale-110 hover:text-accent`}
         >
           <i className={`bi bi-${s.icon}`} aria-hidden="true" />
         </a>

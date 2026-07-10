@@ -86,7 +86,7 @@ export default async function HomePage() {
 
       {/* Blog / noticias */}
       <section id="blog" className="scroll-mt-24 section py-14">
-        <div className="mb-8 flex items-end justify-between gap-4">
+        <div className="mb-8 flex flex-col items-start gap-2 sm:flex-row sm:items-end sm:justify-between sm:gap-4">
           <div>
             <p className="text-sm font-semibold uppercase tracking-wide text-accent-600">
               Blog
@@ -97,7 +97,7 @@ export default async function HomePage() {
           </div>
           <Link
             href="/estudios-biblicos"
-            className="hidden shrink-0 text-sm font-medium text-brand-500 hover:underline sm:block"
+            className="shrink-0 text-sm font-medium text-brand-500 hover:underline"
           >
             Ver estudios bíblicos →
           </Link>

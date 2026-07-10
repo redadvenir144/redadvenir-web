@@ -90,7 +90,7 @@ export default function Chatbot({ faqs }: { faqs: Faq[] }) {
 
       {/* Panel */}
       {open && (
-        <div className="fixed bottom-24 right-5 z-40 flex h-[32rem] w-[22rem] max-w-[calc(100vw-2.5rem)] flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-2xl">
+        <div className="fixed bottom-24 right-5 z-40 flex h-[32rem] max-h-[calc(100vh-8rem)] w-[22rem] max-w-[calc(100vw-2.5rem)] flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-2xl">
           <div className="flex items-center gap-2 bg-brand px-4 py-3 text-white">
             <Image
               src="/images/icono-chatbot.png"

@@ -49,7 +49,7 @@ export default function Navbar() {
                     {item.label}
                     <i className="bi bi-chevron-down text-xs transition-transform group-hover:rotate-180" />
                   </Link>
-                  <div className="invisible absolute left-0 top-full z-50 min-w-[15rem] translate-y-1 rounded-lg border border-white/10 bg-brand-700 p-1 opacity-0 shadow-xl transition-all group-hover:visible group-hover:translate-y-0 group-hover:opacity-100">
+                  <div className="invisible absolute left-0 top-full z-50 min-w-[15rem] translate-y-1 rounded-lg border border-white/10 bg-brand-700 p-1 opacity-0 shadow-xl transition-all group-hover:visible group-hover:translate-y-0 group-hover:opacity-100 group-focus-within:visible group-focus-within:translate-y-0 group-focus-within:opacity-100">
                     {item.children.map((c) => (
                       <Link
                         key={c.href}

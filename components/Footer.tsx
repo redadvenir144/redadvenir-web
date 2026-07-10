@@ -28,7 +28,7 @@ export default function Footer() {
           <ul className="space-y-2 text-sm">
             {NAV.map((item) => (
               <li key={item.href}>
-                <Link href={item.href} className="hover:text-accent">
+                <Link href={item.href} className="inline-block py-1 hover:text-accent">
                   {item.label}
                 </Link>
               </li>
@@ -47,14 +47,14 @@ export default function Footer() {
                   href={l.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1.5 hover:text-accent"
+                  className="inline-flex items-center gap-1.5 py-1 hover:text-accent"
                 >
                   <i className="bi bi-broadcast text-xs" /> {l.name}
                 </a>
               </li>
             ))}
             <li>
-              <Link href="/senal#mapa" className="inline-flex items-center gap-1.5 hover:text-accent">
+              <Link href="/senal#mapa" className="inline-flex items-center gap-1.5 py-1 hover:text-accent">
                 <i className="bi bi-geo-alt text-xs" /> Ver mapa de canales
               </Link>
             </li>

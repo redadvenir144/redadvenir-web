@@ -71,7 +71,7 @@ export default async function QuienesSomosPage() {
         </div>
 
         {gallery.length > 0 && (
-          <div className="grid grid-cols-2 gap-3 mt-6 lg:mt-0">
+          <div className="grid grid-cols-1 gap-3 mt-6 sm:grid-cols-2 lg:mt-0">
             {gallery.map((img) => (
               <div
                 key={img._id}

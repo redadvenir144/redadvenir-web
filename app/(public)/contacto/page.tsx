@@ -35,7 +35,7 @@ export default function ContactoPage() {
 
           <div>
             <h2 className="mb-3 text-lg font-semibold text-brand">Otros canales</h2>
-            <div className="grid grid-cols-2 gap-3">
+            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
               {CHANNELS.map((c) => (
                 <a
                   key={c.label}
@@ -44,10 +44,10 @@ export default function ContactoPage() {
                   rel="noopener noreferrer"
                   className="flex items-center gap-3 rounded-lg border border-slate-200 bg-white p-4 shadow-sm hover:border-brand"
                 >
-                  <i className={`bi bi-${c.icon} text-2xl text-brand`} />
-                  <span>
+                  <i className={`bi bi-${c.icon} shrink-0 text-2xl text-brand`} />
+                  <span className="min-w-0">
                     <span className="block text-sm font-medium text-slate-800">{c.label}</span>
-                    <span className="block text-xs text-slate-500">{c.value}</span>
+                    <span className="block break-words text-xs text-slate-500">{c.value}</span>
                   </span>
                 </a>
               ))}
