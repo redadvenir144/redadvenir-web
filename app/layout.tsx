@@ -24,7 +24,13 @@ export const metadata: Metadata = {
     type: "website",
     locale: "es_BO",
   },
+  twitter: {
+    card: "summary_large_image",
+    title: SITE.longName,
+    description: SITE.description,
+  },
   // Iconos por convención de archivos: app/favicon.ico, app/icon.png, app/apple-icon.png
+  // Imagen OG/Twitter por convención: app/opengraph-image.tsx
 };
 
 export const viewport: Viewport = {
