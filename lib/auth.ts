@@ -7,15 +7,33 @@ export const SESSION_COOKIE = "ra_admin";
 const ALG = "HS256";
 const MAX_AGE = 60 * 60 * 24 * 7; // 7 días
 
+// En producción NO se permiten valores por defecto: si falta ADMIN_SECRET o
+// ADMIN_PASSWORD, la app falla en vez de arrancar con credenciales conocidas
+// (fail-closed). En desarrollo se usa un fallback solo para poder trabajar local.
 function getSecret(): Uint8Array {
-  const s =
-    process.env.ADMIN_SECRET ||
-    "dev-insecure-secret-cambia-esto-en-produccion";
+  const s = process.env.ADMIN_SECRET;
+  if (!s) {
+    if (process.env.NODE_ENV === "production") {
+      throw new Error(
+        "ADMIN_SECRET no está definido. Configúralo en el servidor antes de desplegar.",
+      );
+    }
+    return new TextEncoder().encode("dev-insecure-secret-solo-desarrollo");
+  }
   return new TextEncoder().encode(s);
 }
 
 export function getAdminPassword(): string {
-  return process.env.ADMIN_PASSWORD || "redadvenir";
+  const p = process.env.ADMIN_PASSWORD;
+  if (!p) {
+    if (process.env.NODE_ENV === "production") {
+      throw new Error(
+        "ADMIN_PASSWORD no está definido. Configúralo en el servidor antes de desplegar.",
+      );
+    }
+    return "redadvenir"; // solo desarrollo local
+  }
+  return p;
 }
 
 export async function createSessionToken(): Promise<string> {
