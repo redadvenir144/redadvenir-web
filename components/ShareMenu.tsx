@@ -52,6 +52,9 @@ export default function ShareMenu({ title }: { title: string }) {
   const [copied, setCopied] = useState(false);
 
   useEffect(() => {
+    // Leer la URL del navegador tras montar (no existe en SSR). Es una lectura
+    // de estado externo, por eso se exceptúa la regla.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setUrl(window.location.href);
   }, []);
 

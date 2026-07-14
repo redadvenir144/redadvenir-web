@@ -20,11 +20,9 @@ export default function BlogCard({ post }: { post: Post }) {
   const style = getCategoryStyle(post.category);
 
   return (
-    <Link
-      href={`/blog/${post.slug}`}
-      className="group flex flex-col overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm transition-all hover:-translate-y-1 hover:shadow-md"
-    >
-      <div className="relative aspect-[16/9] overflow-hidden bg-slate-100">
+    <Link href={`/blog/${post.slug}`} className="group flex flex-col">
+      {/* Imagen con zoom al pasar el mouse (estilo editorial) */}
+      <div className="relative aspect-[16/9] overflow-hidden rounded-xl bg-slate-100">
         {post.coverImage ? (
           <Image
             src={post.coverImage}
@@ -39,23 +37,26 @@ export default function BlogCard({ post }: { post: Post }) {
           </div>
         )}
       </div>
-      <div className="flex flex-1 flex-col p-5">
+
+      <div className="mt-4 flex flex-1 flex-col">
         <span
-          className={`mb-2 inline-flex w-fit items-center rounded-full border px-2.5 py-0.5 text-xs font-medium ${style.bg} ${style.text} ${style.border}`}
+          className={`text-xs font-semibold uppercase tracking-widest ${style.text}`}
         >
           {CATEGORY_LABEL[post.category]}
         </span>
-        <h3 className="text-lg font-semibold leading-snug text-slate-800 group-hover:text-brand">
+        <h3 className="mt-2 line-clamp-3 text-lg font-bold leading-snug text-brand transition-colors group-hover:text-brand-500">
           {post.title}
         </h3>
-        <p className="mt-2 line-clamp-3 text-sm text-slate-600">{post.excerpt}</p>
-        <div className="mt-4 flex items-center justify-between text-xs text-slate-400">
-          <span>{post.author}</span>
+        <p className="mt-2 line-clamp-2 text-sm leading-relaxed text-slate-600">
+          {post.excerpt}
+        </p>
+
+        {/* Meta: barrita de acento + fecha + autor (patrón institucional) */}
+        <div className="mt-3 flex items-center gap-3 text-xs text-slate-400">
+          <span className="h-1.5 w-6 shrink-0 rounded-full bg-accent" />
           <time dateTime={post.publishedAt}>{formatDate(post.publishedAt)}</time>
+          {post.author && <span className="truncate">· {post.author}</span>}
         </div>
-        <span className="mt-3 inline-flex items-center gap-1 text-sm font-medium text-brand-500">
-          Leer más <i className="bi bi-arrow-right transition-transform group-hover:translate-x-0.5" />
-        </span>
       </div>
     </Link>
   );

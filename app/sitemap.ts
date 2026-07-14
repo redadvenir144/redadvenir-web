@@ -9,6 +9,7 @@ export const revalidate = 3600;
 // Rutas públicas estáticas del sitio (deben coincidir con app/(public)).
 const STATIC_ROUTES = [
   "",
+  "/blog",
   "/programacion",
   "/senal",
   "/radio",
@@ -27,7 +28,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: route === "" ? 1 : 0.7,
   }));
 
-  // Artículos del blog (no hay índice /blog; se listan por slug).
+  // Artículos del blog (además del índice /blog incluido arriba).
   let postEntries: MetadataRoute.Sitemap = [];
   try {
     const posts = await getPosts();

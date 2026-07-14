@@ -103,11 +103,23 @@ export default async function HomePage() {
           </Link>
         </div>
 
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {posts.map((post) => (
+        <div className="grid gap-x-6 gap-y-10 md:grid-cols-2 lg:grid-cols-3">
+          {posts.slice(0, 3).map((post) => (
             <BlogCard key={post._id} post={post} />
           ))}
         </div>
+
+        {posts.length > 0 && (
+          <div className="mt-10 flex justify-center">
+            <Link
+              href="/blog"
+              className="inline-flex items-center gap-2 rounded-full bg-brand px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-brand-700"
+            >
+              Ver todas las noticias
+              <i className="bi bi-arrow-right" />
+            </Link>
+          </div>
+        )}
       </section>
     </>
   );
