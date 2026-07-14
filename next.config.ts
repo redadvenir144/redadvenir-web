@@ -13,6 +13,20 @@ const nextConfig: NextConfig = {
     formats: ["image/avif", "image/webp"],
   },
 
+  // Los archivos subidos por el admin se guardan en disco (public/uploads) pero
+  // se sirven por un route handler, porque en `next start` la carpeta public es
+  // una instantánea del build y no incluye lo subido en caliente. Este rewrite
+  // mantiene el path público `/uploads/<archivo>` apuntando a ese handler, así
+  // que las URLs ya guardadas en la base de datos siguen siendo válidas.
+  async rewrites() {
+    return [
+      {
+        source: "/uploads/:file",
+        destination: "/api/uploads/:file",
+      },
+    ];
+  },
+
   async headers() {
     return [
       {

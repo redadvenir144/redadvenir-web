@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@plugin "@tailwindcss/typography";
 
 :root {
   --background: #ffffff;
@@ -67,6 +68,52 @@ body {
 .eq-bar {
   height: 100%;
   animation: eq 0.8s ease-in-out infinite;
+}
+
+/* === Editor visual (TipTap) y cuerpo de artículos === */
+
+/* Placeholder cuando el editor está vacío. */
+.tiptap p.is-editor-empty:first-child::before {
+  content: attr(data-placeholder);
+  color: #94a3b8;
+  float: left;
+  height: 0;
+  pointer-events: none;
+}
+
+.tiptap:focus {
+  outline: none;
+}
+
+.tiptap img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Videos de YouTube responsivos, tanto en el editor como en el artículo. */
+.tiptap div[data-youtube-video],
+.article-body div[data-youtube-video] {
+  position: relative;
+  width: 100%;
+  max-width: 100%;
+  aspect-ratio: 16 / 9;
+  margin-block: 1.25rem;
+}
+
+.tiptap div[data-youtube-video] iframe,
+.article-body div[data-youtube-video] iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  border-radius: 0.75rem;
+}
+
+/* Selección de nodo (imagen/video) en el editor. */
+.tiptap .ProseMirror-selectednode {
+  outline: 2px solid var(--brand-500);
+  border-radius: 0.5rem;
 }
 
 /* === Focus ring: solo en navegación por teclado === */

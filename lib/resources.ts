@@ -137,6 +137,12 @@ export const RESOURCES: Resource[] = [
       { name: "number", label: "Número", type: "number", required: true },
       { name: "title", label: "Título", type: "text", required: true },
       { name: "summary", label: "Resumen", type: "textarea" },
+      {
+        name: "verses",
+        label: "Textos bíblicos",
+        type: "tags",
+        help: "Separa cada cita con una coma. Ej: Juan 3:16, Romanos 6:23, Salmos 23:1",
+      },
     ],
   },
   {

@@ -1,7 +1,18 @@
 "use client";
 
+import dynamic from "next/dynamic";
+
 import type { Field } from "@/lib/resources";
 import Uploader from "./Uploader";
+
+// El editor visual (TipTap) se carga solo cuando hace falta, para no cargar sus
+// dependencias en el resto del panel.
+const RichTextEditor = dynamic(() => import("./RichTextEditor"), {
+  ssr: false,
+  loading: () => (
+    <div className="min-h-[260px] rounded-lg border border-slate-300 bg-slate-50" />
+  ),
+});
 
 const inputClass =
   "w-full rounded-lg border border-slate-300 px-3 py-2 text-sm outline-none transition-colors focus:border-brand focus:ring-2 focus:ring-brand/20";
@@ -63,12 +74,10 @@ export default function FieldInput({
       )}
 
       {field.type === "richtext" && (
-        <textarea
-          rows={8}
-          className={inputClass}
+        <RichTextEditor
+          value={(v as string) ?? ""}
+          onChange={(html) => onChange(html)}
           placeholder={field.placeholder}
-          value={v as string}
-          onChange={(e) => onChange(e.target.value)}
         />
       )}
 
