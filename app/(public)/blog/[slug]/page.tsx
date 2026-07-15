@@ -37,10 +37,31 @@ export async function generateMetadata({
   const { slug } = await params;
   const post = await getPostBySlug(slug);
   if (!post) return { title: "Artículo no encontrado" };
+
+  // Si el post no tiene portada, se omite `images` para heredar la imagen OG
+  // por defecto (app/opengraph-image.tsx). Las rutas relativas (/uploads/...)
+  // se vuelven absolutas gracias a metadataBase (ver lib/site.ts).
+  const images = post.coverImage ? [post.coverImage] : undefined;
+
   return {
     title: post.title,
     description: post.excerpt,
-    openGraph: post.coverImage ? { images: [post.coverImage] } : undefined,
+    alternates: { canonical: `/blog/${post.slug}` },
+    openGraph: {
+      type: "article",
+      title: post.title,
+      description: post.excerpt,
+      url: `/blog/${post.slug}`,
+      publishedTime: post.publishedAt || undefined,
+      authors: post.author ? [post.author] : undefined,
+      ...(images ? { images } : {}),
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: post.title,
+      description: post.excerpt,
+      ...(images ? { images } : {}),
+    },
   };
 }
 

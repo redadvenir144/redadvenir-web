@@ -5,7 +5,16 @@ export const SITE = {
   longName: "Red ADvenir Internacional",
   description:
     "Red de televisión adventista del séptimo día, sin fines de lucro. Transmitimos TV y radio en vivo con alcance internacional.",
-  url: "https://redadvenir.org",
+  // Dominio canónico del despliegue. Se usa para metadataBase (imágenes OG,
+  // og:url), sitemap y robots. IMPORTANTE: debe coincidir con el dominio real
+  // donde vive el sitio, si no las vistas previas al compartir apuntan a un
+  // dominio equivocado y la imagen no carga. Configúralo por entorno con
+  // NEXT_PUBLIC_SITE_URL (p. ej. https://temp.redadvenir.org mientras es
+  // temporal). Sin variable, usa el dominio de producción.
+  url: (process.env.NEXT_PUBLIC_SITE_URL || "https://redadvenir.org").replace(
+    /\/$/,
+    "",
+  ),
   founded: 2002,
   founder: "Pastor David Gates",
   hqCity: "Santa Cruz de la Sierra, Bolivia",
