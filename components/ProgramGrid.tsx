@@ -1,23 +1,45 @@
 import type { ScheduleSlot } from "@/lib/types";
 
+// Orden bíblico adventista: la semana empieza en Domingo y culmina en Sábado
+// (el día de reposo), según Génesis 1-2 y Éxodo 20:8-11.
 const DAY_ORDER = [
+  "Domingo",
   "Lunes",
   "Martes",
   "Miércoles",
   "Jueves",
   "Viernes",
   "Sábado",
-  "Domingo",
 ];
 
+// Normaliza para comparar sin importar mayúsculas/acentos ni espacios.
+const norm = (d: string) => d.trim().toLowerCase();
+const ORDER_INDEX = new Map(DAY_ORDER.map((d, i) => [norm(d), i]));
+
 export default function ProgramGrid({ slots }: { slots: ScheduleSlot[] }) {
-  // Agrupar por día respetando el orden de la semana.
-  const byDay = DAY_ORDER.map((day) => ({
-    day,
-    items: slots
-      .filter((s) => s.day === day)
-      .sort((a, b) => a.time.localeCompare(b.time)),
-  })).filter((g) => g.items.length > 0);
+  // Agrupar por el día REAL de cada programa. Así se tolera cualquier variante
+  // de capitalización/acento que un editor pueda introducir en el admin, y
+  // ningún programa se descarta en silencio.
+  const groups = new Map<string, ScheduleSlot[]>();
+  for (const s of slots) {
+    const list = groups.get(s.day);
+    if (list) list.push(s);
+    else groups.set(s.day, [s]);
+  }
+
+  // Ordenar los días por el orden bíblico. Los días no reconocidos (no listados
+  // en DAY_ORDER) van al final en vez de perderse (defensa preventiva). Los días
+  // sin programas simplemente no aparecen, porque no están en `groups`.
+  const byDay = [...groups.entries()]
+    .map(([day, items]) => ({
+      day,
+      items: [...items].sort((a, b) => a.time.localeCompare(b.time)),
+    }))
+    .sort((a, b) => {
+      const ia = ORDER_INDEX.get(norm(a.day)) ?? Number.MAX_SAFE_INTEGER;
+      const ib = ORDER_INDEX.get(norm(b.day)) ?? Number.MAX_SAFE_INTEGER;
+      return ia - ib;
+    });
 
   if (byDay.length === 0) {
     return (

@@ -100,14 +100,16 @@ export const RESOURCES: Resource[] = [
         label: "Día",
         type: "select",
         required: true,
+        // Orden bíblico adventista (Domingo → Sábado), consistente con la
+        // grilla pública (ver components/ProgramGrid.tsx).
         options: [
+          "Domingo",
           "Lunes",
           "Martes",
           "Miércoles",
           "Jueves",
           "Viernes",
           "Sábado",
-          "Domingo",
         ].map((d) => ({ value: d, label: d })),
       },
       { name: "time", label: "Hora (HH:MM)", type: "text", required: true, placeholder: "08:00" },
