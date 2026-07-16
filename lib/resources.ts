@@ -215,6 +215,22 @@ export function getResource(key: string): Resource | undefined {
   return RESOURCES.find((r) => r.key === key);
 }
 
+// Claves de sección válidas para permisos de usuario (= claves de recurso).
+const SECTION_KEYS = new Set(RESOURCES.map((r) => r.key as string));
+
+// Filtra una lista de secciones a solo las claves de recurso válidas, sin
+// duplicados. Usado al crear/editar usuarios (permisos por sección).
+export function cleanSections(input: unknown): string[] {
+  if (!Array.isArray(input)) return [];
+  return [
+    ...new Set(
+      input.filter(
+        (s): s is string => typeof s === "string" && SECTION_KEYS.has(s),
+      ),
+    ),
+  ];
+}
+
 // Normaliza/valida un payload del admin contra la definición del recurso.
 export function coercePayload(
   resource: Resource,

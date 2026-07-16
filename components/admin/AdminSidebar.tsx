@@ -38,6 +38,10 @@ export default function AdminSidebar({ perms }: { perms: Perms }) {
       icon: r.icon,
       exact: false,
     })),
+    // Gestión de usuarios: solo para super-admin.
+    ...(perms.isSuperAdmin
+      ? [{ href: "/admin/users", label: "Usuarios", icon: "people", exact: false }]
+      : []),
   ];
 
   const isActive = (href: string, exact: boolean) =>
