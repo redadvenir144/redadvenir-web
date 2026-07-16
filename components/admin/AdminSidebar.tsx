@@ -6,7 +6,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
-import { RESOURCES } from "@/lib/resources";
+import { RESOURCES, EXTRA_SECTIONS } from "@/lib/resources";
 
 type Perms = {
   name: string;
@@ -36,6 +36,13 @@ export default function AdminSidebar({ perms }: { perms: Perms }) {
       href: `/admin/${r.key}`,
       label: r.label,
       icon: r.icon,
+      exact: false,
+    })),
+    // Secciones especiales (no-CRUD), p. ej. "Textos del sitio".
+    ...EXTRA_SECTIONS.filter((s) => canAccess(s.key)).map((s) => ({
+      href: `/admin/${s.key}`,
+      label: s.label,
+      icon: s.icon,
       exact: false,
     })),
     // Gestión de usuarios: solo para super-admin.

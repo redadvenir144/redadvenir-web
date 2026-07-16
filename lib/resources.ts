@@ -117,6 +117,26 @@ export const RESOURCES: Resource[] = [
     ],
   },
   {
+    key: "videoStudies",
+    label: "Guías en video",
+    singular: "Guía en video",
+    icon: "camera-reels",
+    listColumns: ["title", "youtubePlaylistId"],
+    fields: [
+      { name: "title", label: "Título", type: "text", required: true },
+      { name: "description", label: "Descripción", type: "textarea" },
+      {
+        name: "youtubePlaylistId",
+        label: "Video o lista de YouTube",
+        type: "text",
+        required: true,
+        placeholder: "Pega el link de YouTube (o el ID)",
+        help: "Acepta el enlace completo de YouTube —de un video o de una lista— o solo el ID.",
+      },
+      { name: "thumbnail", label: "Miniatura", type: "image" },
+    ],
+  },
+  {
     key: "studies",
     label: "Estudios bíblicos",
     singular: "Estudio",
@@ -215,8 +235,21 @@ export function getResource(key: string): Resource | undefined {
   return RESOURCES.find((r) => r.key === key);
 }
 
-// Claves de sección válidas para permisos de usuario (= claves de recurso).
-const SECTION_KEYS = new Set(RESOURCES.map((r) => r.key as string));
+// Secciones de permiso que NO son recursos CRUD (páginas especiales del admin).
+// "content" = editor de textos del sitio (ver lib/content-blocks.ts).
+export const EXTRA_SECTIONS: { key: string; label: string; icon: string }[] = [
+  { key: "content", label: "Textos del sitio", icon: "pencil-square" },
+];
+
+// Lista completa de secciones asignables a un usuario (recursos + especiales),
+// usada por la UI de gestión de usuarios.
+export const ALL_SECTIONS: { key: string; label: string }[] = [
+  ...RESOURCES.map((r) => ({ key: r.key as string, label: r.label })),
+  ...EXTRA_SECTIONS.map((s) => ({ key: s.key, label: s.label })),
+];
+
+// Claves de sección válidas para permisos de usuario (recursos + especiales).
+const SECTION_KEYS = new Set(ALL_SECTIONS.map((s) => s.key));
 
 // Filtra una lista de secciones a solo las claves de recurso válidas, sin
 // duplicados. Usado al crear/editar usuarios (permisos por sección).

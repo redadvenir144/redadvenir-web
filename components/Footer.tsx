@@ -3,9 +3,11 @@ import Image from "next/image";
 
 import { NAV, SITE } from "@/lib/site";
 import { GMI_LINKS } from "@/lib/gmiChannels";
+import { getSiteText } from "@/lib/site-text";
 import SocialBar from "./SocialBar";
 
-export default function Footer() {
+export default async function Footer() {
+  const t = await getSiteText();
   return (
     <footer className="mt-16 bg-brand text-white/80">
       <div className="section grid gap-8 py-12 text-center md:grid-cols-2 md:text-left lg:grid-cols-4">
@@ -17,7 +19,7 @@ export default function Footer() {
             height={525}
             className="h-14 w-auto mx-auto md:mx-0"
           />
-          <p className="mt-4 text-sm leading-relaxed">{SITE.description}</p>
+          <p className="mt-4 text-sm leading-relaxed">{t("footer.tagline")}</p>
           <SocialBar className="mt-4 justify-center md:justify-start" />
         </div>
 

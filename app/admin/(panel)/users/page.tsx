@@ -1,6 +1,6 @@
 import { redirect } from "next/navigation";
 
-import { RESOURCES } from "@/lib/resources";
+import { ALL_SECTIONS } from "@/lib/resources";
 import { getSessionUser } from "@/lib/session";
 import { listUsers, publicUser } from "@/lib/users";
 import UsersManager from "@/components/admin/UsersManager";
@@ -14,7 +14,7 @@ export default async function UsersPage() {
   if (!me.isSuperAdmin) redirect("/admin");
 
   const users = (await listUsers()).map(publicUser);
-  const sections = RESOURCES.map((r) => ({ key: r.key, label: r.label }));
+  const sections = ALL_SECTIONS;
 
   return <UsersManager initialUsers={users} sections={sections} meId={me._id} />;
 }

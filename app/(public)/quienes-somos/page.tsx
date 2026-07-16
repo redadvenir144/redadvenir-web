@@ -4,6 +4,7 @@ import Image from "next/image";
 import SectionHeader from "@/components/SectionHeader";
 import BeliefsAccordion from "@/components/BeliefsAccordion";
 import { getBeliefs, getGallery, getAboutConfig } from "@/lib/content";
+import { getSiteText } from "@/lib/site-text";
 import { SITE } from "@/lib/site";
 
 export const metadata: Metadata = {
@@ -15,10 +16,11 @@ export const metadata: Metadata = {
 export const revalidate = 60;
 
 export default async function QuienesSomosPage() {
-  const [beliefs, gallery, aboutConfig] = await Promise.all([
+  const [beliefs, gallery, aboutConfig, t] = await Promise.all([
     getBeliefs(),
     getGallery(),
     getAboutConfig(),
+    getSiteText(),
   ]);
 
   const cards = [
@@ -56,18 +58,8 @@ export default async function QuienesSomosPage() {
       {/* Historia + galería */}
       <div className={`gap-10 ${gallery.length > 0 ? "lg:grid lg:grid-cols-2" : ""}`}>
         <div className="prose prose-slate max-w-none">
-          <p className="text-slate-700">
-            {SITE.longName} es una red de televisión adventista del séptimo día, sin
-            fines de lucro, fundada en {SITE.founded} por el {SITE.founder}. Con sede
-            principal en {SITE.hqCity}, transmite televisión y radio en vivo con
-            cobertura en señal abierta, cable, satélite y streaming, alcanzando a
-            audiencias en todo el mundo.
-          </p>
-          <p className="mt-4 text-slate-700">
-            Red ADvenir está vinculada al ministerio {SITE.ministry}, avanzando con el
-            esfuerzo de voluntarios comprometidos con compartir el evangelio y la
-            esperanza del pronto regreso de Cristo.
-          </p>
+          <p className="text-slate-700">{t("quienes.history.p1")}</p>
+          <p className="mt-4 text-slate-700">{t("quienes.history.p2")}</p>
         </div>
 
         {gallery.length > 0 && (
@@ -125,8 +117,7 @@ export default async function QuienesSomosPage() {
         Nuestras creencias
       </h2>
       <p className="mb-6 max-w-2xl text-slate-600">
-        Como iglesia adventista del séptimo día, sostenemos las creencias
-        fundamentales basadas en la Biblia. Estas son algunas de ellas:
+        {t("quienes.beliefs.intro")}
       </p>
       <BeliefsAccordion beliefs={beliefs} />
     </div>

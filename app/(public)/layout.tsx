@@ -5,6 +5,11 @@ import PageTransition from "@/components/PageTransition";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import { getFaqs } from "@/lib/content";
 
+// El pie de página usa texto editable (ver components/Footer.tsx). Revalidar el
+// segmento público cada 60 s asegura que los cambios del admin se reflejen en
+// todas las páginas sin reconstruir.
+export const revalidate = 60;
+
 export default async function PublicLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {

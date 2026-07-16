@@ -31,7 +31,9 @@ export type Collection =
   | "faqs"
   | "gallery"
   | "about"
-  | "users";
+  | "users"
+  | "content"
+  | "videoStudies";
 
 type Row = Record<string, unknown> & { _id: string };
 
@@ -61,6 +63,11 @@ const SEEDS: Record<Collection, Row[]> = {
   // Los usuarios no tienen semilla de ejemplo: el super-admin inicial se crea
   // desde el entorno (ver lib/users.ts → ensureBootstrapSuperAdmin).
   users: [],
+  // Textos editables del sitio: se guardan solo los que el admin modifica; el
+  // resto usa el valor por defecto del registro (ver lib/content-blocks.ts).
+  content: [],
+  // Guías en video: sección independiente de Programación (se administra sola).
+  videoStudies: [],
 };
 
 function seedFor(col: Collection): Row[] {
@@ -87,6 +94,8 @@ async function fileReadAll(): Promise<Record<Collection, Row[]>> {
       gallery: seedFor("gallery"),
       about: seedFor("about"),
       users: seedFor("users"),
+      content: seedFor("content"),
+      videoStudies: seedFor("videoStudies"),
     };
     try {
       await fs.mkdir(DATA_DIR, { recursive: true });

@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 import SectionHeader from "@/components/SectionHeader";
 import PdfCard from "@/components/PdfCard";
 import YouTubePlaylist from "@/components/YouTubePlaylist";
-import { getStudies, getPrograms } from "@/lib/content";
+import { getStudies, getVideoStudies } from "@/lib/content";
 import { hasPlayableVideo } from "@/lib/youtubeEmbed";
 
 export const metadata: Metadata = {
@@ -15,12 +15,15 @@ export const metadata: Metadata = {
 export const revalidate = 60;
 
 export default async function EstudiosPage() {
-  const [studies, programs] = await Promise.all([getStudies(), getPrograms()]);
-  // Reutilizamos los programas con video válido como guías en video
-  // (se saltean los placeholders de ejemplo sin configurar).
-  const videoGuides = programs
-    .filter((p) => hasPlayableVideo(p.youtubePlaylistId))
-    .slice(0, 3);
+  const [studies, videoStudies] = await Promise.all([
+    getStudies(),
+    getVideoStudies(),
+  ]);
+  // Sección independiente: se administra en "Guías en video" (no se arrastra de
+  // Programación). Se saltean entradas sin un video/lista válido.
+  const videoGuides = videoStudies.filter((p) =>
+    hasPlayableVideo(p.youtubePlaylistId),
+  );
 
   return (
     <div className="section py-12">

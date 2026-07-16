@@ -29,6 +29,11 @@ export async function getPrograms(): Promise<Program[]> {
   return list<Program>("programs");
 }
 
+// Guías en video de Estudios Bíblicos: colección independiente de Programación.
+export async function getVideoStudies(): Promise<Program[]> {
+  return list<Program>("videoStudies");
+}
+
 export async function getSchedule(): Promise<ScheduleSlot[]> {
   const slots = await list<ScheduleSlot>("schedule");
   return [...slots].sort((a, b) => (a.time || "").localeCompare(b.time || ""));
