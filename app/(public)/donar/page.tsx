@@ -147,6 +147,11 @@ export default async function DonarPage() {
           >
             <i className="bi bi-paypal" /> Hacer donación
           </button>
+
+          <p className="flex items-center gap-1.5 text-xs text-slate-500">
+            <i className="bi bi-credit-card-2-front" /> También podés pagar con
+            tarjeta de crédito o débito, sin necesidad de tener cuenta de PayPal.
+          </p>
         </form>
 
         <p className="mt-4 rounded-lg bg-slate-50 px-4 py-3 text-xs text-slate-500">

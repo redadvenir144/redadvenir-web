@@ -157,15 +157,16 @@ export const CONTENT_BLOCKS: ContentBlock[] = [
     label: "Código QR de donación (imagen)",
     type: "image",
     group: "donar",
-    default: "",
-    help: "Sube la imagen del código QR. Si lo dejas vacío, la sección no aparece en la página.",
+    default: "/images/qr-donar-paypal.png",
+    help: "QR que abre la donación por PayPal. Puedes reemplazarlo por otro. Si lo dejas vacío, la sección no aparece en la página.",
   },
   {
     key: "donar.qr.caption",
     label: "Código QR — texto/pie",
     type: "text",
     group: "donar",
-    default: "Escaneá el código con tu teléfono para donar.",
+    default:
+      "Escaneá el código con tu teléfono para donar por PayPal (también con tarjeta de crédito o débito, sin cuenta).",
   },
 ];
 
