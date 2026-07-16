@@ -93,15 +93,17 @@ export default async function DonarPage() {
 
       {/* 1) Donación en línea por PayPal — va directo a PayPal al enviar. */}
       <Card icon="credit-card-2-front" title="Donación en línea (tarjeta o PayPal)">
-        <p className="text-sm text-slate-600">{t("donar.online.text")}</p>
+        <div className="gap-8 md:flex md:items-start">
+          <div className="min-w-0 md:flex-1">
+            <p className="text-sm text-slate-600">{t("donar.online.text")}</p>
 
-        {/* Formulario oficial de GMI (cuenta accounting@gospelministry.org). */}
-        <form
-          action="https://www.paypal.com/cgi-bin/webscr"
-          method="post"
-          target="_top"
-          className="mt-5 max-w-md space-y-4"
-        >
+            {/* Formulario oficial de GMI (cuenta accounting@gospelministry.org). */}
+            <form
+              action="https://www.paypal.com/cgi-bin/webscr"
+              method="post"
+              target="_top"
+              className="mt-5 max-w-md space-y-4"
+            >
           <input type="hidden" name="cmd" value="_xclick" />
           <input type="hidden" name="business" value="accounting@gospelministry.org" />
           <input type="hidden" name="page_style" value="GMI" />
@@ -152,7 +154,27 @@ export default async function DonarPage() {
             <i className="bi bi-credit-card-2-front" /> También podés pagar con
             tarjeta de crédito o débito, sin necesidad de tener cuenta de PayPal.
           </p>
-        </form>
+            </form>
+          </div>
+
+          {/* Código QR (aparece solo si hay imagen configurada en el admin) */}
+          {qrImage && (
+            <div className="mt-6 shrink-0 text-center md:mt-0 md:w-52">
+              <div className="inline-block rounded-xl border border-slate-200 bg-white p-3">
+                <Image
+                  src={qrImage}
+                  alt="Código QR para donar por PayPal"
+                  width={180}
+                  height={180}
+                  className="h-40 w-40 object-contain"
+                />
+              </div>
+              <p className="mx-auto mt-2 max-w-[13rem] text-xs text-slate-500">
+                {t("donar.qr.caption")}
+              </p>
+            </div>
+          )}
+        </div>
 
         <p className="mt-4 rounded-lg bg-slate-50 px-4 py-3 text-xs text-slate-500">
           Las compañías de tarjetas y PayPal cobran hasta un 3% del monto. Si
@@ -260,24 +282,6 @@ export default async function DonarPage() {
           )}
         </Card>
       </div>
-
-      {/* Código QR (aparece solo si se subió una imagen en el admin) */}
-      {qrImage && (
-        <div className="mt-6">
-          <Card icon="qr-code" title="Donar con código QR">
-            <p className="text-sm text-slate-600">{t("donar.qr.caption")}</p>
-            <div className="mt-4 inline-block rounded-xl border border-slate-200 bg-white p-3">
-              <Image
-                src={qrImage}
-                alt="Código QR para donar"
-                width={200}
-                height={200}
-                className="h-48 w-48 object-contain"
-              />
-            </div>
-          </Card>
-        </div>
-      )}
 
       <p className="mt-8 max-w-2xl text-sm text-slate-500">
         ¿Dudas con tu donación? Escribinos a{" "}
