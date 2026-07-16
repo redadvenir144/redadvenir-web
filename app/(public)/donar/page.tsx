@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 
 import SectionHeader from "@/components/SectionHeader";
 import { getSiteText } from "@/lib/site-text";
@@ -78,6 +79,9 @@ export default async function DonarPage() {
   // Número de WhatsApp editable (solo dígitos) → enlace wa.me.
   const waNumber = t("donar.whatsapp").replace(/[^\d]/g, "");
   const waLink = `https://wa.me/${waNumber}`;
+
+  // Código QR de donación (opcional): la sección solo se muestra si hay imagen.
+  const qrImage = t("donar.qr.image").trim();
 
   return (
     <div className="section py-12">
@@ -251,6 +255,24 @@ export default async function DonarPage() {
           )}
         </Card>
       </div>
+
+      {/* Código QR (aparece solo si se subió una imagen en el admin) */}
+      {qrImage && (
+        <div className="mt-6">
+          <Card icon="qr-code" title="Donar con código QR">
+            <p className="text-sm text-slate-600">{t("donar.qr.caption")}</p>
+            <div className="mt-4 inline-block rounded-xl border border-slate-200 bg-white p-3">
+              <Image
+                src={qrImage}
+                alt="Código QR para donar"
+                width={200}
+                height={200}
+                className="h-48 w-48 object-contain"
+              />
+            </div>
+          </Card>
+        </div>
+      )}
 
       <p className="mt-8 max-w-2xl text-sm text-slate-500">
         ¿Dudas con tu donación? Escribinos a{" "}

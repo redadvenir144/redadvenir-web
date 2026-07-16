@@ -2,10 +2,12 @@
 
 import { useMemo, useState } from "react";
 
+import Uploader from "@/components/admin/Uploader";
+
 type Block = {
   key: string;
   label: string;
-  type: "text" | "textarea" | "richtext";
+  type: "text" | "textarea" | "richtext" | "image";
   help: string | null;
   value: string;
   default: string;
@@ -105,7 +107,14 @@ export default function ContentManager({ groups }: { groups: Group[] }) {
                         </span>
                       )}
                     </label>
-                    {b.type === "textarea" ? (
+                    {b.type === "image" ? (
+                      <Uploader
+                        value={values[b.key]}
+                        onChange={(url) => set(b.key, url)}
+                        accept="image/*"
+                        kind="image"
+                      />
+                    ) : b.type === "textarea" ? (
                       <textarea
                         value={values[b.key]}
                         onChange={(e) => set(b.key, e.target.value)}
@@ -123,15 +132,17 @@ export default function ContentManager({ groups }: { groups: Group[] }) {
                     {b.help && (
                       <p className="mt-1 text-xs text-slate-400">{b.help}</p>
                     )}
-                    {changed && values[b.key] !== defaults[b.key] && (
-                      <button
-                        type="button"
-                        onClick={() => set(b.key, defaults[b.key])}
-                        className="mt-1 text-xs text-slate-400 hover:text-brand-500 hover:underline"
-                      >
-                        Restaurar texto por defecto
-                      </button>
-                    )}
+                    {b.type !== "image" &&
+                      changed &&
+                      values[b.key] !== defaults[b.key] && (
+                        <button
+                          type="button"
+                          onClick={() => set(b.key, defaults[b.key])}
+                          className="mt-1 text-xs text-slate-400 hover:text-brand-500 hover:underline"
+                        >
+                          Restaurar texto por defecto
+                        </button>
+                      )}
                   </div>
                 );
               })}

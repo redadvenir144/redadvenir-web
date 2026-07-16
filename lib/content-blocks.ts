@@ -8,7 +8,7 @@
 // Para hacer editable un texto nuevo: agrega un bloque aquí y reemplaza el texto
 // fijo de la página por el valor resuelto. Nada más.
 
-export type ContentBlockType = "text" | "textarea" | "richtext";
+export type ContentBlockType = "text" | "textarea" | "richtext" | "image";
 
 export type ContentBlock = {
   key: string;
@@ -149,6 +149,23 @@ export const CONTENT_BLOCKS: ContentBlock[] = [
     type: "text",
     group: "donar",
     default: "info@redadvenir.org",
+  },
+  // Código QR de donación (opcional). La sección aparece en la página solo
+  // cuando se sube una imagen.
+  {
+    key: "donar.qr.image",
+    label: "Código QR de donación (imagen)",
+    type: "image",
+    group: "donar",
+    default: "",
+    help: "Sube la imagen del código QR. Si lo dejas vacío, la sección no aparece en la página.",
+  },
+  {
+    key: "donar.qr.caption",
+    label: "Código QR — texto/pie",
+    type: "text",
+    group: "donar",
+    default: "Escaneá el código con tu teléfono para donar.",
   },
 ];
 
