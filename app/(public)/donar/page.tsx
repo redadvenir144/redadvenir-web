@@ -13,10 +13,6 @@ export const metadata: Metadata = {
 // necesidad de reconstruir el sitio.
 export const revalidate = 60;
 
-// Email de PayPal de Red ADvenir / GMI. Cuando se configure, se activa el
-// formulario de donación en línea de abajo. Dejar vacío muestra el portal de GMI.
-const PAYPAL_BUSINESS = "";
-
 function Card({
   icon,
   title,
@@ -51,6 +47,31 @@ function Phone({ value }: { value: string }) {
   );
 }
 
+// Línea de contacto telefónico (con nombre opcional).
+function ContactLine({
+  icon,
+  label,
+  name,
+  phone,
+}: {
+  icon: string;
+  label: string;
+  name: string;
+  phone: string;
+}) {
+  return (
+    <li className="flex items-center gap-2">
+      <i className={`bi ${icon} text-accent-600`} /> {label}:{" "}
+      {name.trim() && (
+        <>
+          <strong>{name.trim()}</strong> —{" "}
+        </>
+      )}
+      <Phone value={phone} />
+    </li>
+  );
+}
+
 export default async function DonarPage() {
   const t = await getSiteText();
 
@@ -66,60 +87,63 @@ export default async function DonarPage() {
         subtitle={t("donar.intro")}
       />
 
-      {/* Donación en línea */}
+      {/* 1) Donación en línea por PayPal — va directo a PayPal al enviar. */}
       <Card icon="credit-card-2-front" title="Donación en línea (tarjeta o PayPal)">
         <p className="text-sm text-slate-600">{t("donar.online.text")}</p>
 
-        {PAYPAL_BUSINESS ? (
-          <form
-            action="https://www.paypal.com/cgi-bin/webscr"
-            method="post"
-            target="_top"
-            className="mt-5 max-w-md space-y-4"
+        {/* Formulario oficial de GMI (cuenta accounting@gospelministry.org). */}
+        <form
+          action="https://www.paypal.com/cgi-bin/webscr"
+          method="post"
+          target="_top"
+          className="mt-5 max-w-md space-y-4"
+        >
+          <input type="hidden" name="cmd" value="_xclick" />
+          <input type="hidden" name="business" value="accounting@gospelministry.org" />
+          <input type="hidden" name="page_style" value="GMI" />
+          <input type="hidden" name="no_shipping" value="1" />
+          <input type="hidden" name="return" value="http://gospelministry.org/blog/?page_id=6" />
+          <input
+            type="hidden"
+            name="cancel_return"
+            value="http://gospelministry.org/blog/?page_id=6"
+          />
+          <input type="hidden" name="currency_code" value="USD" />
+          <input type="hidden" name="tax" value="0" />
+          <input type="hidden" name="lc" value="US" />
+          <input type="hidden" name="bn" value="PP-DonationsBF" />
+
+          <div>
+            <label className="mb-1 block text-sm font-medium text-slate-700">
+              Donación para
+            </label>
+            <input
+              name="item_name"
+              defaultValue="Red ADvenir Internacional"
+              className="w-full rounded-md border border-slate-300 px-3 py-2 text-sm outline-none focus:border-brand"
+            />
+          </div>
+          <div>
+            <label className="mb-1 block text-sm font-medium text-slate-700">
+              Cantidad (US$)
+            </label>
+            <input
+              name="amount"
+              type="number"
+              min="1"
+              step="any"
+              required
+              placeholder="Ej: 100"
+              className="w-full rounded-md border border-slate-300 px-3 py-2 text-sm outline-none focus:border-brand"
+            />
+          </div>
+          <button
+            type="submit"
+            className="inline-flex items-center gap-2 rounded-md bg-accent px-5 py-2.5 font-medium text-brand transition-colors hover:bg-accent-600"
           >
-            <input type="hidden" name="cmd" value="_donations" />
-            <input type="hidden" name="business" value={PAYPAL_BUSINESS} />
-            <input type="hidden" name="currency_code" value="USD" />
-            <div>
-              <label className="mb-1 block text-sm font-medium text-slate-700">
-                Pago por
-              </label>
-              <input
-                name="item_name"
-                defaultValue="Red ADvenir Internacional"
-                className="w-full rounded-md border border-slate-300 px-3 py-2 text-sm outline-none focus:border-brand"
-              />
-            </div>
-            <div>
-              <label className="mb-1 block text-sm font-medium text-slate-700">
-                Cantidad (USD)
-              </label>
-              <input
-                name="amount"
-                type="number"
-                min="1"
-                step="1"
-                defaultValue="100"
-                className="w-full rounded-md border border-slate-300 px-3 py-2 text-sm outline-none focus:border-brand"
-              />
-            </div>
-            <button
-              type="submit"
-              className="inline-flex items-center gap-2 rounded-md bg-accent px-5 py-2.5 font-medium text-brand hover:bg-accent-600"
-            >
-              <i className="bi bi-paypal" /> Donar con PayPal
-            </button>
-          </form>
-        ) : (
-          <a
-            href="https://gospelministry.org/donate/"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="mt-5 inline-flex items-center gap-2 rounded-md bg-accent px-5 py-2.5 font-medium text-brand hover:bg-accent-600"
-          >
-            <i className="bi bi-box-arrow-up-right" /> Donar en línea (portal GMI)
-          </a>
-        )}
+            <i className="bi bi-paypal" /> Hacer donación
+          </button>
+        </form>
 
         <p className="mt-4 rounded-lg bg-slate-50 px-4 py-3 text-xs text-slate-500">
           Las compañías de tarjetas y PayPal cobran hasta un 3% del monto. Si
@@ -129,43 +153,7 @@ export default async function DonarPage() {
         </p>
       </Card>
 
-      {/* Donación por teléfono + WhatsApp */}
-      <div className="mt-6">
-        <Card icon="telephone" title="Donación por teléfono o WhatsApp">
-          <p className="text-sm text-slate-600">
-            Podés hacer un pago mensual o particular llamando por teléfono:
-          </p>
-          <ul className="mt-3 space-y-2 text-sm text-slate-700">
-            <li className="flex items-center gap-2">
-              <i className="bi bi-translate text-accent-600" /> En inglés:{" "}
-              <strong>{t("donar.phone.englishName")}</strong> —{" "}
-              <Phone value={t("donar.phone.english")} />
-            </li>
-            <li className="flex items-center gap-2">
-              <i className="bi bi-translate text-accent-600" /> En español:{" "}
-              <strong>{t("donar.phone.spanishName")}</strong> —{" "}
-              <Phone value={t("donar.phone.spanish")} />
-            </li>
-            <li className="flex items-center gap-2">
-              <i className="bi bi-flag text-accent-600" /> En Bolivia:{" "}
-              <Phone value={t("donar.phone.bolivia")} />
-            </li>
-          </ul>
-
-          {waNumber && (
-            <a
-              href={waLink}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="mt-5 inline-flex items-center gap-2 rounded-md bg-[#25D366] px-5 py-2.5 font-semibold text-white transition-colors hover:bg-[#1EBE5A]"
-            >
-              <i className="bi bi-whatsapp" /> Escribir por WhatsApp
-            </a>
-          )}
-        </Card>
-      </div>
-
-      {/* Transferencias bancarias */}
+      {/* 2) Transferencias bancarias */}
       <div className="mt-6 grid gap-6 lg:grid-cols-2">
         {/* EE.UU. */}
         <Card icon="bank" title="Transferencia — Banco de EE.UU.">
@@ -221,6 +209,46 @@ export default async function DonarPage() {
               </dd>
             </div>
           </dl>
+        </Card>
+      </div>
+
+      {/* 3) Donación por teléfono + WhatsApp (español primero) */}
+      <div className="mt-6">
+        <Card icon="telephone" title="Donación por teléfono o WhatsApp">
+          <p className="text-sm text-slate-600">
+            Podés hacer un pago mensual o particular llamando por teléfono:
+          </p>
+          <ul className="mt-3 space-y-2 text-sm text-slate-700">
+            <ContactLine
+              icon="bi-translate"
+              label="En español"
+              name={t("donar.phone.spanishName")}
+              phone={t("donar.phone.spanish")}
+            />
+            <ContactLine
+              icon="bi-translate"
+              label="En inglés"
+              name={t("donar.phone.englishName")}
+              phone={t("donar.phone.english")}
+            />
+            <ContactLine
+              icon="bi-flag"
+              label="En Bolivia"
+              name={t("donar.phone.boliviaName")}
+              phone={t("donar.phone.bolivia")}
+            />
+          </ul>
+
+          {waNumber && (
+            <a
+              href={waLink}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-5 inline-flex items-center gap-2 rounded-md bg-[#25D366] px-5 py-2.5 font-semibold text-white transition-colors hover:bg-[#1EBE5A]"
+            >
+              <i className="bi bi-whatsapp" /> Escribir por WhatsApp
+            </a>
+          )}
         </Card>
       </div>
 

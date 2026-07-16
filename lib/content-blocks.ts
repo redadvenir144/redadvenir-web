@@ -97,6 +97,22 @@ export const CONTENT_BLOCKS: ContentBlock[] = [
     default: "59164088800",
     help: "Con código de país, sin “+” ni espacios. Ej: 59164088800. Se usa para el botón de WhatsApp.",
   },
+  // Contactos telefónicos: español primero (somos un ministerio en español).
+  {
+    key: "donar.phone.spanishName",
+    label: "Contacto en español — nombre",
+    type: "text",
+    group: "donar",
+    default: "Margarita",
+  },
+  {
+    key: "donar.phone.spanish",
+    label: "Contacto en español — teléfono",
+    type: "text",
+    group: "donar",
+    default: "",
+    help: "Déjalo vacío para mostrar “(número a confirmar)”.",
+  },
   {
     key: "donar.phone.englishName",
     label: "Contacto en inglés — nombre",
@@ -113,19 +129,11 @@ export const CONTENT_BLOCKS: ContentBlock[] = [
     help: "Déjalo vacío para mostrar “(número a confirmar)”.",
   },
   {
-    key: "donar.phone.spanishName",
-    label: "Contacto en español — nombre",
-    type: "text",
-    group: "donar",
-    default: "Margarita",
-  },
-  {
-    key: "donar.phone.spanish",
-    label: "Contacto en español — teléfono",
+    key: "donar.phone.boliviaName",
+    label: "Contacto en Bolivia — nombre",
     type: "text",
     group: "donar",
     default: "",
-    help: "Déjalo vacío para mostrar “(número a confirmar)”.",
   },
   {
     key: "donar.phone.bolivia",
