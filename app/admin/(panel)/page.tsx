@@ -1,21 +1,33 @@
 import Link from "next/link";
+import { redirect } from "next/navigation";
 
 import { RESOURCES } from "@/lib/resources";
 import { list } from "@/lib/db";
+import { getSessionUser } from "@/lib/session";
+import { canAccessSection } from "@/lib/users";
 
 export const dynamic = "force-dynamic";
 
 export default async function AdminDashboard() {
+  const user = await getSessionUser();
+  if (!user) redirect("/admin/login");
+
+  // Solo se muestran las secciones que el usuario puede gestionar.
+  const visible = RESOURCES.filter((r) => canAccessSection(user, r.key));
   const counts = await Promise.all(
-    RESOURCES.map(async (r) => ({ ...r, count: (await list(r.key)).length })),
+    visible.map(async (r) => ({ ...r, count: (await list(r.key)).length })),
   );
 
   return (
     <div className="mx-auto max-w-6xl p-6 lg:p-10">
       <header className="mb-8">
-        <h1 className="text-2xl font-bold text-brand">Panel de administración</h1>
+        <h1 className="text-2xl font-bold text-brand">
+          Hola, {user.name}
+        </h1>
         <p className="text-slate-500">
-          Gestiona el contenido que se publica en el sitio de Red ADvenir.
+          {visible.length > 0
+            ? "Gestiona el contenido que se publica en el sitio de Red ADvenir."
+            : "Tu cuenta todavía no tiene secciones asignadas. Pídele a un administrador que te dé acceso."}
         </p>
       </header>
 

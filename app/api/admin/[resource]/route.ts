@@ -3,6 +3,7 @@ import { NextResponse } from "next/server";
 import { list, create } from "@/lib/db";
 import { getResource, coercePayload } from "@/lib/resources";
 import { revalidateContent } from "@/lib/revalidate";
+import { authorizeSection } from "@/lib/session";
 
 export async function GET(
   _req: Request,
@@ -11,6 +12,10 @@ export async function GET(
   const { resource } = await params;
   const def = getResource(resource);
   if (!def) return NextResponse.json({ error: "Recurso inválido" }, { status: 404 });
+
+  const denied = await authorizeSection(def.key);
+  if (denied) return denied;
+
   return NextResponse.json(await list(def.key));
 }
 
@@ -21,6 +26,9 @@ export async function POST(
   const { resource } = await params;
   const def = getResource(resource);
   if (!def) return NextResponse.json({ error: "Recurso inválido" }, { status: 404 });
+
+  const denied = await authorizeSection(def.key);
+  if (denied) return denied;
 
   let body: Record<string, unknown>;
   try {

@@ -8,7 +8,14 @@ import { motion, AnimatePresence } from "framer-motion";
 
 import { RESOURCES } from "@/lib/resources";
 
-export default function AdminSidebar() {
+type Perms = {
+  name: string;
+  username: string;
+  isSuperAdmin: boolean;
+  sections: string[];
+};
+
+export default function AdminSidebar({ perms }: { perms: Perms }) {
   const pathname = usePathname();
   const router = useRouter();
   const [open, setOpen] = useState(false);
@@ -19,9 +26,13 @@ export default function AdminSidebar() {
     router.refresh();
   }
 
+  const canAccess = (key: string) =>
+    perms.isSuperAdmin || perms.sections.includes(key);
+
   const links = [
     { href: "/admin", label: "Inicio", icon: "speedometer2", exact: true },
-    ...RESOURCES.map((r) => ({
+    // Solo las secciones que el usuario tiene permitidas.
+    ...RESOURCES.filter((r) => canAccess(r.key)).map((r) => ({
       href: `/admin/${r.key}`,
       label: r.label,
       icon: r.icon,
@@ -63,6 +74,15 @@ export default function AdminSidebar() {
 
   const footer = (
     <div className="border-t border-slate-200 p-3">
+      <div className="mb-2 flex items-center gap-2 px-3 py-1">
+        <i className="bi bi-person-circle text-xl text-brand" />
+        <div className="min-w-0">
+          <div className="truncate text-sm font-medium text-slate-700">{perms.name}</div>
+          <div className="truncate text-xs text-slate-400">
+            {perms.isSuperAdmin ? "Super-administrador" : "Editor"}
+          </div>
+        </div>
+      </div>
       <Link
         href="/"
         target="_blank"
