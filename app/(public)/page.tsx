@@ -104,7 +104,7 @@ export default async function HomePage() {
         </div>
 
         <div className="grid gap-x-6 gap-y-10 md:grid-cols-2 lg:grid-cols-3">
-          {posts.slice(0, 3).map((post) => (
+          {posts.slice(0, 6).map((post) => (
             <BlogCard key={post._id} post={post} />
           ))}
         </div>
@@ -115,7 +115,7 @@ export default async function HomePage() {
               href="/blog"
               className="inline-flex items-center gap-2 rounded-full bg-brand px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-brand-700"
             >
-              Ver todas las noticias
+              Ver más
               <i className="bi bi-arrow-right" />
             </Link>
           </div>
