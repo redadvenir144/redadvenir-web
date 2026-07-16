@@ -10,6 +10,7 @@ function LoginForm() {
   const params = useSearchParams();
   const next = params.get("next") || "/admin";
 
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
@@ -22,7 +23,7 @@ function LoginForm() {
       const res = await fetch("/api/admin/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ password }),
+        body: JSON.stringify({ username, password }),
       });
       if (!res.ok) {
         const data = await res.json().catch(() => ({}));
@@ -52,13 +53,29 @@ function LoginForm() {
 
         <form onSubmit={onSubmit} className="space-y-4">
           <div>
+            <label htmlFor="username" className="mb-1 block text-sm font-medium text-slate-700">
+              Usuario
+            </label>
+            <input
+              id="username"
+              type="text"
+              autoFocus
+              autoComplete="username"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              className="w-full rounded-lg border border-slate-300 px-3 py-2.5 text-sm outline-none transition-colors focus:border-brand focus:ring-2 focus:ring-brand/20"
+              placeholder="usuario"
+            />
+          </div>
+
+          <div>
             <label htmlFor="password" className="mb-1 block text-sm font-medium text-slate-700">
               Contraseña
             </label>
             <input
               id="password"
               type="password"
-              autoFocus
+              autoComplete="current-password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               className="w-full rounded-lg border border-slate-300 px-3 py-2.5 text-sm outline-none transition-colors focus:border-brand focus:ring-2 focus:ring-brand/20"

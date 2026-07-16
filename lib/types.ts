@@ -45,6 +45,26 @@ export type Belief = {
   verses?: string[];
 };
 
+// Usuario del panel de administración. Las contraseñas se guardan solo como
+// hash bcrypt. Un super-admin accede a todo (incluida la gestión de usuarios);
+// un usuario normal solo a las secciones listadas en `sections` (claves de
+// recurso). Los campos de rate-limiting protegen el login por usuario.
+export type User = {
+  _id: string;
+  username: string;
+  name: string;
+  passwordHash: string;
+  isSuperAdmin: boolean;
+  sections: string[];
+  createdAt: string;
+  failedAttempts?: number;
+  lastFailedAt?: number; // epoch ms
+  lockedUntil?: number | null; // epoch ms
+};
+
+// Usuario sin el hash de contraseña, seguro para enviar al cliente.
+export type PublicUser = Omit<User, "passwordHash">;
+
 export type GalleryImage = {
   _id: string;
   image: string;

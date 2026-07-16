@@ -30,7 +30,8 @@ export type Collection =
   | "beliefs"
   | "faqs"
   | "gallery"
-  | "about";
+  | "about"
+  | "users";
 
 type Row = Record<string, unknown> & { _id: string };
 
@@ -57,6 +58,9 @@ const SEEDS: Record<Collection, Row[]> = {
   faqs: SEED_FAQS as unknown as Row[],
   gallery: SEED_GALLERY as unknown as Row[],
   about: SEED_ABOUT as unknown as Row[],
+  // Los usuarios no tienen semilla de ejemplo: el super-admin inicial se crea
+  // desde el entorno (ver lib/users.ts → ensureBootstrapSuperAdmin).
+  users: [],
 };
 
 function seedFor(col: Collection): Row[] {
@@ -82,6 +86,7 @@ async function fileReadAll(): Promise<Record<Collection, Row[]>> {
       faqs: seedFor("faqs"),
       gallery: seedFor("gallery"),
       about: seedFor("about"),
+      users: seedFor("users"),
     };
     try {
       await fs.mkdir(DATA_DIR, { recursive: true });
