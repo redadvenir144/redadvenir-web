@@ -93,8 +93,8 @@ export default async function DonarPage() {
 
       {/* 1) Donación en línea por PayPal — va directo a PayPal al enviar. */}
       <Card icon="credit-card-2-front" title="Donación en línea (tarjeta o PayPal)">
-        <div className="gap-8 md:flex md:items-start">
-          <div className="min-w-0 md:flex-1">
+        <div className="gap-6 md:flex md:items-start">
+          <div className="min-w-0 md:max-w-md">
             <p className="text-sm text-slate-600">{t("donar.online.text")}</p>
 
             {/* Formulario oficial de GMI (cuenta accounting@gospelministry.org). */}
