@@ -61,13 +61,16 @@ function ContactLine({
   phone: string;
 }) {
   return (
-    <li className="flex items-center gap-2">
-      <i className={`bi ${icon} text-accent-600`} /> {label}:{" "}
-      {name.trim() && (
-        <>
-          <strong>{name.trim()}</strong> —{" "}
-        </>
-      )}
+    <li className="flex flex-wrap items-center gap-x-2 gap-y-1">
+      <i className={`bi ${icon} shrink-0 text-accent-600`} />
+      <span>
+        {label}:{" "}
+        {name.trim() && (
+          <>
+            <strong>{name.trim()}</strong> —
+          </>
+        )}
+      </span>
       <Phone value={phone} />
     </li>
   );
@@ -93,7 +96,7 @@ export default async function DonarPage() {
 
       {/* 1) Donación en línea por PayPal — va directo a PayPal al enviar. */}
       <Card icon="credit-card-2-front" title="Donación en línea (tarjeta o PayPal)">
-        <div className="gap-6 md:flex md:items-start">
+        <div className="gap-10 md:flex md:items-start lg:gap-14">
           <div className="min-w-0 md:max-w-md">
             <p className="text-sm text-slate-600">{t("donar.online.text")}</p>
 
@@ -275,7 +278,7 @@ export default async function DonarPage() {
               href={waLink}
               target="_blank"
               rel="noopener noreferrer"
-              className="mt-5 inline-flex items-center gap-2 rounded-md bg-[#25D366] px-5 py-2.5 font-semibold text-white transition-colors hover:bg-[#1EBE5A]"
+              className="mt-5 inline-flex w-full items-center justify-center gap-2 rounded-md bg-[#25D366] px-5 py-2.5 font-semibold text-white transition-colors hover:bg-[#1EBE5A] sm:w-auto sm:justify-start"
             >
               <i className="bi bi-whatsapp" /> Escribir por WhatsApp
             </a>
