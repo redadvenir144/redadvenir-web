@@ -14,6 +14,11 @@ export const metadata: Metadata = {
 // necesidad de reconstruir el sitio.
 export const revalidate = 60;
 
+// Enlace directo a la página de donación de PayPal de GMI (el mismo que codifica
+// el QR). El donante elige el monto y puede pagar con tarjeta sin cuenta PayPal.
+const PAYPAL_DONATE_URL =
+  "https://www.paypal.com/donate/?business=accounting@gospelministry.org&currency_code=USD&item_name=Red+ADvenir+Internacional";
+
 function Card({
   icon,
   title,
@@ -100,64 +105,79 @@ export default async function DonarPage() {
           <div className="min-w-0 md:max-w-md">
             <p className="text-sm text-slate-600">{t("donar.online.text")}</p>
 
-            {/* Formulario oficial de GMI (cuenta accounting@gospelministry.org). */}
-            <form
-              action="https://www.paypal.com/cgi-bin/webscr"
-              method="post"
-              target="_top"
-              className="mt-5 max-w-md space-y-4"
+            {/* Opción principal: botón directo a PayPal (mismo enlace del QR). */}
+            <a
+              href={PAYPAL_DONATE_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-5 inline-flex w-full items-center justify-center gap-2 rounded-md bg-accent px-6 py-3 font-semibold text-brand transition-colors hover:bg-accent-600 sm:w-auto"
             >
-          <input type="hidden" name="cmd" value="_xclick" />
-          <input type="hidden" name="business" value="accounting@gospelministry.org" />
-          <input type="hidden" name="page_style" value="GMI" />
-          <input type="hidden" name="no_shipping" value="1" />
-          <input type="hidden" name="return" value="http://gospelministry.org/blog/?page_id=6" />
-          <input
-            type="hidden"
-            name="cancel_return"
-            value="http://gospelministry.org/blog/?page_id=6"
-          />
-          <input type="hidden" name="currency_code" value="USD" />
-          <input type="hidden" name="tax" value="0" />
-          <input type="hidden" name="lc" value="US" />
-          <input type="hidden" name="bn" value="PP-DonationsBF" />
+              <i className="bi bi-paypal" /> Donar con PayPal
+            </a>
 
-          <div>
-            <label className="mb-1 block text-sm font-medium text-slate-700">
-              Donación para
-            </label>
-            <input
-              name="item_name"
-              defaultValue="Red ADvenir Internacional"
-              className="w-full rounded-md border border-slate-300 px-3 py-2 text-sm outline-none focus:border-brand"
-            />
-          </div>
-          <div>
-            <label className="mb-1 block text-sm font-medium text-slate-700">
-              Cantidad (US$)
-            </label>
-            <input
-              name="amount"
-              type="number"
-              min="1"
-              step="any"
-              required
-              placeholder="Ej: 100"
-              className="w-full rounded-md border border-slate-300 px-3 py-2 text-sm outline-none focus:border-brand"
-            />
-          </div>
-          <button
-            type="submit"
-            className="inline-flex items-center gap-2 rounded-md bg-accent px-5 py-2.5 font-medium text-brand transition-colors hover:bg-accent-600"
-          >
-            <i className="bi bi-paypal" /> Hacer donación
-          </button>
+            <p className="mt-2 flex items-center gap-1.5 text-xs text-slate-500">
+              <i className="bi bi-credit-card-2-front" /> También podés pagar con
+              tarjeta de crédito o débito, sin necesidad de tener cuenta de PayPal.
+            </p>
 
-          <p className="flex items-center gap-1.5 text-xs text-slate-500">
-            <i className="bi bi-credit-card-2-front" /> También podés pagar con
-            tarjeta de crédito o débito, sin necesidad de tener cuenta de PayPal.
-          </p>
-            </form>
+            {/* Alternativa: formulario de GMI para indicar monto y concepto. */}
+            <details className="mt-5 border-t border-slate-100 pt-4">
+              <summary className="cursor-pointer text-sm font-medium text-brand-500 hover:underline">
+                ¿Preferís indicar un monto y concepto exactos?
+              </summary>
+              <form
+                action="https://www.paypal.com/cgi-bin/webscr"
+                method="post"
+                target="_top"
+                className="mt-4 max-w-md space-y-4"
+              >
+                <input type="hidden" name="cmd" value="_xclick" />
+                <input type="hidden" name="business" value="accounting@gospelministry.org" />
+                <input type="hidden" name="page_style" value="GMI" />
+                <input type="hidden" name="no_shipping" value="1" />
+                <input type="hidden" name="return" value="http://gospelministry.org/blog/?page_id=6" />
+                <input
+                  type="hidden"
+                  name="cancel_return"
+                  value="http://gospelministry.org/blog/?page_id=6"
+                />
+                <input type="hidden" name="currency_code" value="USD" />
+                <input type="hidden" name="tax" value="0" />
+                <input type="hidden" name="lc" value="US" />
+                <input type="hidden" name="bn" value="PP-DonationsBF" />
+
+                <div>
+                  <label className="mb-1 block text-sm font-medium text-slate-700">
+                    Donación para
+                  </label>
+                  <input
+                    name="item_name"
+                    defaultValue="Red ADvenir Internacional"
+                    className="w-full rounded-md border border-slate-300 px-3 py-2 text-sm outline-none focus:border-brand"
+                  />
+                </div>
+                <div>
+                  <label className="mb-1 block text-sm font-medium text-slate-700">
+                    Cantidad (US$)
+                  </label>
+                  <input
+                    name="amount"
+                    type="number"
+                    min="1"
+                    step="any"
+                    required
+                    placeholder="Ej: 100"
+                    className="w-full rounded-md border border-slate-300 px-3 py-2 text-sm outline-none focus:border-brand"
+                  />
+                </div>
+                <button
+                  type="submit"
+                  className="inline-flex items-center gap-2 rounded-md border border-accent bg-white px-5 py-2.5 font-medium text-brand transition-colors hover:bg-slate-50"
+                >
+                  <i className="bi bi-paypal" /> Hacer donación
+                </button>
+              </form>
+            </details>
           </div>
 
           {/* Código QR (aparece solo si hay imagen configurada en el admin) */}

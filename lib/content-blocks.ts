@@ -87,7 +87,7 @@ export const CONTENT_BLOCKS: ContentBlock[] = [
     type: "textarea",
     group: "donar",
     default:
-      "Hacé tu contribución por internet con tarjeta de crédito, débito, banco o PayPal. Si querés que tu donación vaya a un proyecto específico, indicalo en el campo “Pago por”. El formulario te lleva a una página segura de PayPal.",
+      "Hacé tu contribución por internet con tarjeta de crédito, débito, banco o PayPal. Si querés que tu donación vaya a un proyecto específico, indicalo en el campo “Donación para”. El formulario te lleva a una página segura de PayPal.",
   },
   {
     key: "donar.whatsapp",
