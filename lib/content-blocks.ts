@@ -29,6 +29,7 @@ export type ContentGroup = {
 export const CONTENT_GROUPS: ContentGroup[] = [
   { key: "footer", label: "Pie de página", icon: "layout-text-window-reverse" },
   { key: "quienes", label: "Quiénes Somos", icon: "people" },
+  { key: "contacto", label: "Contacto", icon: "envelope" },
   { key: "donar", label: "Donaciones", icon: "cash-coin" },
 ];
 
@@ -69,6 +70,54 @@ export const CONTENT_BLOCKS: ContentBlock[] = [
     default:
       "Como creyentes adventistas del séptimo día, nuestras creencias fundamentales, basadas en la Biblia, son:",
     help: "Aparece encima del acordeón de creencias en la página Quiénes Somos.",
+  },
+
+  // --- Contacto -------------------------------------------------------------
+  {
+    key: "contacto.title",
+    label: "Título",
+    type: "text",
+    group: "contacto",
+    default: "Hablemos",
+  },
+  {
+    key: "contacto.subtitle",
+    label: "Subtítulo",
+    type: "textarea",
+    group: "contacto",
+    default:
+      "¿Tienes preguntas, peticiones de oración o quieres colaborar? Escríbenos.",
+  },
+  {
+    key: "contacto.email",
+    label: "Correo de contacto",
+    type: "text",
+    group: "contacto",
+    default: "info@redadvenir.org",
+  },
+  {
+    key: "contacto.whatsapp",
+    label: "WhatsApp (solo números)",
+    type: "text",
+    group: "contacto",
+    default: "59164088800",
+    help: "Con código de país, sin “+” ni espacios. Ej: 59164088800.",
+  },
+  {
+    key: "contacto.telegram",
+    label: "Enlace de Telegram",
+    type: "text",
+    group: "contacto",
+    default: "https://t.me/redadvenir",
+    help: "Déjalo vacío para ocultar el canal de Telegram.",
+  },
+  {
+    key: "contacto.facebook",
+    label: "Enlace de Facebook",
+    type: "text",
+    group: "contacto",
+    default: "https://www.facebook.com/redadvenirtv/",
+    help: "Déjalo vacío para ocultar el canal de Facebook.",
   },
 
   // --- Donaciones -----------------------------------------------------------
