@@ -14,10 +14,12 @@ export const metadata: Metadata = {
 // necesidad de reconstruir el sitio.
 export const revalidate = 60;
 
-// Enlace directo a la página de donación de PayPal de GMI (el mismo que codifica
-// el QR). El donante elige el monto y puede pagar con tarjeta sin cuenta PayPal.
+// Enlace directo a la donación de PayPal (el mismo que codifica el QR). Usa el
+// método CLÁSICO de GMI (endpoint webscr + lc=US + no_shipping + bn): así PayPal
+// ofrece pago con tarjeta como invitado, sin obligar a crear cuenta. El flujo
+// moderno /donate/ sin lc empujaba a crear cuenta a donantes fuera de EE.UU.
 const PAYPAL_DONATE_URL =
-  "https://www.paypal.com/donate/?business=accounting@gospelministry.org&currency_code=USD&item_name=Red+ADvenir+Internacional";
+  "https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=accounting@gospelministry.org&item_name=Red+ADvenir+Internacional&currency_code=USD&no_shipping=1&lc=US&bn=PP-DonationsBF";
 
 function Card({
   icon,
