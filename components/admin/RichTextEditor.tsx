@@ -216,7 +216,7 @@ export default function RichTextEditor({
         },
       }),
       Image.configure({ HTMLAttributes: { class: "rounded-lg" } }),
-      Youtube.configure({ controls: true, nocookie: true, width: 640, height: 360 }),
+      Youtube.configure({ controls: true, nocookie: false, width: 640, height: 360 }),
       Placeholder.configure({ placeholder: placeholder || "Escribe el contenido aquí…" }),
     ],
     content: value || "",

@@ -29,7 +29,7 @@ export function sanitizeRichText(dirty: string): string {
       img: ["src", "alt", "title", "width", "height", "class"],
       iframe: [
         "src", "width", "height", "allow", "allowfullscreen",
-        "frameborder", "title",
+        "frameborder", "title", "referrerpolicy",
       ],
       div: ["data-youtube-video"],
       span: [],
@@ -47,6 +47,25 @@ export function sanitizeRichText(dirty: string): string {
       a: sanitizeHtml.simpleTransform("a", {
         rel: "noopener noreferrer nofollow",
       }),
+      // Normaliza los iframes de YouTube: usa el dominio youtube.com (no
+      // nocookie, que puede dar "Error 153" en el reproductor) y manda el
+      // origen como referrer para que YouTube valide el dominio.
+      iframe: (tagName, attribs) => {
+        const src = (attribs.src || "").replace(
+          "youtube-nocookie.com",
+          "youtube.com",
+        );
+        return {
+          tagName: "iframe",
+          attribs: {
+            ...attribs,
+            src,
+            referrerpolicy: "strict-origin-when-cross-origin",
+            allow:
+              "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share",
+          },
+        };
+      },
     },
   });
 }
