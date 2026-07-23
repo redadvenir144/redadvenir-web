@@ -26,6 +26,7 @@ export const SITE = {
 export type NavItem = { label: string; href: string; children?: NavItem[] };
 
 export const NAV: NavItem[] = [
+  { label: "Inicio", href: "/" },
   { label: "Programación", href: "/programacion" },
   { label: "Señal", href: "/senal" },
   {
