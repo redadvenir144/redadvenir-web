@@ -34,7 +34,7 @@ jobs:
             npm run build
 
             echo "→ Reiniciando servicio..."
-            pm2 restart redadvenir || PORT=3000 pm2 start npm --name redadvenir -- start
+            PORT=3001 pm2 restart redadvenir --update-env || PORT=3001 pm2 start npm --name redadvenir -- start
             pm2 save
 
             echo "✓ Deploy completado"
