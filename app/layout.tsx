@@ -8,9 +8,9 @@ import ChunkErrorReloader from "@/components/ChunkErrorReloader";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-sans", display: "swap" });
 
-// ID de medición de Google Analytics 4 (formato G-XXXXXXXXXX). Se inyecta en el
-// build; dejar vacío desactiva el seguimiento. Ver .env.production.
-const GA_ID = process.env.NEXT_PUBLIC_GA_ID;
+// ID del contenedor de Google Tag Manager (formato GTM-XXXXXXX). Desde GTM se
+// gestionan GA4 y demás etiquetas. Se inyecta en el build; vacío = desactivado.
+const GTM_ID = process.env.NEXT_PUBLIC_GTM_ID;
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE.url),
@@ -64,23 +64,31 @@ export default function RootLayout({
         />
       </head>
       <body className={`${inter.variable} antialiased`}>
+        {/* Google Tag Manager (noscript) — respaldo sin JavaScript */}
+        {GTM_ID && (
+          <noscript>
+            <iframe
+              src={`https://www.googletagmanager.com/ns.html?id=${GTM_ID}`}
+              height="0"
+              width="0"
+              style={{ display: "none", visibility: "hidden" }}
+              title="gtm"
+            />
+          </noscript>
+        )}
+
         <ChunkErrorReloader />
         {children}
 
-        {/* Google Analytics 4 (solo si NEXT_PUBLIC_GA_ID está configurado) */}
-        {GA_ID && (
-          <>
-            <Script
-              src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`}
-              strategy="afterInteractive"
-            />
-            <Script id="ga4-init" strategy="afterInteractive">
-              {`window.dataLayer = window.dataLayer || [];
-function gtag(){dataLayer.push(arguments);}
-gtag('js', new Date());
-gtag('config', '${GA_ID}');`}
-            </Script>
-          </>
+        {/* Google Tag Manager (solo si NEXT_PUBLIC_GTM_ID está configurado) */}
+        {GTM_ID && (
+          <Script id="gtm-init" strategy="afterInteractive">
+            {`(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','${GTM_ID}');`}
+          </Script>
         )}
       </body>
     </html>
