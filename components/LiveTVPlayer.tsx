@@ -25,6 +25,9 @@ export default function LiveTVPlayer() {
   const [current, setCurrent] = useState(DEFAULT_TV_STREAM.src);
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(true);
+  // Aviso informativo breve (p. ej. "HD no disponible — se cambió a Media").
+  const [notice, setNotice] = useState<string | null>(null);
+  const noticeTimerRef = useRef<number | null>(null);
 
   // Overlay de audio muteado.
   // muteHintVisible controla la opacidad (fade-out); dismissed lo desmonta
@@ -78,7 +81,11 @@ export default function LiveTVPlayer() {
       player.on("error", () => {
         const err = player.error();
         const recoverable = !err || err.code !== 1; // todo salvo abort del usuario
-        if (recoverable && retryCountRef.current < 5) {
+        const isDefault = currentSrcRef.current === DEFAULT_TV_STREAM.src;
+        // La calidad por defecto (estable) reintenta varias veces ante cortes de
+        // red; una calidad alternativa caída se abandona rápido y vuelve a la estable.
+        const maxRetries = isDefault ? 5 : 1;
+        if (recoverable && retryCountRef.current < maxRetries) {
           retryCountRef.current += 1;
           setError(false);
           setLoading(true);
@@ -89,11 +96,17 @@ export default function LiveTVPlayer() {
             player.src({ src: currentSrcRef.current, type: "application/x-mpegURL" });
             player.play()?.catch(() => {});
           }, 3000);
-        } else if (currentSrcRef.current !== DEFAULT_TV_STREAM.src) {
-          // Reintentos agotados en una calidad no-estable (p. ej. HD caído):
-          // volver automáticamente a la calidad por defecto para que la señal
-          // siga viéndose. Los botones quedan visibles por si el usuario reintenta.
+        } else if (!isDefault) {
+          // Calidad alternativa no disponible (p. ej. HD caído): volver a la
+          // estable e informar brevemente. Los botones quedan visibles.
+          const failed = TV_STREAMS.find((s) => s.src === currentSrcRef.current);
           setError(false);
+          setLoading(true);
+          setNotice(
+            `${failed?.label ?? "Esa calidad"} no disponible — se cambió a ${DEFAULT_TV_STREAM.label}`,
+          );
+          if (noticeTimerRef.current) window.clearTimeout(noticeTimerRef.current);
+          noticeTimerRef.current = window.setTimeout(() => setNotice(null), 6000);
           setCurrent(DEFAULT_TV_STREAM.src);
         } else {
           // Falló incluso la calidad por defecto: mostrar aviso (con botones).
@@ -112,6 +125,7 @@ export default function LiveTVPlayer() {
 
     return () => {
       if (retryTimerRef.current) window.clearTimeout(retryTimerRef.current);
+      if (noticeTimerRef.current) window.clearTimeout(noticeTimerRef.current);
       const player = playerRef.current;
       if (player && !player.isDisposed()) {
         player.dispose();
@@ -151,6 +165,8 @@ export default function LiveTVPlayer() {
 
   const selectQuality = (src: string) => {
     setError(false);
+    setNotice(null);
+    if (noticeTimerRef.current) window.clearTimeout(noticeTimerRef.current);
     setCurrent(src);
   };
 
@@ -199,6 +215,11 @@ export default function LiveTVPlayer() {
           {error && (
             <span className="hidden text-xs text-red-300 sm:inline">
               Señal no disponible. Elige otra calidad.
+            </span>
+          )}
+          {!error && notice && (
+            <span className="hidden text-xs text-amber-200 sm:inline">
+              {notice}
             </span>
           )}
           <div className="inline-flex items-center gap-1.5">
