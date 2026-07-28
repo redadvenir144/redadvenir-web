@@ -89,7 +89,14 @@ export default function LiveTVPlayer() {
             player.src({ src: currentSrcRef.current, type: "application/x-mpegURL" });
             player.play()?.catch(() => {});
           }, 3000);
+        } else if (currentSrcRef.current !== DEFAULT_TV_STREAM.src) {
+          // Reintentos agotados en una calidad no-estable (p. ej. HD caído):
+          // volver automáticamente a la calidad por defecto para que la señal
+          // siga viéndose. Los botones quedan visibles por si el usuario reintenta.
+          setError(false);
+          setCurrent(DEFAULT_TV_STREAM.src);
         } else {
+          // Falló incluso la calidad por defecto: mostrar aviso (con botones).
           setError(true);
         }
       });
@@ -186,15 +193,19 @@ export default function LiveTVPlayer() {
           EN VIVO
         </span>
 
-        {error ? (
-          <span className="text-xs text-red-300">
-            No se pudo cargar la señal. Prueba otra calidad.
-          </span>
-        ) : (
+        <div className="inline-flex items-center gap-2">
+          {/* Aviso de error: se muestra junto a los botones (no en su lugar),
+              para que el usuario siempre pueda elegir otra calidad y seguir viendo. */}
+          {error && (
+            <span className="hidden text-xs text-red-300 sm:inline">
+              Señal no disponible. Elige otra calidad.
+            </span>
+          )}
           <div className="inline-flex items-center gap-1.5">
             <i className="bi bi-gear text-xs text-white/50" aria-hidden="true" />
             {/* Selector de calidad: cada nivel es un manifiesto HLS independiente
-                (no ABR), por eso se cambia la fuente. Solo un botón activo a la vez. */}
+                (no ABR), por eso se cambia la fuente. Solo un botón activo a la vez.
+                Siempre visible, incluso en error, para no dejar al usuario atrapado. */}
             <div className="flex overflow-hidden rounded-full bg-white/10 p-0.5">
               {TV_STREAMS.map((q) => {
                 const isActive = current === q.src;
@@ -216,7 +227,7 @@ export default function LiveTVPlayer() {
               })}
             </div>
           </div>
-        )}
+        </div>
       </div>
     </div>
   );
