@@ -3,7 +3,7 @@ import Image from "next/image";
 
 import SectionHeader from "@/components/SectionHeader";
 import { getSermones } from "@/lib/content";
-import { extractYouTubeId } from "@/lib/youtubeEmbed";
+import { getThumbnailId } from "@/lib/youtubeEmbed";
 
 export const metadata: Metadata = {
   title: "Sermones",
@@ -46,7 +46,7 @@ export default async function SermonesPage() {
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {sermones.map((sermon) => {
             const videoId = sermon.youtubeUrl
-              ? extractYouTubeId(sermon.youtubeUrl)
+              ? getThumbnailId(sermon.youtubeUrl)
               : null;
             const thumbnail =
               sermon.cover ||
