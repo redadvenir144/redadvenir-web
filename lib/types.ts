@@ -86,6 +86,42 @@ export type Faq = {
   keywords: string[];
 };
 
+export type Folleto = {
+  _id: string;
+  title: string;
+  description?: string;
+  pdfUrl: string;
+  cover?: string;
+};
+
+export type Libro = {
+  _id: string;
+  title: string;
+  author?: string;
+  description?: string;
+  pdfUrl: string;
+  cover?: string;
+};
+
+export type Devocional = {
+  _id: string;
+  title: string;
+  date: string; // ISO date
+  body: string;
+  author?: string;
+};
+
+export type Sermon = {
+  _id: string;
+  title: string;
+  speaker?: string;
+  description?: string;
+  youtubeUrl?: string;
+  audioUrl?: string;
+  date?: string;
+  cover?: string;
+};
+
 export const CATEGORY_LABEL: Record<PostCategory, string> = {
   noticia: "Noticia cristiana",
   profetica: "Noticia profética",

@@ -38,7 +38,17 @@ export const NAV: NavItem[] = [
       { label: "Proyectos de Radio", href: "/radio#proyectos" },
     ],
   },
-  { label: "Estudios Bíblicos", href: "/estudios-biblicos" },
+  {
+    label: "Recursos",
+    href: "/recursos",
+    children: [
+      { label: "Estudios Bíblicos", href: "/recursos/estudios-biblicos" },
+      { label: "Folletos", href: "/recursos/folletos" },
+      { label: "Libros", href: "/recursos/libros" },
+      { label: "Devocionales", href: "/recursos/devocionales" },
+      { label: "Sermones", href: "/recursos/sermones" },
+    ],
+  },
   { label: "Quiénes Somos", href: "/quienes-somos" },
   { label: "Contacto", href: "/contacto" },
   { label: "Donar", href: "/donar" },

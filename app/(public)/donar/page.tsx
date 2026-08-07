@@ -245,7 +245,7 @@ export default async function DonarPage() {
             <div>
               <dt className="font-semibold text-slate-800">Beneficiario</dt>
               <dd className="text-slate-600">
-                As.De.I.H. (Asociación para el Desarrollo Integral Humanitario)
+                A.D.I.H. (Asociación para el Desarrollo Integral Humanitario)
                 <br />
                 Casilla 2400, Santa Cruz de la Sierra, Bolivia
               </dd>

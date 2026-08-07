@@ -34,7 +34,7 @@ export default function Chatbot({ faqs }: { faqs: Faq[] }) {
   const [messages, setMessages] = useState<Message[]>([
     {
       from: "bot",
-      text: "¡Hola! Soy el asistente de Red ADvenir. ¿En qué puedo ayudarte? Puedes preguntar por la TV en vivo, la radio, los estudios bíblicos, la señal o cómo donar.",
+      text: "¡Hola! Soy el asistente de Red ADvenir. ¿En qué puedo ayudarte? Puedes preguntar por la TV en vivo, la radio, los recursos, la señal o cómo donar.",
     },
   ]);
   const [value, setValue] = useState("");

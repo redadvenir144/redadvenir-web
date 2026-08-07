@@ -11,6 +11,10 @@ import type {
   StudyPdf,
   GalleryImage,
   AboutConfig,
+  Folleto,
+  Libro,
+  Devocional,
+  Sermon,
 } from "./types";
 
 export async function getPosts(): Promise<Post[]> {
@@ -60,4 +64,26 @@ export async function getGallery(): Promise<GalleryImage[]> {
 export async function getAboutConfig(): Promise<AboutConfig | null> {
   const items = await list<AboutConfig>("about");
   return items[0] ?? null;
+}
+
+export async function getFolletos(): Promise<Folleto[]> {
+  return list<Folleto>("folletos");
+}
+
+export async function getLibros(): Promise<Libro[]> {
+  return list<Libro>("libros");
+}
+
+export async function getDevocionales(): Promise<Devocional[]> {
+  const devocionales = await list<Devocional>("devocionales");
+  return [...devocionales].sort((a, b) =>
+    (b.date || "").localeCompare(a.date || ""),
+  );
+}
+
+export async function getSermones(): Promise<Sermon[]> {
+  const sermones = await list<Sermon>("sermones");
+  return [...sermones].sort((a, b) =>
+    (b.date || "").localeCompare(a.date || ""),
+  );
 }

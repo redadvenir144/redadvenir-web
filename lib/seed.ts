@@ -324,8 +324,8 @@ export const SEED_FAQS: Faq[] = [
     _id: "f4",
     question: "¿Dónde descargo los estudios bíblicos?",
     answer:
-      "En la sección Estudios Bíblicos puedes descargar las guías en PDF y ver las guías en video.",
-    keywords: ["estudio", "biblia", "pdf", "descargar", "guia", "leccion"],
+      "En la sección Recursos > Estudios Bíblicos puedes descargar las guías en PDF y ver las guías en video.",
+    keywords: ["estudio", "biblia", "pdf", "descargar", "guia", "leccion", "recursos"],
   },
   {
     _id: "f5",

@@ -33,7 +33,11 @@ export type Collection =
   | "about"
   | "users"
   | "content"
-  | "videoStudies";
+  | "videoStudies"
+  | "folletos"
+  | "libros"
+  | "devocionales"
+  | "sermones";
 
 type Row = Record<string, unknown> & { _id: string };
 
@@ -68,6 +72,11 @@ const SEEDS: Record<Collection, Row[]> = {
   content: [],
   // Guías en video: sección independiente de Programación (se administra sola).
   videoStudies: [],
+  // Nuevas secciones de recursos.
+  folletos: [],
+  libros: [],
+  devocionales: [],
+  sermones: [],
 };
 
 function seedFor(col: Collection): Row[] {
@@ -96,6 +105,10 @@ async function fileReadAll(): Promise<Record<Collection, Row[]>> {
       users: seedFor("users"),
       content: seedFor("content"),
       videoStudies: seedFor("videoStudies"),
+      folletos: seedFor("folletos"),
+      libros: seedFor("libros"),
+      devocionales: seedFor("devocionales"),
+      sermones: seedFor("sermones"),
     };
     try {
       await fs.mkdir(DATA_DIR, { recursive: true });

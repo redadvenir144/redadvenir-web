@@ -229,6 +229,68 @@ export const RESOURCES: Resource[] = [
       },
     ],
   },
+  {
+    key: "folletos",
+    label: "Folletos",
+    singular: "Folleto",
+    icon: "file-earmark-text",
+    listColumns: ["title"],
+    fields: [
+      { name: "title", label: "Título", type: "text", required: true },
+      { name: "description", label: "Descripción", type: "textarea" },
+      { name: "pdfUrl", label: "Archivo PDF", type: "pdf", required: true },
+      { name: "cover", label: "Portada", type: "image" },
+    ],
+  },
+  {
+    key: "libros",
+    label: "Libros",
+    singular: "Libro",
+    icon: "journal-bookmark",
+    listColumns: ["title", "author"],
+    fields: [
+      { name: "title", label: "Título", type: "text", required: true },
+      { name: "author", label: "Autor", type: "text" },
+      { name: "description", label: "Descripción", type: "textarea" },
+      { name: "pdfUrl", label: "Archivo PDF", type: "pdf", required: true },
+      { name: "cover", label: "Portada", type: "image" },
+    ],
+  },
+  {
+    key: "devocionales",
+    label: "Devocionales",
+    singular: "Devocional",
+    icon: "sunrise",
+    listColumns: ["title", "date"],
+    fields: [
+      { name: "title", label: "Título", type: "text", required: true },
+      { name: "date", label: "Fecha", type: "date", required: true },
+      { name: "body", label: "Contenido", type: "richtext", required: true },
+      { name: "author", label: "Autor", type: "text" },
+    ],
+  },
+  {
+    key: "sermones",
+    label: "Sermones",
+    singular: "Sermón",
+    icon: "mic",
+    listColumns: ["title", "speaker", "date"],
+    fields: [
+      { name: "title", label: "Título", type: "text", required: true },
+      { name: "speaker", label: "Predicador", type: "text" },
+      { name: "description", label: "Descripción", type: "textarea" },
+      {
+        name: "youtubeUrl",
+        label: "Video de YouTube",
+        type: "text",
+        placeholder: "Pega el link de YouTube",
+        help: "Enlace al video del sermón en YouTube.",
+      },
+      { name: "audioUrl", label: "Audio (MP3)", type: "text", help: "URL del archivo de audio." },
+      { name: "date", label: "Fecha", type: "date" },
+      { name: "cover", label: "Portada", type: "image" },
+    ],
+  },
 ];
 
 export function getResource(key: string): Resource | undefined {

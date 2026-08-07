@@ -96,10 +96,10 @@ export default async function HomePage() {
             </h2>
           </div>
           <Link
-            href="/estudios-biblicos"
+            href="/recursos"
             className="shrink-0 text-sm font-medium text-brand-500 hover:underline"
           >
-            Ver estudios bíblicos →
+            Ver recursos →
           </Link>
         </div>
 
