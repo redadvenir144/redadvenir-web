@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 
 import SectionHeader from "@/components/SectionHeader";
 import { getDevocionales } from "@/lib/content";
+import { sanitizeRichText } from "@/lib/sanitize";
 
 export const metadata: Metadata = {
   title: "Devocionales",
@@ -63,7 +64,7 @@ export default async function DevocionalesPage() {
               </h2>
               <div
                 className="prose prose-slate max-w-none"
-                dangerouslySetInnerHTML={{ __html: devocional.body }}
+                dangerouslySetInnerHTML={{ __html: sanitizeRichText(devocional.body || "") }}
               />
             </article>
           ))}
