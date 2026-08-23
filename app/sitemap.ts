@@ -22,6 +22,7 @@ const STATIC_ROUTES = [
   "/quienes-somos",
   "/contacto",
   "/donar",
+  "/privacidad",
 ] as const;
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {

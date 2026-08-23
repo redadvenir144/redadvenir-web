@@ -81,8 +81,13 @@ export default async function Footer() {
       </div>
 
       <div className="border-t border-white/10 py-5 text-center text-xs text-white/60">
-        © 2011–{new Date().getFullYear()} {SITE.longName}. Avanzando con voluntarios
-        junto a {SITE.ministry}.
+        <p>
+          © 2011–{new Date().getFullYear()} {SITE.longName}. Avanzando con voluntarios
+          junto a {SITE.ministry}.
+        </p>
+        <Link href="/privacidad" className="mt-2 inline-block hover:text-accent">
+          Política de Privacidad
+        </Link>
       </div>
     </footer>
   );
