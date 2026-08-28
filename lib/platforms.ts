@@ -40,6 +40,7 @@ export const platforms: Platform[] = [
     description: "App oficial para tu teléfono",
     href: "https://play.google.com/store/apps/details?id=org.gospelministryinternational.redadvenirtv",
     icon: "mobile",
+    image: "/images/app-icon.png",
     available: true,
   },
   {
