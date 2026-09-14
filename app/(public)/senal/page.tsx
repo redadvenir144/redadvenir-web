@@ -13,7 +13,7 @@ import {
 import { GMI_CHANNELS, GMI_LINKS } from "@/lib/gmiChannels";
 
 export const metadata: Metadata = {
-  title: "Señal",
+  title: "Canales",
   description:
     "Dónde ver Red ADvenir: señal abierta, satélite, cable, streaming, apps y la red GMI.",
 };
@@ -51,7 +51,7 @@ export default function SenalPage() {
   return (
     <div className="section py-12">
       <SectionHeader
-        eyebrow="Señal"
+        eyebrow="Canales"
         title="Dónde encontrarnos"
         subtitle="Red ADvenir transmite por señal abierta, satélite, cable, streaming y apps."
       />

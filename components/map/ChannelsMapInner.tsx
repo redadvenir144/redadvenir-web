@@ -28,8 +28,9 @@ export default function ChannelsMapInner() {
       className="h-[60vh] min-h-[420px] w-full rounded-xl"
     >
       <TileLayer
-        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>'
+        url="https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png"
+        subdomains="abcd"
       />
       {GMI_CHANNELS.map((c) => (
         <Marker key={c.name} position={[c.lat, c.lng]} icon={pinIcon}>
