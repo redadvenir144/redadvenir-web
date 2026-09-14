@@ -15,13 +15,17 @@ export type GmiChannel = {
 };
 
 export const GMI_CHANNELS: GmiChannel[] = [
+  // === SEDE CENTRAL ===
   {
     name: "Red ADvenir Internacional",
     region: "Santa Cruz, Bolivia",
     language: "Español",
     lat: -17.7833,
     lng: -63.1821,
+    url: "https://redadvenir.org",
   },
+
+  // === AMÉRICAS ===
   {
     name: "Rede Advir Televisão",
     region: "Brasil",
@@ -32,6 +36,67 @@ export const GMI_CHANNELS: GmiChannel[] = [
     logo: "/images/channels/redeadvir.jpg",
   },
   {
+    name: "ADvenir Perú",
+    region: "Perú",
+    language: "Español",
+    lat: -12.0464,
+    lng: -77.0428,
+  },
+  {
+    name: "ADvenir Argentina",
+    region: "Argentina",
+    language: "Español",
+    lat: -34.6037,
+    lng: -58.3816,
+  },
+  {
+    name: "ADvenir Paraguay",
+    region: "Paraguay",
+    language: "Español",
+    lat: -25.2637,
+    lng: -57.5759,
+  },
+  {
+    name: "ADvenir Chile",
+    region: "Chile",
+    language: "Español",
+    lat: -33.4489,
+    lng: -70.6693,
+  },
+  {
+    name: "ADvenir Ecuador",
+    region: "Ecuador",
+    language: "Español",
+    lat: -0.1807,
+    lng: -78.4678,
+  },
+  {
+    name: "ADvenir Colombia",
+    region: "Colombia",
+    language: "Español",
+    lat: 4.711,
+    lng: -74.0721,
+  },
+  {
+    name: "Momentos de Paz",
+    region: "Estados Unidos",
+    language: "Español",
+    lat: 35.0526,
+    lng: -85.0491,
+    url: "https://www.youtube.com/channel/UCoMrFhwhnc8K5ES6PNaEQtA",
+    logo: "/images/channels/moments-peace.jpg",
+  },
+  {
+    name: "GMI TV",
+    region: "Estados Unidos (sede GMI)",
+    language: "Inglés / Español",
+    lat: 35.2271,
+    lng: -80.8431,
+    url: "https://www.gmitv.org",
+  },
+
+  // === CARIBE ===
+  {
     name: "TV Famille",
     region: "Martinica / mundo francófono",
     language: "Francés",
@@ -39,15 +104,6 @@ export const GMI_CHANNELS: GmiChannel[] = [
     lng: -61.0667,
     url: "https://tvfamille.org/",
     logo: "/images/channels/tvfamille.jpg",
-  },
-  {
-    name: "Firstlight",
-    region: "Nueva Zelanda",
-    language: "Inglés",
-    lat: -36.8485,
-    lng: 174.7633,
-    url: "https://www.firstlight.org.nz/",
-    logo: "/images/channels/firstlight.jpg",
   },
   {
     name: "Global Family Network",
@@ -58,15 +114,8 @@ export const GMI_CHANNELS: GmiChannel[] = [
     url: "https://gospelministry.org/global-family-network/",
     logo: "/images/channels/global-family.jpg",
   },
-  {
-    name: "Momentos de Paz",
-    region: "Internacional (Pr. David Gates)",
-    language: "Español",
-    lat: 35.0526,
-    lng: -85.0491,
-    url: "https://www.youtube.com/channel/UCoMrFhwhnc8K5ES6PNaEQtA",
-    logo: "/images/channels/moments-peace.jpg",
-  },
+
+  // === EUROPA - LIGHT CHANNEL NETWORK ===
   {
     name: "Light Channel Alemania",
     region: "Alemania",
@@ -111,6 +160,127 @@ export const GMI_CHANNELS: GmiChannel[] = [
     lng: 12.4964,
     url: "https://www.lightchannel.it/",
     logo: "/images/channels/light-it.jpg",
+  },
+  {
+    name: "Light Channel Rumania",
+    region: "Rumania",
+    language: "Rumano",
+    lat: 44.4268,
+    lng: 26.1025,
+    url: "https://speranta.tv/",
+  },
+  {
+    name: "Light Channel Polonia",
+    region: "Polonia",
+    language: "Polaco",
+    lat: 52.2297,
+    lng: 21.0122,
+  },
+  {
+    name: "Light Channel Serbia",
+    region: "Serbia",
+    language: "Serbio",
+    lat: 44.7866,
+    lng: 20.4489,
+  },
+  {
+    name: "Light Channel Croacia",
+    region: "Croacia",
+    language: "Croata",
+    lat: 45.815,
+    lng: 15.9819,
+  },
+  {
+    name: "Light Channel Eslovaquia",
+    region: "Eslovaquia",
+    language: "Eslovaco",
+    lat: 48.1486,
+    lng: 17.1077,
+  },
+  {
+    name: "Light Channel Ucrania",
+    region: "Ucrania",
+    language: "Ucraniano",
+    lat: 50.4501,
+    lng: 30.5234,
+  },
+  {
+    name: "Light Channel Moldavia",
+    region: "Moldavia",
+    language: "Rumano",
+    lat: 47.0105,
+    lng: 28.8638,
+  },
+  {
+    name: "Light Channel Rusia",
+    region: "Rusia",
+    language: "Ruso",
+    lat: 55.7558,
+    lng: 37.6173,
+  },
+  {
+    name: "Light Channel Albania",
+    region: "Albania",
+    language: "Albanés",
+    lat: 41.3275,
+    lng: 19.8187,
+  },
+
+  // === OCEANÍA ===
+  {
+    name: "Firstlight",
+    region: "Nueva Zelanda",
+    language: "Inglés",
+    lat: -36.8485,
+    lng: 174.7633,
+    url: "https://www.firstlight.org.nz/",
+    logo: "/images/channels/firstlight.jpg",
+  },
+  {
+    name: "Firstlight Australia",
+    region: "Australia",
+    language: "Inglés",
+    lat: -33.8688,
+    lng: 151.2093,
+  },
+
+  // === ASIA ===
+  {
+    name: "GMI India",
+    region: "India",
+    language: "Hindi / Inglés",
+    lat: 28.6139,
+    lng: 77.209,
+  },
+  {
+    name: "GMI Filipinas",
+    region: "Filipinas",
+    language: "Tagalo / Inglés",
+    lat: 14.5995,
+    lng: 120.9842,
+  },
+
+  // === ÁFRICA ===
+  {
+    name: "GMI Sudáfrica",
+    region: "Sudáfrica",
+    language: "Inglés / Afrikáans",
+    lat: -26.2041,
+    lng: 28.0473,
+  },
+  {
+    name: "GMI Kenia",
+    region: "Kenia",
+    language: "Suajili / Inglés",
+    lat: -1.2921,
+    lng: 36.8219,
+  },
+  {
+    name: "GMI Nigeria",
+    region: "Nigeria",
+    language: "Inglés",
+    lat: 9.082,
+    lng: 8.6753,
   },
 ];
 
