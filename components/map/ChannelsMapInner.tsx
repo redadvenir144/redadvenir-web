@@ -53,19 +53,24 @@ const pinIcon = createPinIcon(false);
 export default function ChannelsMapInner() {
   return (
     <MapContainer
-      center={[15, -20]}
+      center={[20, 0]}
       zoom={2}
       minZoom={2}
       maxZoom={10}
       scrollWheelZoom={true}
       zoomControl={false}
+      worldCopyJump={false}
+      maxBounds={[[-85, -180], [85, 180]]}
+      maxBoundsViscosity={1.0}
       className="h-[65vh] min-h-[500px] w-full"
-      style={{ background: "#e8f4f8" }}
+      style={{ background: "#0c1a2e" }}
     >
       <ZoomControl position="bottomright" />
       <TileLayer
         attribution='Tiles &copy; Esri'
         url="https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}"
+        noWrap={true}
+        bounds={[[-85, -180], [85, 180]]}
       />
       {GMI_CHANNELS.map((c) => (
         <Marker

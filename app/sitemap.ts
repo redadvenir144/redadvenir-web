@@ -11,7 +11,7 @@ const STATIC_ROUTES = [
   "",
   "/blog",
   "/programacion",
-  "/senal",
+  "/canales",
   "/radio",
   "/recursos",
   "/recursos/estudios-biblicos",

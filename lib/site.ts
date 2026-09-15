@@ -28,7 +28,7 @@ export type NavItem = { label: string; href: string; children?: NavItem[] };
 export const NAV: NavItem[] = [
   { label: "Inicio", href: "/" },
   { label: "Programación", href: "/programacion" },
-  { label: "Canales", href: "/senal" },
+  { label: "Canales", href: "/canales" },
   {
     label: "Radio",
     href: "/radio",

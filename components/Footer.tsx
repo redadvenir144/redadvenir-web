@@ -56,7 +56,7 @@ export default async function Footer() {
               </li>
             ))}
             <li>
-              <Link href="/senal#mapa" className="inline-flex items-center gap-1.5 py-1 hover:text-accent">
+              <Link href="/canales#mapa" className="inline-flex items-center gap-1.5 py-1 hover:text-accent">
                 <i className="bi bi-geo-alt text-xs" /> Ver mapa de canales
               </Link>
             </li>
