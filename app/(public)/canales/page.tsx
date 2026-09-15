@@ -157,23 +157,21 @@ export default function SenalPage() {
         </div>
 
         <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {GMI_CHANNELS.map((c, i) => (
+          {GMI_CHANNELS.filter((c) => c.logo).map((c, i) => (
             <div
               key={c.name}
               className="reveal-up group rounded-2xl border border-slate-200 bg-white p-5 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-brand hover:shadow-md"
               style={{ animationDelay: `${i * 60}ms` }}
             >
-              {c.logo && (
-                <div className="relative mb-3 h-20 w-full">
-                  <Image
-                    src={c.logo}
-                    alt={c.name}
-                    fill
-                    sizes="300px"
-                    className="object-contain object-left"
-                  />
-                </div>
-              )}
+              <div className="relative mb-3 h-20 w-full">
+                <Image
+                  src={c.logo!}
+                  alt={c.name}
+                  fill
+                  sizes="300px"
+                  className="object-contain object-left"
+                />
+              </div>
               <h4 className="font-semibold text-slate-800 group-hover:text-brand">
                 {c.name}
               </h4>

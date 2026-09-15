@@ -46,8 +46,12 @@ export const RADIO_STATIONS: RadioStation[] = [
   },
 ];
 
-// Apps de TV en pantallas conectadas.
+// Apps de TV en pantallas conectadas y móviles.
 export const SMART_TV_APPS = [
+  {
+    platform: "Android TV",
+    url: "https://play.google.com/store/apps/details?id=org.redadvenir.tv",
+  },
   {
     platform: "Roku",
     url: "https://channelstore.roku.com/details/237107/red-advenir",
@@ -55,5 +59,9 @@ export const SMART_TV_APPS = [
   {
     platform: "Amazon Fire TV",
     url: "https://www.amazon.com/Gospel-Ministries-International-Red-Advenir/dp/B07GVQJPL5",
+  },
+  {
+    platform: "Android (móvil)",
+    url: "https://play.google.com/store/apps/details?id=org.redadvenir.app",
   },
 ];
