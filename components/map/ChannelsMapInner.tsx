@@ -53,8 +53,8 @@ const pinIcon = createPinIcon(false);
 export default function ChannelsMapInner() {
   return (
     <MapContainer
-      center={[20, 0]}
-      zoom={2}
+      center={[10, -30]}
+      zoom={2.5}
       minZoom={2}
       maxZoom={10}
       scrollWheelZoom={true}

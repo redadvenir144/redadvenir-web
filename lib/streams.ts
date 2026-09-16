@@ -62,6 +62,6 @@ export const SMART_TV_APPS = [
   },
   {
     platform: "Android (móvil)",
-    url: "https://play.google.com/store/apps/details?id=org.redadvenir.app",
+    url: "https://play.google.com/store/apps/details?id=org.gospelministryinternational.redadvenirtv",
   },
 ];
