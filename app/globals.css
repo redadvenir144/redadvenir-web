@@ -193,3 +193,16 @@ select:focus-visible {
     animation: none;
   }
 }
+
+/* === Mapa Leaflet: forzar z-index bajo para que no cubra el header === */
+.leaflet-container {
+  z-index: 0 !important;
+}
+.leaflet-pane,
+.leaflet-control-container {
+  z-index: 0 !important;
+}
+.leaflet-top,
+.leaflet-bottom {
+  z-index: 10 !important;
+}

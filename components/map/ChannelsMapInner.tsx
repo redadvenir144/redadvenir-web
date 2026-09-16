@@ -62,7 +62,7 @@ export default function ChannelsMapInner() {
       worldCopyJump={false}
       maxBounds={[[-85, -180], [85, 180]]}
       maxBoundsViscosity={1.0}
-      className="h-[65vh] min-h-[500px] w-full"
+      className="h-[65vh] min-h-[500px] w-full relative z-0"
       style={{ background: "#0c1a2e" }}
     >
       <ZoomControl position="bottomright" />

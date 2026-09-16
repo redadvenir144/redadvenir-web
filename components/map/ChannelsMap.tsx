@@ -13,5 +13,9 @@ const ChannelsMapInner = dynamic(() => import("./ChannelsMapInner"), {
 });
 
 export default function ChannelsMap() {
-  return <ChannelsMapInner />;
+  return (
+    <div className="relative z-0">
+      <ChannelsMapInner />
+    </div>
+  );
 }
